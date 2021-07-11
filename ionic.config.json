@@ -1,0 +1,7 @@
+{
+  "name": "vacation-home-app-ohrwumslar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
