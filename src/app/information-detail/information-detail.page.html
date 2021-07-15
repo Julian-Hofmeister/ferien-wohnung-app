@@ -1,0 +1,21 @@
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <div class="container">
+                <img src="/assets/images/Information-Image.jpg" alt="" />
+
+                <div class="bottom-left">
+                    <ion-row class="ion-align-items-center" (click)="onBack()">
+                        <ion-icon name="arrow-back-outline"></ion-icon>
+                        <h3 *ngIf="title">{{title}}</h3>
+                    </ion-row>
+                </div>
+            </div>
+        </ion-row>
+        <ion-list *ngFor="let item of loadedInfoDetailItemList">
+            <app-information-detail-card [title]="item.title" [category]="item.category" [description]="item.description" [id]="item.id"></app-information-detail-card>
+        </ion-list>
+
+        <ion-row class="space"></ion-row>
+    </ion-grid>
+</ion-content>

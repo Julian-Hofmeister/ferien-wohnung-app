@@ -1,0 +1,33 @@
+<ion-content>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="onOpenMessageModal()">
+        <ion-button id="custom-fab">
+            <ion-icon name="paper-plane"></ion-icon>
+            <p id="fab-button-text">Nachrichten</p>
+        </ion-button>
+    </ion-fab>
+    <ion-grid>
+        <ion-row>
+            <div class="container">
+                <img src="/assets/images/Home-Image.jpg" alt="" />
+                <div class="top-right">
+                    <ion-icon name="log-out-outline" (click)="onLogout()"></ion-icon>
+                </div>
+                <div class="centered">
+                    <h2>Ohrwumslar</h2>
+                    <p class="subheader">Ihre Ferienwohnung</p>
+                </div>
+            </div>
+        </ion-row>
+        <ion-row class="margin-left-right">
+            <p>
+                Liebe Gäste, <br /> wir wünschen Ihnen, dass Sie sich hier in der Wohnung wohlfühlen, Ihren Alltag hinter sich lassen und in der herrlichen Natur der Oberstdorfer Bergwelt auftanken können.
+            </p>
+        </ion-row>
+        <ion-row class="margin-left-right">
+            <app-action-card title="Die wichtigsten Informationen" subTitle="Alles auf einen Blick" image="/assets/images/Wohnung-Image.jpg" (click)="onOpenInformationDetailWithPath()"></app-action-card>
+            <app-action-card title="Reservierungen" subTitle="Sauna Reservieren" image="/assets/images/Sauna-Image.jpg" (click)="onOpenReservationModal()"></app-action-card>
+            <app-action-card title="Feedback" subTitle="Bewerten Sie uns!" image="/assets/images/Feedback-Image.jpg" (click)="onOpenFeedbackModal()"></app-action-card>
+        </ion-row>
+        <ion-row class="space"></ion-row>
+    </ion-grid>
+</ion-content>

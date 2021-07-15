@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ion-content {
+    --background: #EEE;
+}
+
+h2 {
+    margin-left: 3%;
+    margin-top: 3rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: rgb(29, 29, 29);
+}
+
+ion-list {
+    background-color: #ffffff00 !important;
+}

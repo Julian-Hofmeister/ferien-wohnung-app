@@ -1,0 +1,25 @@
+<ion-content>
+    <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="onClose()">
+        <ion-icon name="close-outline" id="close-icon"></ion-icon>
+    </ion-fab>
+    <div id="container">
+        <ion-row>
+            <h2>Haben Sie Fragen, Wünsche, Anregungen?</h2>
+            <p id="description">Schreiben Sie uns einfach eine Nachricht!</p>
+
+            <ion-textarea placeholder="Hallo, ..." rows="12" autofocus="true"></ion-textarea>
+
+            <ion-row class="ion-justify-content-between">
+                <ion-button id="call" (click)="onSendMessage()" fill="outline">
+                    <ion-icon id="call-icon" name="call"></ion-icon>
+                    <p>Anrufen</p>
+                </ion-button>
+                <ion-button id="send" (click)="onSendMessage()">
+                    <ion-icon name="paper-plane"></ion-icon>
+                    <p>Senden</p>
+                </ion-button>
+            </ion-row>
+            <div class="space"></div>
+        </ion-row>
+    </div>
+</ion-content>

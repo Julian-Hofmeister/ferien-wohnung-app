@@ -1,0 +1,11 @@
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <h2>Angebote</h2>
+        </ion-row>
+
+        <ion-list *ngFor="let item of loadedOfferItemList">
+            <app-offer-card [title]="item.title" (click)="onOpenOfferDetailPage(item)"></app-offer-card>
+        </ion-list>
+    </ion-grid>
+</ion-content>

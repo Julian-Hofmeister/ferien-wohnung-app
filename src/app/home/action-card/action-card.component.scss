@@ -1,0 +1,39 @@
+.action-card {
+    margin-top: 20px;
+    position: relative;
+    text-align: center;
+    color: white;
+    border-radius: 15px;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.action-card>img {
+    height: 11rem;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(50%);
+    border-radius: 15px;
+}
+
+h4 {
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+    font-size: 0.9rem;
+}
+
+p {
+    width: 20rem;
+    text-transform: uppercase;
+    letter-spacing: 0px;
+    font-size: 0.8rem;
+    text-align: center;
+    opacity: 0.8;
+}
