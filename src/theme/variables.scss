@@ -4,13 +4,14 @@
 /** Ionic CSS Variables **/
 
 :root {
+    --ion-font-family: 'Poppins';
     /** primary **/
-    --ion-color-primary: #3880ff;
-    --ion-color-primary-rgb: 56, 128, 255;
+    --ion-color-primary: #3BB99B;
+    --ion-color-primary-rgb: 105, 187, 123;
     --ion-color-primary-contrast: #ffffff;
     --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #3171e0;
-    --ion-color-primary-tint: #4c8dff;
+    --ion-color-primary-shade: #5ca56c;
+    --ion-color-primary-tint: #78c288;
     /** secondary **/
     --ion-color-secondary: #3dc2ff;
     --ion-color-secondary-rgb: 61, 194, 255;
@@ -68,12 +69,12 @@
     --ion-color-light-shade: #d7d8da;
     --ion-color-light-tint: #f5f6f9;
     /** accent **/
-    --ion-color-accent: #5293F9;
-    --ion-color-accent-rgb: 82, 147, 249;
+    --ion-color-accent: #3BB99B;
+    --ion-color-accent-rgb: 105, 187, 123;
     --ion-color-accent-contrast: #000000;
     --ion-color-accent-contrast-rgb: 0, 0, 0;
-    --ion-color-accent-shade: #4881db;
-    --ion-color-accent-tint: #639efa;
+    --ion-color-accent-shade: #5ca56c;
+    --ion-color-accent-tint: #78c288;
 }
 
 @media (prefers-color-scheme: dark) {

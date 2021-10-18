@@ -3,17 +3,6 @@
     padding: 0;
 }
 
-ion-content {
-    --background: #EEE;
-}
-
-img {
-    height: 15rem;
-    width: 100%;
-    object-fit: cover;
-    filter: brightness(50%);
-}
-
 .container {
     position: relative;
     text-align: center;
@@ -27,6 +16,24 @@ img {
     transform: translate(-50%, -50%);
 }
 
+.aligned {
+    left: 50%;
+    transform: translate(-50%, -97.5%);
+}
+
+.top-left {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+}
+
+img {
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+    filter: brightness(50%);
+}
+
 h2 {
     text-transform: uppercase;
     font-weight: 600;
@@ -35,32 +42,78 @@ h2 {
     font-size: 1.8rem;
 }
 
-p.subheader {
+h3 {
+    // margin-top: 5rem;
+    // margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+    color: rgb(41, 41, 41);
+}
+
+p {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 0.8rem;
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
-.custom-margin {
-    margin: 0 20px;
-}
-
-h3 {
-    margin-top: 3rem;
-}
-
-#rounded {
-    width: 100%;
-    height: 100px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 10px;
+#hint-text {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    color: rgb(56, 56, 56);
     margin-bottom: 10px;
 }
 
-#container {
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
+#help-text {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.8rem;
+    color: rgb(56, 56, 56);
+    margin-bottom: 2rem;
+}
+
+.content-row {
+    margin: 0 20px;
+    flex-direction: column;
+    text-align: center;
+    .custom-margin {
+        margin-top: 5rem;
+        margin-bottom: 2.5rem;
+        justify-content: space-between;
+        .material-icons-outlined {
+            color: #3BB99B;
+        }
+    }
+}
+
+.input-field {
+    margin: 5%;
+    margin-top: 2rem;
+    text-align: start;
+}
+
+ion-input {
+    font-size: 0.9em;
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 5rem;
+    border: 1px solid #6a8bf500 !important;
+    padding-left: 15px;
+    --padding-start: 10px;
+    --background: #eee!important;
+}
+
+ion-button {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 70%;
+    --border-radius: 50rem;
+    --background: var(--ion-color-accent) !important;
+}
+
+ion-icon {
+    font-size: 1.5rem;
 }

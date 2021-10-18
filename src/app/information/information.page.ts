@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { InformationItem } from './information.model';
 import { InformationService } from './information.service';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { NavController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { first } from 'rxjs/operators';
+import { InfoDetailItem } from '../information-detail/information-detail.model';
 
 @Component({
   selector: 'app-information',
@@ -16,13 +17,20 @@ export class InformationPage implements OnInit, OnDestroy {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  isLoading = false;
+
+  loadedInformationItemList: InformationItem[];
+
+  detailItemList: InfoDetailItem[];
+  detailItemListBackup: InfoDetailItem[];
+
+  searchTerm: string;
 
   //#endregion
 
-  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  loadedInformationItemList: InformationItem[];
-  isLoading = false;
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   private itemSub: Subscription;
 
@@ -31,23 +39,29 @@ export class InformationPage implements OnInit, OnDestroy {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    // private router: Router,
-    private route: ActivatedRoute,
-    private afStorage: AngularFireStorage,
     private informationService: InformationService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private firestore: AngularFirestore
   ) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
-  ngOnInit() {
+
+  async ngOnInit() {
     this.fetchInformationItemsFromFirestore();
+
+    this.detailItemList = await this.initializeItems();
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
     this.itemSub.unsubscribe();
   }
+
+  // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -59,7 +73,8 @@ export class InformationPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onOpenInformationDetailPage(item: InformationItem) {
+
+  onOpenInformationDetailPage(item: InformationItem) {
     this.navCtrl.navigateForward([
       '/',
       'information-detail',
@@ -67,6 +82,45 @@ export class InformationPage implements OnInit, OnDestroy {
       item.title,
     ]);
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  async initializeItems(): Promise<any> {
+    const detailItemList = await this.firestore
+      .collection('information-detail')
+      .valueChanges()
+      .pipe(first())
+      .toPromise();
+
+    this.detailItemListBackup = detailItemList as InfoDetailItem[];
+
+    return detailItemList;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  async filterList(evt: any) {
+    this.detailItemList = this.detailItemListBackup;
+    this.searchTerm = evt.srcElement.value;
+
+    if (!this.searchTerm) {
+      return;
+    }
+
+    this.detailItemList = this.detailItemList.filter((currentItem) => {
+      if (currentItem.title && this.searchTerm) {
+        return (
+          currentItem.title
+            .toLowerCase()
+            .indexOf(this.searchTerm.toLowerCase()) > -1 ||
+          currentItem.description
+            .toLowerCase()
+            .indexOf(this.searchTerm.toLowerCase()) > -1
+        );
+      }
+    });
+  }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
@@ -75,25 +129,21 @@ export class InformationPage implements OnInit, OnDestroy {
 
   private fetchInformationItemsFromFirestore() {
     this.isLoading = true;
+
     this.itemSub = this.informationService
       .getInformationItems()
       .subscribe((informationItems) => {
         this.loadedInformationItemList = [];
 
-        // * DEFINE NEW ITEM
         for (const currentLoadedItem of informationItems) {
-          // const imagePath = this.afStorage
-          //   .ref(currentLoadedItem.imagePath)
-          //   .getDownloadURL();
-
           const fetchedItem: InformationItem = {
             title: currentLoadedItem.title,
             id: currentLoadedItem.id,
           };
 
           this.loadedInformationItemList.push(fetchedItem);
+
           this.isLoading = false;
-          console.log(this.loadedInformationItemList);
         }
       });
   }

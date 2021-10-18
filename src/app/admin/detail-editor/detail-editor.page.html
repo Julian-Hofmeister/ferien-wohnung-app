@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title (click)="onHome()">detail-editor</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <div class="input-field">
+                <p>Collection;</p>
+                <ion-input [(ngModel)]="collection" type="text"></ion-input>
+            </div>
+        </ion-row>
+        <ion-row>
+            <div class="input-field">
+                <p>Parent Id:</p>
+                <ion-input [(ngModel)]="parentId" type="text"></ion-input>
+            </div>
+        </ion-row>
+        <ion-row>
+            <div class="input-field">
+                <p>Category:</p>
+                <ion-input [(ngModel)]="categroy" type="text"></ion-input>
+            </div>
+        </ion-row>
+        <ion-row>
+            <div class="input-field">
+                <p>Titel:</p>
+                <ion-input [(ngModel)]="title" type="text"></ion-input>
+            </div>
+        </ion-row>
+        <ion-row>
+            <div class="input-field">
+                <p>Inhalt:</p>
+                <ion-textarea [(ngModel)]="description" placeholder="..." rows="12" autofocus="true"></ion-textarea>
+            </div>
+        </ion-row>
+        <ion-row>
+            <div class="input-field">
+                <p>Webseite:</p>
+                <ion-input [(ngModel)]="website" type="text"></ion-input>
+            </div>
+        </ion-row>
+    </ion-grid>
+    <ion-row>
+        <div class="input-field">
+            <p>Google Maps Links:</p>
+            <ion-input [(ngModel)]="maps" type="text"></ion-input>
+        </div>
+    </ion-row>
+    <ion-row>
+        <div class="input-field">
+            <p>Telefon Nummer:</p>
+            <ion-input [(ngModel)]="phoneNumber" type="text"></ion-input>
+        </div>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <ion-button (click)="createDetailItem()"> Erstellen </ion-button>
+    </ion-row>
+</ion-content>

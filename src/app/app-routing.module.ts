@@ -1,16 +1,47 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './authentication/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
       import('./tabs/tabs.module').then((m) => m.TabsPageModule),
+    // canActivate: [AuthGuard],
   },
   {
     path: 'home',
     loadChildren: () =>
       import('./home/home.module').then((m) => m.HomePageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'before-arrival',
+    loadChildren: () =>
+      import('./home/before-arrival/before-arrival-routing.module').then(
+        (m) => m.BeforeArrivalPageRoutingModule
+      ),
+  },
+  {
+    path: 'send-message',
+    loadChildren: () =>
+      import('./home/send-message/send-message-routing.module').then(
+        (m) => m.SendMessagePageRoutingModule
+      ),
+  },
+  {
+    path: 'sauna-reservation',
+    loadChildren: () =>
+      import('./home/sauna-reservation/sauna-reservation-routing.module').then(
+        (m) => m.SaunaReservationPageRoutingModule
+      ),
+  },
+  {
+    path: 'bread-order',
+    loadChildren: () =>
+      import('./home/bread-order-page/bread-order-page-routing.module').then(
+        (m) => m.BreadOrderPagePageRoutingModule
+      ),
   },
   {
     path: 'authentication',
@@ -31,6 +62,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./offers-detail/offers-detail.module').then(
         (m) => m.OffersDetailPageModule
+      ),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminPageModule),
+  },
+  {
+    path: 'apartment-detail',
+    loadChildren: () =>
+      import('./apartment-detail/apartment-detail.module').then(
+        (m) => m.ApartmentDetailPageModule
       ),
   },
 ];

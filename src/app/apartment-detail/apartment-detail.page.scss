@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ion-content {
+    --background: #EEE;
+    --background: url('/assets/images/mountain-8.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}
+
+ion-list {
+    background-color: #ffffff00 !important;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+img {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+    filter: brightness(50%);
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+}
+
+ion-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.space {
+    margin-top: 2rem;
+}
+
+.spinner-container {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+ion-spinner {
+    transform: scale(2);
+    color: var(--ion-color-accent) !important;
+}
+
+.icon-container {
+    background-color: white;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 5rem;
+    place-content: center;
+    position: relative;
+    margin: 1rem;
+    span {
+        color: #3BB99B;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        // margin-left: 1rem;
+    }
+}
+
+h3 {
+    margin-top: 2rem;
+    padding: 15px;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+hr {
+    background-color: rgba(255, 255, 255, 0.363);
+    margin: 0 15px;
+}

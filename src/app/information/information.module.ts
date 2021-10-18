@@ -8,6 +8,7 @@ import { InformationPageRoutingModule } from './information-routing.module';
 
 import { InformationPage } from './information.page';
 import { InformationCardComponent } from './information-card/information-card.component';
+import { InformationDetailCard } from '../shared/information-detail-card/information-detail-card.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { InformationCardComponent } from './information-card/information-card.co
     FormsModule,
     IonicModule,
     InformationPageRoutingModule,
+    InformationDetailCard,
   ],
   declarations: [InformationPage, InformationCardComponent],
 })

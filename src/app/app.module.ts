@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EmailComposer } from '@ionic-native/email-composer';
+import { IonicNativePlugin } from '@ionic-native/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +20,13 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase, 'angularfs'),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy,
+    },
+    { provide: EmailComposer, useClass: IonicNativePlugin },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

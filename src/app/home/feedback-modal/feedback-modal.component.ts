@@ -26,7 +26,9 @@ export class FeedbackModalComponent implements OnInit {
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {}
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -38,13 +40,11 @@ export class FeedbackModalComponent implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onOpenFeedback() {
-    console.log('feedback');
-  }
 
-  public onClose() {
+  onClose() {
     this.modalCtrl.dismiss();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

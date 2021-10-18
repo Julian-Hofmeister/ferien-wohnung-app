@@ -1,0 +1,74 @@
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <!-- <div class="container">
+                    <img src="/assets/images/Authentication-Image.jpg" alt="" />
+
+                    <div class="centered">
+                        <h2>Ohrwumslar</h2>
+                        <p id="subtitle">Ihre Ferienwohnung</p>
+                    </div>
+                    <div class="top-left">
+                        <ion-row class="ion-align-items-center" (click)="onBack()">
+                            <ion-icon name="arrow-back-outline"></ion-icon>
+                        </ion-row>
+                    </div>
+
+                </div> -->
+            </ion-col>
+        </ion-row>
+        <ion-row class="content-row">
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <ion-row>
+                    <div class="icon-container" (click)="onBack()">
+                        <span class="material-icons-outlined"> arrow_back </span>
+                    </div>
+                    <div class="top-right">
+                        <ion-row class="ion-align-items-center" (click)="onOpenDetailEditor()">
+                            <ion-icon name="pencil-outline"></ion-icon>
+                        </ion-row>
+                    </div>
+                </ion-row>
+                <h3>Admin Bereich</h3>
+                <p>Neuen Account erstellen</p>
+
+                <div class="input-field">
+                    <p>Gast E-mail:</p>
+                    <ion-input [(ngModel)]="email" type="email" (change)="onChangeEmail()"></ion-input>
+                </div>
+                <br />
+                <ion-row class="center">
+                    <div class="datetime-btn" (click)="arrivePicker.open()">
+                        <ion-row id="datetime-row">
+                            <ion-icon class="btn-icon" name="calendar-outline"></ion-icon>
+                            <ion-datetime #arrivePicker [(ngModel)]="arriveDate" displayFormat="MMMM DD" placeholder="Ankunft"></ion-datetime>
+                        </ion-row>
+                    </div>
+
+                    <div class="datetime-btn" (click)="leavePicker.open()">
+                        <ion-row id="datetime-row">
+                            <ion-icon class="btn-icon" name="calendar-outline"></ion-icon>
+                            <ion-datetime #leavePicker [(ngModel)]="leaveDate" displayFormat="MMMM DD" placeholder="Abreise"></ion-datetime>
+                        </ion-row>
+                    </div>
+
+                    <div class="datetime-btn">
+                        <ion-item>
+                            <ion-label>Zimmer</ion-label>
+                            <ion-select [(ngModel)]="apartment" value="apartment" interface="action-sheet" (ionChange)="onChangeApartment()">
+                                <ion-select-option value="251">251</ion-select-option>
+                                <ion-select-option value="252">252</ion-select-option>
+                                <ion-select-option value="253">253</ion-select-option>
+                                <ion-select-option value="403">403</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </div>
+                    <ion-button class="bottom" (click)="onCreateUser()" [disabled]="!arriveDate || !leaveDate || !apartment">
+                        Account erstellen
+                    </ion-button>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

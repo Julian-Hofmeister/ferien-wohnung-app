@@ -1,17 +1,52 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-            <div class="container">
-                <img src="/assets/images/Authentication-Image.jpg" alt="" />
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="container">
+                    <img class="background-img" src="/assets/images/mountain-1.jpg" />
 
-                <div class="centered">
-                    <h2>Ohrwumslar</h2>
-                    <p class="subheader">Ihre Ferienwohnung</p>
+                    <div class="centered">
+                        <h2>Ohrwumslar</h2>
+                        <!-- <div class="custom-hr"></div> -->
+                        <hr />
+                        <p id="subtitle">Ihre Ferienwohnung</p>
+                    </div>
                 </div>
-            </div>
+            </ion-col>
         </ion-row>
-        <ion-row class="custom-margin">
-            <h3>Anmelden</h3>
+
+        <ion-row class="content-row">
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="input-field">
+                    <ion-row class="custom-margin">
+                        <h3>Anmelden</h3>
+
+                        <span class="material-icons-outlined" (click)="onHelp()">
+              help_outline
+            </span>
+                    </ion-row>
+
+                    <p *ngIf="showHelpText" id="help-text">
+                        Sie haben eine E-mail mit Anmeldeinformationen erhalten. Melden Sie sich mit Hilfe dieser E-mail und dem zugesendeten Passwort an. Die Nachricht kann auch in ihrem Spamordner gelandet sein.
+                        <br /><br /> Falls Sie dennoch keine E-mail erhalten haben, schreiben Sie eine Nachricht an: <br /><br />
+                        <strong>info@oberstdorf-ohrwumslar.de</strong>.<br />
+                        <br />Ihnen wird schnellstmöglich ein neuer Account erstellt.
+                    </p>
+
+                    <p id="hint-text">Email:</p>
+
+                    <ion-input [(ngModel)]="email" type="email" (change)="onChange()"></ion-input>
+                </div>
+
+                <div class="input-field">
+                    <p id="hint-text">Passwort:</p>
+                    <ion-input [(ngModel)]="password" type="number" (change)="onChange()"></ion-input>
+                </div>
+
+                <ion-button class="" (click)="onLoginUser()" [disabled]="!email || !password">
+                    Anmelden
+                </ion-button>
+            </ion-col>
         </ion-row>
     </ion-grid>
 </ion-content>

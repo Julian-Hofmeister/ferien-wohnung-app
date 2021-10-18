@@ -3,4 +3,7 @@ export interface OfferDetailItem {
   description: string;
   parentId: string;
   id: string;
+  website?: string;
+  maps?: string;
+  phoneNumber?: string;
 }

@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
+import { User } from 'src/app/authentication/user.model';
 import { Reservation } from './reservation.model';
 import { ReservationService } from './reservation.service';
 
@@ -15,29 +17,38 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  //#endregion
-
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   minuteValues: string[] = ['0'];
   hourValues: string[] = ['10', '12', '14', '16', '18', '20', '22'];
 
   selectedDateTime: any;
+  selectedTimestamp: number;
 
-  date: Date;
-  timestamp: number;
   currentDateTime = Date.now();
-  userReservation: Reservation;
+
+  fetchedUserReservation: Reservation;
   loadedReservationList: Reservation[];
 
   timeIsAvailable = true;
   timeIsOutdated = false;
+
   isLoading = false;
+  isLoggedIn = true;
 
-  user = 'julian@web.de';
+  user: User = {
+    id: localStorage.getItem('user-id'),
+    email: localStorage.getItem('user-email'),
+    arriveDate: Number(localStorage.getItem('user-arriveDate')),
+    leaveDate: Number(localStorage.getItem('user-leaveDate')),
+    apartment: localStorage.getItem('user-apartment'),
+  };
 
-  path = this.afs.collection('sauna-reservations');
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  private path = this.afs.collection('sauna-reservations');
 
   private reservationSub: Subscription;
 
@@ -48,15 +59,20 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
   constructor(
     public afs: AngularFirestore,
     private modalCtrl: ModalController,
+    private router: Router,
     private reservationService: ReservationService
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.fetchReservationsFromFirestore();
+    this.checkUserAuthorization();
+    this.fetchReservations();
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
     this.reservationSub.unsubscribe();
@@ -73,18 +89,20 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onClose() {
+
+  onClose() {
     this.modalCtrl.dismiss();
   }
 
-  public onSetReservation() {
+  // ----------------------------------------------------------------------------------------------
+
+  onSetReservation() {
     this.onCheckFreeReservation();
 
     if (this.timeIsAvailable) {
-      this.path.doc(this.timestamp.toString()).set({
-        date: this.date,
-        timestamp: this.timestamp,
-        user: 'julian@web.de',
+      this.path.doc(this.selectedTimestamp.toString()).set({
+        timestamp: this.selectedTimestamp,
+        user: this.user.email,
       });
 
       console.log('TIME IS NOW RESERVED..');
@@ -93,38 +111,58 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onCheckFreeReservation() {
-    console.log('RESERVATION LIST:');
-    console.log(this.loadedReservationList);
+  // ----------------------------------------------------------------------------------------------
 
-    this.date = new Date(this.selectedDateTime);
-    this.timestamp = Math.round(this.date.getTime() / 1000000) * 1000000;
+  onCheckFreeReservation() {
+    const date = new Date(this.selectedDateTime);
+    this.selectedTimestamp = Math.round(date.getTime() / 1000000) * 1000000;
 
     this.timeIsAvailable = true;
     this.timeIsOutdated = false;
 
-    if (this.timestamp < this.currentDateTime) {
+    // ### CHECK IF RESERVATION IS IN THE PAST
+    if (this.selectedTimestamp < this.currentDateTime) {
       this.timeIsAvailable = false;
       this.timeIsOutdated = true;
     }
 
+    // ### CHECK IF RESERVATION IS DURING THE STAY
+    if (
+      this.selectedTimestamp > this.user.leaveDate ||
+      this.selectedTimestamp < this.user.arriveDate
+    ) {
+      this.timeIsAvailable = false;
+    }
+
+    // ### CHECK IF RESERVATION IS NOT RESERVED BEFORE
     for (const reservation of this.loadedReservationList) {
-      if (reservation.id === this.timestamp.toString()) {
+      if (reservation.id === this.selectedTimestamp.toString()) {
         this.timeIsAvailable = false;
       }
     }
   }
 
-  public onDeleteReservation(reservation: Reservation) {
+  // ----------------------------------------------------------------------------------------------
+
+  onDeleteReservation(reservation: Reservation) {
     this.reservationService.deleteReservation(reservation.id);
-    this.userReservation = null;
+    this.fetchedUserReservation = null;
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  toAuthentication() {
+    this.onClose();
+    this.router.navigate(['authentication']);
+  }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
-  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-  private fetchReservationsFromFirestore() {
+  //#region [ PRIVATE ] //////////////////////////////////////////////////////////////////////////
+
+  private fetchReservations(): void {
     this.isLoading = true;
     this.reservationSub = this.reservationService
       .getAllReservations()
@@ -149,21 +187,34 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
       });
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   private deleteOutdatedReservations(reservation: Reservation) {
     if (Number(reservation.timestamp) < this.currentDateTime) {
       this.reservationService.deleteReservation(reservation.id);
     }
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   private checkIfUserHasReservation() {
-    this.userReservation = null;
+    this.fetchedUserReservation = null;
 
     for (const reservation of this.loadedReservationList) {
-      if (reservation.user === 'julian@web.de') {
-        this.userReservation = reservation;
+      if (reservation.user === this.user.email) {
+        this.fetchedUserReservation = reservation;
       }
     }
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private checkUserAuthorization() {
+    if (!this.user.email || !this.user.id) {
+      this.isLoggedIn = false;
+    }
+  }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { OfferDetailItem } from '../offer-detail.model';
 
 @Component({
   selector: 'app-offer-detail-card',
@@ -7,9 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class OfferDetailCardComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
-  @Input() category: string;
-  @Input() title: string;
-  @Input() description: string;
+  @Input() detailItem: OfferDetailItem;
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -27,7 +26,14 @@ export class OfferDetailCardComponent implements OnInit {
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
-  ngOnInit() {}
+
+  ngOnInit() {
+    this.detailItem.description = this.detailItem.description.replace(
+      '\\n',
+      '\n'
+    );
+  }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////

@@ -1,9 +1,10 @@
 .action-card {
-    margin-top: 20px;
+    // margin-top: 20px;
     position: relative;
     text-align: center;
     color: white;
     border-radius: 15px;
+    margin-bottom: 1.5rem;
 }
 
 .centered {
@@ -14,19 +15,19 @@
 }
 
 .action-card>img {
-    height: 11rem;
+    height: 7rem;
     width: 100%;
     object-fit: cover;
-    filter: brightness(50%);
+    filter: brightness(70%);
     border-radius: 15px;
 }
 
 h4 {
-    text-transform: uppercase;
-    font-weight: 600;
+    // text-transform: uppercase;
+    font-weight: 400;
     letter-spacing: 1px;
     margin-bottom: 0.2rem;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
 }
 
 p {

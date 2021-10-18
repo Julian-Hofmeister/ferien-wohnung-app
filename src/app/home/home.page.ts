@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { User } from '../authentication/user.model';
 import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
-import { MessageModalComponent } from './message-modal/message-modal.component';
-import { ReservationModalComponent } from './reservation-modal/reservation-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +20,18 @@ export class HomePage implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
+  isAdmin = false;
+
+  currentDate = Date.now();
+
+  user: User = {
+    email: localStorage.getItem('user-email'),
+    id: localStorage.getItem('user-id'),
+    arriveDate: Number(localStorage.getItem('user-arriveDate')),
+    leaveDate: Number(localStorage.getItem('user-leaveDate')),
+    apartment: localStorage.getItem('user-apartment'),
+  };
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -31,7 +42,14 @@ export class HomePage implements OnInit {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.user.email === 'admin') {
+      this.isAdmin = true;
+    }
+
+    console.log(this.user.apartment);
+  }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -43,25 +61,62 @@ export class HomePage implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onLogout() {
-    console.log('logging out');
+
+  onLogout() {
+    localStorage.clear();
+
     this.router.navigate(['authentication']);
   }
 
-  public onOpenReservationModal() {
-    console.log('open reservation');
+  // ----------------------------------------------------------------------------------------------
 
-    this.modalCtrl
-      .create({
-        component: ReservationModalComponent,
-        cssClass: 'reservation-modal-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
+  onOpenAdmin() {
+    this.router.navigate(['admin']);
   }
 
-  public onOpenFeedbackModal() {
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenBreadOrderPage() {
+    this.router.navigate(['bread-order']);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenSendMessage() {
+    this.router.navigate(['send-message']);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenBeforeArrival() {
+    this.router.navigate(['before-arrival']);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenApartmentDetail() {
+    console.log('open Information detail');
+    this.router.navigate(['/apartment-detail']);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenReservationModal() {
+    // this.modalCtrl
+    //   .create({
+    //     component: ReservationModalComponent,
+    //     cssClass: 'reservation-modal-css',
+    //     backdropDismiss: true,
+    //   })
+    //   .then((modalEl) => {
+    //     modalEl.present();
+    //   });
+    this.router.navigate(['sauna-reservation']);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenFeedbackModal() {
     this.modalCtrl
       .create({
         component: FeedbackModalComponent,
@@ -72,20 +127,6 @@ export class HomePage implements OnInit {
       });
   }
 
-  public onOpenMessageModal() {
-    this.modalCtrl
-      .create({
-        component: MessageModalComponent,
-        cssClass: 'message-modal-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
-
-  public onOpenInformationDetailWithPath() {
-    console.log('open Information detail');
-  }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

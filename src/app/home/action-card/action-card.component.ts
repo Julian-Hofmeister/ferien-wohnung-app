@@ -6,11 +6,14 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./action-card.component.scss'],
 })
 export class ActionCardComponent implements OnInit {
-
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
   @Input() title: string;
+
   @Input() subTitle: string;
+
   @Input() image: string;
+
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -29,7 +32,8 @@ export class ActionCardComponent implements OnInit {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit(){}
+  ngOnInit() {}
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -51,8 +55,4 @@ export class ActionCardComponent implements OnInit {
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
-
-
-
-
 }

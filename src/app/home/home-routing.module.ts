@@ -6,8 +6,33 @@ import { HomePage } from './home.page';
 const routes: Routes = [
   {
     path: '',
-    component: HomePage
-  }
+    component: HomePage,
+  },
+  {
+    path: 'before-arrival',
+    loadChildren: () =>
+      import('./before-arrival/before-arrival.module').then(
+        (m) => m.BeforeArrivalPageModule
+      ),
+  },
+  {
+    path: 'send-message',
+    loadChildren: () =>
+      import('./send-message/send-message.module').then(
+        (m) => m.SendMessagePageModule
+      ),
+  },
+  {
+    path: 'bread-order-page',
+    loadChildren: () =>
+      import('./bread-order-page/bread-order-page.module').then(
+        (m) => m.BreadOrderPagePageModule
+      ),
+  },
+  {
+    path: 'sauna-reservation',
+    loadChildren: () => import('./sauna-reservation/sauna-reservation.module').then( m => m.SaunaReservationPageModule)
+  },
 ];
 
 @NgModule({

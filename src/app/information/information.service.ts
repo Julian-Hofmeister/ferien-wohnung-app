@@ -2,16 +2,18 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { InformationItem } from './information.model';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InformationService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   informationItems: Observable<any[]>;
 
   path = this.afs.collection('information', (ref) => ref.orderBy('title'));
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -21,18 +23,23 @@ export class InformationService {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public getInformationItems() {
+
+  getInformationItems() {
     this.informationItems = this.path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {
           const data = item.payload.doc.data() as InformationItem;
           data.id = item.payload.doc.id;
+          console.log('data: ' + data);
+
           return data;
         })
-      )
+      ),
+      shareReplay(1)
     );
     return this.informationItems;
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

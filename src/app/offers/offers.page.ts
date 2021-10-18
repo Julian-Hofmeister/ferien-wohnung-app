@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { OfferDetailItem } from '../offers-detail/offer-detail.model';
 import { OfferItem } from './offer.model';
 import { OffersService } from './offers.service';
 
@@ -16,13 +17,20 @@ export class OffersPage implements OnInit, OnDestroy {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  isLoading = false;
+
+  loadedOfferItemList: OfferItem[];
+
+  detailItemList: OfferDetailItem[];
+  detailItemListBackup: OfferDetailItem[];
+
+  searchTerm: string;
 
   //#endregion
 
-  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  loadedOfferItemList: OfferItem[];
-  isLoading = false;
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   private itemSub: Subscription;
 
@@ -31,23 +39,29 @@ export class OffersPage implements OnInit, OnDestroy {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    // private router: Router,
-    private route: ActivatedRoute,
-    private afStorage: AngularFireStorage,
     private offerService: OffersService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private firestore: AngularFirestore
   ) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
-  ngOnInit() {
+
+  async ngOnInit() {
     this.fetchOfferItemsFromFirestore();
+
+    this.detailItemList = await this.initializeItems();
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
     this.itemSub.unsubscribe();
   }
+
+  // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -59,9 +73,49 @@ export class OffersPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onOpenOfferDetailPage(item: OfferItem) {
+
+  onOpenOfferDetailPage(item: OfferItem): void {
     this.navCtrl.navigateForward(['/', 'offer-detail', item.id, item.title]);
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  async initializeItems(): Promise<any> {
+    const detailItemList = await this.firestore
+      .collection('offers-detail')
+      .valueChanges()
+      .pipe(first())
+      .toPromise();
+
+    this.detailItemListBackup = detailItemList as OfferDetailItem[];
+
+    return detailItemList;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  async filterList(evt: any) {
+    this.detailItemList = this.detailItemListBackup;
+    this.searchTerm = evt.srcElement.value;
+
+    if (!this.searchTerm) {
+      return;
+    }
+
+    this.detailItemList = this.detailItemList.filter((currentItem) => {
+      if (currentItem.title && this.searchTerm) {
+        return (
+          currentItem.title
+            .toLowerCase()
+            .indexOf(this.searchTerm.toLowerCase()) > -1 ||
+          currentItem.description
+            .toLowerCase()
+            .indexOf(this.searchTerm.toLowerCase()) > -1
+        );
+      }
+    });
+  }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
@@ -70,25 +124,21 @@ export class OffersPage implements OnInit, OnDestroy {
 
   private fetchOfferItemsFromFirestore() {
     this.isLoading = true;
+
     this.itemSub = this.offerService
       .getOfferItems()
       .subscribe((informationItems) => {
         this.loadedOfferItemList = [];
 
-        // * DEFINE NEW ITEM
         for (const currentLoadedItem of informationItems) {
-          // const imagePath = this.afStorage
-          //   .ref(currentLoadedItem.imagePath)
-          //   .getDownloadURL();
-
           const fetchedItem: OfferItem = {
             title: currentLoadedItem.title,
             id: currentLoadedItem.id,
           };
 
           this.loadedOfferItemList.push(fetchedItem);
+
           this.isLoading = false;
-          console.log(this.loadedOfferItemList);
         }
       });
   }

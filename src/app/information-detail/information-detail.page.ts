@@ -15,18 +15,21 @@ export class InformationDetailPage implements OnInit, OnDestroy {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  //#endregion
-
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   id: string;
   title: string;
 
   loadedInfoDetailItemList: InfoDetailItem[];
+
   isLoading = false;
 
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
   private itemSub: Subscription;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -40,14 +43,21 @@ export class InformationDetailPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
     this.getUrlData();
-    this.fetchInfoDetailItemsFromFirestore();
+
+    this.fetchInfoDetailItems();
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
     this.itemSub.unsubscribe();
   }
+
+  // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -59,14 +69,17 @@ export class InformationDetailPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onBack() {
+
+  onBack() {
     this.navCtrl.back();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
   private getUrlData() {
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
@@ -76,26 +89,29 @@ export class InformationDetailPage implements OnInit, OnDestroy {
 
       this.id = paramMap.get('id');
       this.title = paramMap.get('title');
+
+      console.log(this.id);
     });
   }
 
-  private fetchInfoDetailItemsFromFirestore() {
+  // ----------------------------------------------------------------------------------------------
+
+  private fetchInfoDetailItems() {
     this.isLoading = true;
+
     this.itemSub = this.informationDetailService
       .getInfoDetailItems()
       .subscribe((infoDetailItems) => {
         this.loadedInfoDetailItemList = [];
 
-        // * DEFINE NEW ITEM
         for (const currentLoadedItem of infoDetailItems) {
-          // const imagePath = this.afStorage
-          //   .ref(currentLoadedItem.imagePath)
-          //   .getDownloadURL();
-
           const fetchedItem: InfoDetailItem = {
             title: currentLoadedItem.title,
             category: currentLoadedItem.category,
             description: currentLoadedItem.description,
+            maps: currentLoadedItem.maps,
+            website: currentLoadedItem.website,
+            phoneNumber: currentLoadedItem.phoneNumber,
             parentId: currentLoadedItem.parentId,
             id: currentLoadedItem.id,
           };
@@ -103,11 +119,12 @@ export class InformationDetailPage implements OnInit, OnDestroy {
           if (fetchedItem.parentId === this.id) {
             this.loadedInfoDetailItemList.push(fetchedItem);
           }
+
           this.isLoading = false;
-          console.log(this.loadedInfoDetailItemList);
         }
       });
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

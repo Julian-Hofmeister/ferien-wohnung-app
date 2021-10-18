@@ -15,18 +15,21 @@ export class OffersDetailPage implements OnInit, OnDestroy {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  //#endregion
-
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   id: string;
   title: string;
 
-  loadedOfferDetailItemList: OfferDetailItem[];
   isLoading = false;
 
+  loadedOfferDetailItemList: OfferDetailItem[];
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
   private itemSub: Subscription;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -40,14 +43,21 @@ export class OffersDetailPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
     this.getUrlData();
+
     this.fetchOfferDetailItemsFromFirestore();
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
     this.itemSub.unsubscribe();
   }
+
+  // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -59,14 +69,17 @@ export class OffersDetailPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
   public onBack() {
     this.navCtrl.back();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
   private getUrlData() {
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
@@ -79,6 +92,8 @@ export class OffersDetailPage implements OnInit, OnDestroy {
     });
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   private fetchOfferDetailItemsFromFirestore() {
     this.isLoading = true;
     this.itemSub = this.offersDetailService
@@ -86,27 +101,26 @@ export class OffersDetailPage implements OnInit, OnDestroy {
       .subscribe((offerDetailItems) => {
         this.loadedOfferDetailItemList = [];
 
-        // * DEFINE NEW ITEM
         for (const currentLoadedItem of offerDetailItems) {
-          // const imagePath = this.afStorage
-          //   .ref(currentLoadedItem.imagePath)
-          //   .getDownloadURL();
-
           const fetchedItem: OfferDetailItem = {
             title: currentLoadedItem.title,
             description: currentLoadedItem.description,
             parentId: currentLoadedItem.parentId,
             id: currentLoadedItem.id,
+            website: currentLoadedItem.website,
+            maps: currentLoadedItem.maps,
+            phoneNumber: currentLoadedItem.phoneNumber,
           };
 
-          // if (fetchedItem.parentId === this.id) {
-          this.loadedOfferDetailItemList.push(fetchedItem);
-          // }
+          if (fetchedItem.parentId === this.id) {
+            this.loadedOfferDetailItemList.push(fetchedItem);
+          }
+
           this.isLoading = false;
-          console.log(this.loadedOfferDetailItemList);
         }
       });
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

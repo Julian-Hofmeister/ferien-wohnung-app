@@ -7,7 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { InformationDetailPageRoutingModule } from './information-detail-routing.module';
 
 import { InformationDetailPage } from './information-detail.page';
-import { InformationDetailCardComponent } from './information-detail-card/information-detail-card.component';
+import { InformationDetailCardComponent } from '../shared/information-detail-card/information-detail-card.component';
+import { InformationDetailCard } from '../shared/information-detail-card/information-detail-card.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { InformationDetailCardComponent } from './information-detail-card/inform
     FormsModule,
     IonicModule,
     InformationDetailPageRoutingModule,
+    InformationDetailCard,
   ],
-  declarations: [InformationDetailPage, InformationDetailCardComponent],
+  declarations: [InformationDetailPage],
 })
 export class InformationDetailPageModule {}

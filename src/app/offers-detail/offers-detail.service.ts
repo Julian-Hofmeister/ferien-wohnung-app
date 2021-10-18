@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { InfoDetailItem } from '../information-detail/information-detail.model';
 
 @Injectable({
@@ -9,9 +9,11 @@ import { InfoDetailItem } from '../information-detail/information-detail.model';
 })
 export class OffersDetailService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   offerDetailItems: Observable<any[]>;
 
   path = this.afs.collection('offers-detail', (ref) => ref.orderBy('title'));
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -21,7 +23,8 @@ export class OffersDetailService {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public getOfferDetailItems() {
+
+  getOfferDetailItems(): Observable<any[]> {
     this.offerDetailItems = this.path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {
@@ -29,8 +32,10 @@ export class OffersDetailService {
           data.id = item.payload.doc.id;
           return data;
         })
-      )
+      ),
+      shareReplay(1)
     );
+
     return this.offerDetailItems;
   }
   // ----------------------------------------------------------------------------------------------

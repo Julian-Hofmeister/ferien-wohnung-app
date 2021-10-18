@@ -9,11 +9,13 @@ import { Reservation } from './reservation.model';
 })
 export class ReservationService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   reservationList: Observable<any[]>;
 
   path = this.afs.collection('sauna-reservations', (ref) =>
     ref.orderBy('timestamp')
   );
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -24,7 +26,7 @@ export class ReservationService {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  public getAllReservations() {
+  getAllReservations() {
     this.reservationList = this.path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((a) => {
@@ -38,7 +40,9 @@ export class ReservationService {
     return this.reservationList;
   }
 
-  public deleteReservation(reservationId) {
+  // ----------------------------------------------------------------------------------------------
+
+  deleteReservation(reservationId) {
     this.path.doc(reservationId).delete();
   }
   // ----------------------------------------------------------------------------------------------

@@ -1,0 +1,76 @@
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="container">
+                    <img class="background-img" src="/assets/images/sauna.jpg" />
+                    <div class="centered">
+                        <span class="material-icons-outlined" (click)="onClose()">
+              arrow_back
+            </span>
+                        <h2>Sauna Reservieren</h2>
+                        <hr />
+                        <p id="subtitle">
+                            Reservieren Sie ganz einfach unsere Hauseigene Sauna während Ihres Aufenthaltes!
+                        </p>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="content-card">
+                    <div *ngIf="!isLoading && isLoggedIn && !fetchedUserReservation">
+                        <ion-button expand="block" fill="outline">
+                            <ion-datetime #datePicker [(ngModel)]="selectedDateTime" displayFormat="MMM DD / HH:mm" [minuteValues]="minuteValues" [hourValues]="hourValues" placeholder="Datum wählen" (ionChange)="onCheckFreeReservation()"></ion-datetime>
+                            <span class="material-icons-outlined" (click)="datePicker.open()">
+                date_range
+              </span>
+                        </ion-button>
+                        <hr />
+                        <p class="warning-text" *ngIf="!timeIsAvailable && !timeIsOutdated && timeIsDuringStay">
+                            Diese Zeit ist nicht verfügbar.
+                        </p>
+                        <p class="warning-text" *ngIf="!timeIsAvailable && timeIsOutdated && timeIsDuringStay">
+                            Diese Zeit liegt in der vergangenheit.
+                        </p>
+                        <p class="warning-text" *ngIf="!timeIsDuringStay">
+                            Die Reservierung liegt außerhalb ihres Aufenthaltes.
+                        </p>
+                        <div class="container" *ngIf="!isLoggedIn">
+                            <p>
+                                Sie sind nicht angemeldet oder Ihre Zugangsdaten sind Abgelaufen.
+                            </p>
+                            <br />
+                            <ion-button (click)="toAuthentication()" fill="outline">
+                                Anmelden
+                            </ion-button>
+                        </div>
+                        <p class="warning-text" *ngIf="timeIsAvailable"></p>
+                        <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSetReservation()" [disabled]="!timeIsAvailable || !selectedTimestamp">Reservierung speichern
+                            <span class="material-icons-outlined"> save </span>
+                        </ion-button>
+                        <p class="space">space</p>
+                    </div>
+                    <div *ngIf="!isLoading && isLoggedIn && fetchedUserReservation">
+                        <h4>Sauna reserviert für:</h4>
+                        <ion-button expand="block" fill="outline" disabled>
+                            <ion-datetime #datePicker [(ngModel)]="fetchedUserReservation.timestamp" displayFormat="MMM DD / HH:mm" [minuteValues]="minuteValues" [hourValues]="hourValues" [placeholder]="fetchedUserReservation.timestamp | date: ' MMMM dd / HH:00 '" (ionChange)="onCheckFreeReservation()"></ion-datetime>
+                            <span class="material-icons-outlined"> date_range </span>
+                        </ion-button>
+                        <hr />
+                        <p id="info-text">
+                            Reservierung löschen <br /> und neue Zeit festlegen
+                        </p>
+                        <br />
+                        <ion-button id="smaller" expand="block" fill="outline" (click)="onDeleteReservation(fetchedUserReservation)">
+                            Reservierung löschen
+                            <span class="material-icons-outlined"> delete_outline </span>
+                        </ion-button>
+                        <p class="space">space</p>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

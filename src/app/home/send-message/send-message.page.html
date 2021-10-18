@@ -1,0 +1,28 @@
+<ion-content>
+    <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="onBack()">
+        <ion-icon name="close-outline"></ion-icon>
+    </ion-fab>
+    <div class="container">
+        <ion-row>
+            <h2>Haben Sie Fragen, Wünsche, Anregungen?</h2>
+            <p id="subtitle">Schreiben Sie uns einfach eine Nachricht!</p>
+
+            <ion-textarea [(ngModel)]="message" placeholder="Hallo, ..." rows="12" autofocus="true"></ion-textarea>
+
+            <ion-row class="ion-justify-content-between">
+                <ion-button id="call-btn" (click)="onSendMessage()" fill="outline">
+                    <ion-icon id="call-icon" name="call"></ion-icon>
+                    <p>Anrufen</p>
+                </ion-button>
+                <ion-button id="send-btn" (click)="onSendMessage()" [disabled]="email === 'admin'">
+                    <ion-icon name="paper-plane"></ion-icon>
+                    <p>Senden</p>
+                </ion-button>
+            </ion-row>
+            <p *ngIf="email === 'admin'" id="subtitle">
+                Sie sind als Administrator eingeloggt.<br /> Sie können dieses Feature nicht nutzen.
+            </p>
+            <div class="space"></div>
+        </ion-row>
+    </div>
+</ion-content>

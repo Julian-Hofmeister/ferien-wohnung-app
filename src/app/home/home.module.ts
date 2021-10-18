@@ -10,7 +10,6 @@ import { HomePage } from './home.page';
 import { ActionCardComponent } from './action-card/action-card.component';
 import { ReservationModalComponent } from './reservation-modal/reservation-modal.component';
 import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
-import { MessageModalComponent } from './message-modal/message-modal.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
@@ -19,7 +18,6 @@ import { MessageModalComponent } from './message-modal/message-modal.component';
     ActionCardComponent,
     ReservationModalComponent,
     FeedbackModalComponent,
-    MessageModalComponent,
   ],
 })
 export class HomePageModule {}
