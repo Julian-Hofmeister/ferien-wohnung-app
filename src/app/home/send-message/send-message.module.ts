@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { SendMessagePageRoutingModule } from './send-message-routing.module';
 
 import { SendMessagePage } from './send-message.page';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { SendMessagePage } from './send-message.page';
     IonicModule,
     SendMessagePageRoutingModule,
   ],
-  declarations: [SendMessagePage],
+  declarations: [SendMessagePage, ConfirmationModalComponent],
 })
 export class SendMessagePageModule {}

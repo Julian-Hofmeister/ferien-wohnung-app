@@ -1,16 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
-import { fromEvent, Subscription } from 'rxjs';
-import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 @Component({
-  selector: 'app-send-message',
-  templateUrl: './send-message.page.html',
-  styleUrls: ['./send-message.page.scss'],
+  selector: 'app-confirmation-modal',
+  templateUrl: './confirmation-modal.component.html',
+  styleUrls: ['./confirmation-modal.component.scss'],
 })
-export class SendMessagePage implements OnInit {
+export class ConfirmationModalComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
@@ -18,20 +20,11 @@ export class SendMessagePage implements OnInit {
 
   //#endregion
 
-  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-
-  message = '';
-
-  email = localStorage.getItem('user-email');
-
-  //#endregion
-
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    public afs: AngularFirestore,
-    private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private navCtrl: NavController
   ) {}
 
   //#endregion
@@ -52,30 +45,11 @@ export class SendMessagePage implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onBack() {
-    this.navCtrl.back();
+  onDismiss() {
+    this.modalCtrl.dismiss();
+
+    this.navCtrl.navigateBack(['home']);
   }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onSendMessage() {
-    this.afs.collection('messages').add({
-      email: this.email,
-      message: this.message,
-    });
-
-    this.message = '';
-
-    this.modalCtrl
-      .create({
-        component: ConfirmationModalComponent,
-        cssClass: 'bread-order-confirmation-modal-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
-
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
