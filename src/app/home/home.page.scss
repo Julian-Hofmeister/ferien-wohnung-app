@@ -99,6 +99,11 @@ hr {
     margin-top: 1rem;
 }
 
+.content-row-small {
+    margin: 0 10px;
+    margin-top: .5rem;
+}
+
 p {
     color: rgb(61, 61, 61);
     margin: 0.5rem 0;
@@ -121,9 +126,9 @@ p {
 //     margin-left: 0.8rem;
 // }
 .action-field {
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(255, 255, 255);
     border-radius: 15px;
-    padding: 10px;
+    padding: 0px;
     position: relative;
     hr {
         background-color: rgba(56, 56, 56, 0.274);

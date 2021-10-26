@@ -29,9 +29,6 @@
                                             <ion-select-option [value]="4">4</ion-select-option>
                                         </ion-select>
                                     </ion-item>
-                                    <!-- <ion-button (click)="onSaveBikeReservation()" [disabled]="!bikeAmount">
-                                        Speichern
-                                    </ion-button> -->
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -45,20 +42,9 @@
                                 </p>
 
                                 <ion-textarea [(ngModel)]="starterMessage" [value]="starterMessage" placeholder="Wurst und Käse, 2x Vollkorn Semmel ..." rows="12" autofocus="true" (ionChange)="onChangeMessage($event)"></ion-textarea>
-
-                                <!-- <div>
-                                    <ion-button (click)="onSendBreadOrder()" [disabled]="!starterMessage">
-                                        Speichern
-                                    </ion-button>
-                                </div> -->
                             </ion-col>
                         </ion-row>
                     </div>
-                    <!-- <div class="button-card">
-                        <ion-button (click)="onSendBreadOrder()" [disabled]="!starterMessage && !bikeAmount">
-                            Speichern
-                        </ion-button>
-                    </div> -->
                 </ion-col>
             </ion-row>
             <div id="center">
