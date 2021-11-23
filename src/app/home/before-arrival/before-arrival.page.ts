@@ -82,8 +82,22 @@ export class BeforeArrivalPage implements OnInit {
       arriveDate: new Date(Number(this.arriveDate)).toLocaleDateString(),
       leaveDate: new Date(Number(this.leaveDate)).toLocaleDateString(),
 
-      bikeAmount: this.bikeAmount.toString(),
+      // bikeAmount: this.bikeAmount.toString(),
       starterMessage: this.starterMessage,
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onSendBikeReservation() {
+    this.afs.collection('bevore-arrival').add({
+      email: this.email,
+      room: this.room,
+      arriveDate: new Date(Number(this.arriveDate)).toLocaleDateString(),
+      leaveDate: new Date(Number(this.leaveDate)).toLocaleDateString(),
+
+      bikeAmount: this.bikeAmount.toString(),
+      //  starterMessage: this.starterMessage,
     });
   }
 

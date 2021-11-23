@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { InfoDetailItem } from './information-detail.model';
 import { Subscription } from 'rxjs';
 import { InformationDetailService } from './information-detail.service';
+import { User } from '../authentication/user.model';
 
 @Component({
   selector: 'app-information-detail',
@@ -23,6 +24,23 @@ export class InformationDetailPage implements OnInit, OnDestroy {
   loadedInfoDetailItemList: InfoDetailItem[];
 
   isLoading = false;
+
+  user: User = {
+    email: localStorage.getItem('user-email'),
+    id: localStorage.getItem('user-id'),
+    arriveDate: Number(localStorage.getItem('user-arriveDate')),
+    leaveDate: Number(localStorage.getItem('user-leaveDate')),
+    apartment: localStorage.getItem('user-apartment'),
+  };
+
+  isAdmin = false;
+
+  selectedItem: InfoDetailItem = {
+    title: '',
+    description: '',
+    id: '',
+    category: '',
+  };
 
   //#endregion
 
@@ -48,6 +66,8 @@ export class InformationDetailPage implements OnInit, OnDestroy {
     this.getUrlData();
 
     this.fetchInfoDetailItems();
+
+    this.isAdmin = this.user.email === 'admin' ? true : false;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -72,6 +92,13 @@ export class InformationDetailPage implements OnInit, OnDestroy {
 
   onBack() {
     this.navCtrl.back();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  selectItem(item: InfoDetailItem) {
+    // console.log(item.id);
+    this.selectedItem = item;
   }
 
   // ----------------------------------------------------------------------------------------------

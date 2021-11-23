@@ -1,0 +1,65 @@
+<div class="apartment-editor">
+    <h2>Item Hinzufügen</h2>
+    <hr />
+    <div class="input">
+        <p class="hint">Titel:</p>
+        <ion-input [(ngModel)]="selectedItem.title" (change)="onChangeTitle()"></ion-input>
+
+        <p class="hint">Beschreibung:</p>
+        <ion-textarea [(ngModel)]="selectedItem.description" placeholder="..." rows="8" autofocus="true"></ion-textarea>
+
+        <!-- <ion-row>
+      <span class="material-icons-outlined"> bed </span>
+      <ion-item lines="none">
+        <ion-label>Zimmer</ion-label>
+        <ion-select
+          [(ngModel)]="selectedItem.apartment"
+          value="apartment"
+          interface="action-sheet"
+          (ionChange)="onChangeApartment()"
+        >
+          <ion-select-option value="251">251</ion-select-option>
+          <ion-select-option value="252">252</ion-select-option>
+          <ion-select-option value="253">253</ion-select-option>
+          <ion-select-option value="403">403</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-row> -->
+        <ion-row *ngIf="pathHint === 'offers-detail'">
+            <ion-item lines="none">
+                <span class="material-icons-outlined"> public </span>
+                <ion-input [(ngModel)]="selectedItem.website" placeholder="Webseite"></ion-input>
+            </ion-item>
+        </ion-row>
+        <ion-row *ngIf="pathHint === 'offers-detail'">
+            <ion-item lines="none">
+                <span class="material-icons-outlined"> phone </span>
+                <ion-input [(ngModel)]="selectedItem.phoneNumber" placeholder="Telefonnummer"></ion-input>
+            </ion-item>
+        </ion-row>
+        <ion-row *ngIf="pathHint === 'offers-detail'">
+            <ion-item lines="none">
+                <span class="material-icons-outlined"> place </span>
+                <ion-input [(ngModel)]="selectedItem.maps" placeholder="Link zu Google Maps"></ion-input>
+            </ion-item>
+        </ion-row>
+
+        <ion-row>
+            <div class="visible-btn">
+                <ion-row>
+                    <span class="material-icons-outlined"> visibility </span>
+                    <span class="material-icons-outlined"> visibility_off </span>
+                </ion-row>
+            </div>
+
+            <div class="delete-btn" (click)="onDelete()">
+                <span class="material-icons-outlined"> delete </span>
+            </div>
+        </ion-row>
+    </div>
+    <ion-button (click)="onSave()" [disabled]="
+      selectedItem.title === '' ||
+      selectedItem.description === '' ||
+      selectedItem.apartment === ''
+    ">Speichern</ion-button>
+</div>

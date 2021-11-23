@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { User } from '../authentication/user.model';
 import { OfferDetailItem } from './offer-detail.model';
 import { OffersDetailService } from './offers-detail.service';
 
@@ -20,9 +21,29 @@ export class OffersDetailPage implements OnInit, OnDestroy {
   id: string;
   title: string;
 
+  loadedOfferDetailItemList: OfferDetailItem[];
+
   isLoading = false;
 
-  loadedOfferDetailItemList: OfferDetailItem[];
+  user: User = {
+    email: localStorage.getItem('user-email'),
+    id: localStorage.getItem('user-id'),
+    arriveDate: Number(localStorage.getItem('user-arriveDate')),
+    leaveDate: Number(localStorage.getItem('user-leaveDate')),
+    apartment: localStorage.getItem('user-apartment'),
+  };
+
+  isAdmin = false;
+
+  selectedItem: OfferDetailItem = {
+    title: '',
+    description: '',
+    id: '',
+    parentId: '',
+    website: '',
+    maps: '',
+    phoneNumber: '',
+  };
 
   //#endregion
 
@@ -48,6 +69,8 @@ export class OffersDetailPage implements OnInit, OnDestroy {
     this.getUrlData();
 
     this.fetchOfferDetailItemsFromFirestore();
+
+    this.isAdmin = this.user.email === 'admin' ? true : false;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -70,8 +93,15 @@ export class OffersDetailPage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  public onBack() {
+  onBack() {
     this.navCtrl.back();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  selectItem(item: OfferDetailItem) {
+    // console.log(item.id);
+    this.selectedItem = item;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -83,7 +113,7 @@ export class OffersDetailPage implements OnInit, OnDestroy {
   private getUrlData() {
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
-        this.navCtrl.navigateBack('/information');
+        this.navCtrl.navigateBack('/offers');
         return;
       }
 

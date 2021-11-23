@@ -8,6 +8,7 @@ import { OffersDetailPageRoutingModule } from './offers-detail-routing.module';
 
 import { OffersDetailPage } from './offers-detail.page';
 import { OfferDetailCardComponent } from './offer-detail-card/offer-detail-card.component';
+import { ItemEditor } from '../shared/item-editor/item-editor.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { OfferDetailCardComponent } from './offer-detail-card/offer-detail-card.
     FormsModule,
     IonicModule,
     OffersDetailPageRoutingModule,
+    ItemEditor,
   ],
   declarations: [OffersDetailPage, OfferDetailCardComponent],
 })

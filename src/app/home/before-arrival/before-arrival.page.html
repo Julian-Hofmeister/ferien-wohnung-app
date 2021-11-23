@@ -1,4 +1,4 @@
-<ion-content>
+<!-- <ion-content>
     <ion-grid>
         <img src="/assets/images/berge-bw.jpg" />
 
@@ -54,5 +54,67 @@
             </div>
             <div class="space-big"></div>
         </div>
+    </ion-grid>
+</ion-content> -->
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="container">
+                    <img class="background-img" src="/assets/images/mountain-9.jpg" />
+                    <div class="centered">
+                        <span class="material-icons-outlined" (click)="onBack()">
+              arrow_back
+            </span>
+                        <h2>Bevor Sie ankommen</h2>
+                        <hr />
+                        <p id="subtitle">
+                            Teilen Sie uns mit wie Sie ankommen möchten und was wir für Sie vorbereiten sollen!
+                        </p>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="content-card">
+                    <h3>Erstausstattung bei Ankunft</h3>
+                    <p>
+                        Schreiben Sie uns einfach eine Einkaufsliste mit Dingen die Sie gerne bei Ihr Ankuft auffinden möchten
+                    </p>
+                    <ion-textarea [(ngModel)]="starterMessage" placeholder="Wurst und Käse, ..." rows="12" autofocus="false"></ion-textarea>
+                    <p *ngIf="email === 'admin'" id="subtitle">
+                        Sie sind als Administrator eingeloggt.<br /> Sie können dieses Feature nicht nutzen.
+                    </p>
+                    <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSendStarterMessage()" [disabled]="email === 'admin' || !starterMessage">Liste abschicken
+                        <span class="material-icons-outlined"> send </span>
+                    </ion-button>
+                    <p class="space">space</p>
+
+                    <h3>Fahrradstellplätze</h3>
+                    <p>
+                        Teilen Sie uns mit, mit wie viele Fahrradstellplätze wir für Sie bereit halten sollen
+                    </p>
+                    <div>
+                        <ion-item lines="none" class="bike-reservation">
+                            <ion-label>Plätze</ion-label>
+                            <ion-select [(ngModel)]="bikeAmount" [value]="bikeAmount" interface="action-sheet" (ionChange)="onChangeAmount($event)">
+                                <ion-select-option [value]="0">0</ion-select-option>
+                                <ion-select-option [value]="1">1</ion-select-option>
+                                <ion-select-option [value]="2">2</ion-select-option>
+                                <ion-select-option [value]="3">3</ion-select-option>
+                                <ion-select-option [value]="4">4</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </div>
+
+                    <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSendBikeReservation()" [disabled]="email === 'admin' || !bikeAmount">Anzahl abschicken
+                        <span class="material-icons-outlined"> send </span>
+                    </ion-button>
+                    <p class="space">space</p>
+                </div>
+            </ion-col>
+        </ion-row>
     </ion-grid>
 </ion-content>

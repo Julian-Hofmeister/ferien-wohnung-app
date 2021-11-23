@@ -59,7 +59,7 @@
                     <!-- <p *ngIf="alreadySent">
                         Sie haben bereits eine Bestellung abgeschickt. Sie können dennoch eine weitere aufgeben.
                     </p> -->
-                    <ion-textarea [(ngModel)]="message" placeholder="2x Vollkorn Semmel, ..." rows="12" autofocus="true"></ion-textarea>
+                    <ion-textarea [(ngModel)]="message" placeholder="2x Vollkorn Semmel, ..." rows="12" autofocus="false"></ion-textarea>
                     <p *ngIf="email === 'admin'" id="subtitle">
                         Sie sind als Administrator eingeloggt.<br /> Sie können dieses Feature nicht nutzen.
                     </p>
