@@ -21,8 +21,8 @@ export const newMessage = functions.firestore
 
     // Email
     const msg = {
-      to: 'julian.manuel.hofmeister@gmail.com',
-      from: 'ju.hofmeister@web.de',
+      to: 'info@oberstdorf-ohrwumslar.de',
+      from: message.email,
       templateId: 'd-64616893a5644e6aa4c79a9737be4987',
       // eslint-disable-next-line @typescript-eslint/naming-convention
       dynamic_template_data: {
@@ -46,8 +46,8 @@ export const newBreakfastOrder = functions.firestore
 
     // Email
     const msg = {
-      to: 'julian.manuel.hofmeister@gmail.com',
-      from: 'ju.hofmeister@web.de',
+      to: 'info@oberstdorf-ohrwumslar.de',
+      from: order.email,
       templateId: 'd-c42980c050c34195abd26bf28dab1753',
       // eslint-disable-next-line @typescript-eslint/naming-convention
       dynamic_template_data: {
@@ -73,8 +73,8 @@ export const newStarterkit = functions.firestore
 
     // Email
     const msg = {
-      to: 'julian.manuel.hofmeister@gmail.com',
-      from: 'ju.hofmeister@web.de',
+      to: 'info@oberstdorf-ohrwumslar.de',
+      from: starterkit.email,
       templateId: 'd-d60bd232d6d74912a0bf2f753b6abc7b',
       // eslint-disable-next-line @typescript-eslint/naming-convention
       dynamic_template_data: {
@@ -106,7 +106,7 @@ export const newUser = functions.firestore
     // Email
     const msg = {
       to: user.email,
-      from: 'ju.hofmeister@web.de',
+      from: 'info@oberstdorf-ohrwumslar.de',
       templateId: 'd-ec2e8042147747668947312633bbdd46',
       // eslint-disable-next-line @typescript-eslint/naming-convention
       dynamic_template_data: {
