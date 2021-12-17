@@ -25,6 +25,12 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   showHelpText = false;
 
+  emailNotFound = false;
+
+  passwordIncorrect = false;
+
+  falsePasswordFormat = false;
+
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -43,6 +49,12 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetchUsers();
+
+    this.emailNotFound = false;
+
+    this.passwordIncorrect = false;
+
+    this.falsePasswordFormat = false;
   }
 
   ngOnDestroy() {
@@ -74,6 +86,10 @@ export class AuthenticationPage implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onLoginUser() {
+    this.emailNotFound = true;
+    this.passwordIncorrect = false;
+    this.falsePasswordFormat = false;
+
     for (const user of this.loadedUsers) {
       if (user.id === this.password.toString() && user.email === this.email) {
         console.log('LOGIN SUCCESS');
@@ -85,6 +101,14 @@ export class AuthenticationPage implements OnInit, OnDestroy {
         localStorage.setItem('user-arriveDate', user.arriveDate.toString());
         localStorage.setItem('user-leaveDate', user.leaveDate.toString());
         localStorage.setItem('user-apartment', user.apartment);
+      } else if (user.email === this.email) {
+        this.emailNotFound = false;
+
+        if (this.password.toString().length === 6) {
+          this.passwordIncorrect = true;
+        } else {
+          this.falsePasswordFormat = true;
+        }
       }
     }
   }

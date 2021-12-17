@@ -33,6 +33,18 @@
                         <br />Ihnen wird schnellstmöglich ein neuer Account erstellt.
                     </p>
 
+                    <p *ngIf="emailNotFound" class="error-text">
+                        Diese E-mail Adresse ist nicht vergeben
+                    </p>
+
+                    <p *ngIf="passwordIncorrect" class="error-text">
+                        E-mail Adresse stimmt nicht mit Passwort überein
+                    </p>
+
+                    <p *ngIf="falsePasswordFormat" class="error-text">
+                        Das Passwort enthält keine 6 Ziffern
+                    </p>
+
                     <p id="hint-text">Email:</p>
 
                     <ion-input [(ngModel)]="email" type="email" (change)="onChange()"></ion-input>

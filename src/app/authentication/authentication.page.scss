@@ -75,6 +75,14 @@ p {
     margin-bottom: 2rem;
 }
 
+.error-text {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.8rem;
+    color: rgb(255, 67, 67);
+    margin-bottom: 1rem;
+}
+
 .content-row {
     margin: 0 20px;
     flex-direction: column;
