@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { AuthService } from '../authentication/auth.service';
 import { User } from '../authentication/user.model';
 import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
 
@@ -14,13 +16,12 @@ export class HomePage implements OnInit {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  //#endregion
-
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   isAdmin = false;
+
+  loadedUsers: User[];
+  isLoading = false;
 
   currentDate = Date.now();
 
@@ -34,9 +35,19 @@ export class HomePage implements OnInit {
 
   //#endregion
 
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  private userSub: Subscription;
+
+  //#endregion
+
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private modalCtrl: ModalController, private router: Router) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   //#endregion
 
@@ -45,6 +56,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     if (this.user.email === 'admin') {
       this.isAdmin = true;
+      this.fetchUsers();
     }
 
     console.log(this.user.apartment);
@@ -132,6 +144,35 @@ export class HomePage implements OnInit {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private fetchUsers() {
+    this.isLoading = true;
+    this.userSub = this.authService.getUsers().subscribe((users) => {
+      this.loadedUsers = [];
+
+      // * DEFINE NEW ITEM
+      for (const currentUser of users) {
+        // const imagePath = this.afStorage
+        //   .ref(currentLoadedItem.imagePath)
+        //   .getDownloadURL();
+
+        const fetchedUser: User = {
+          id: currentUser.id,
+          email: currentUser.email,
+          arriveDate: currentUser.arriveDate,
+          leaveDate: currentUser.leaveDate,
+          apartment: currentUser.room,
+        };
+
+        if (fetchedUser.leaveDate > this.currentDate) {
+          this.loadedUsers.push(fetchedUser);
+        }
+
+        this.isLoading = false;
+        console.log(this.loadedUsers);
+      }
+    });
+  }
 
   // ----------------------------------------------------------------------------------------------
 

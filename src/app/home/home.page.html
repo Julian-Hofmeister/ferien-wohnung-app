@@ -18,13 +18,13 @@
                         </div>
                     </div>
 
-                    <div class="top-left" *ngIf="user.email === 'admin'" (click)="onOpenAdmin()">
+                    <!-- <div class="top-left" *ngIf="user.email === 'admin'" (click)="onOpenAdmin()">
                         <div class="icon-container">
                             <span class="material-icons-outlined">
                 admin_panel_settings
               </span>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="centered">
                         <h2>Ohrwumslar</h2>
@@ -35,22 +35,57 @@
                 </div>
             </ion-col>
         </ion-row>
-        <ion-row>
+
+        <ion-row *ngIf="!isAdmin">
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="content-card">
                     <p>
-                        Liebe Gäste,<br /> wir wünschen Ihnen, dass Sie sich hier in der Wohnung wohlfühlen, Ihren Alltag hinter sich lassen und in der herrlichen Natur der Oberstdorfer Bergwelt auftanken können. <br /><br /> Ihre Buchung reicht vom
-                        <strong>{{ user.arriveDate | date: "dd.MM.yy" }}</strong> bis zum
-                        <strong>{{ user.leaveDate | date: "dd.MM.yy" }}</strong>.
-                        <br /><br /> Während dieser Zeit können Sie das volle Angebot dieser Applikation nutzen. Informationen und Angebote sind zu jeder Zeit einsehbar.
+                        Liebe Gäste,<br /> wir wünschen Ihnen, dass Sie sich hier in der Wohnung wohlfühlen, Ihren Alltag hinter sich lassen und in der herrlichen Natur der Oberstdorfer Bergwelt auftanken können. <br /><br />
                     </p>
+                    <div class="date-display">
+                        <ion-row>
+                            <ion-col size="7">
+                                <p>Ihre Buchung:</p>
+                            </ion-col>
+                            <ion-col>
+                                <div class="filled-display">
+                                    <p>
+                                        {{ user.arriveDate | date: "dd.MM" }} - {{ user.leaveDate | date: "dd.MM" }}
+                                    </p>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="isAdmin" class="admin-card">
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="content-card">
+                    <p>
+                        Sie sind als Administrator eingeloggt. Hier können Sie ganz einfach einen neuen Gast hinzufügen.
+                    </p>
+                    <br />
+                    <ion-button (click)="onOpenAdmin()" class="admin-button">
+                        Gast hinzufügen
+                    </ion-button>
+                </div>
+                <div *ngIf="!loadedUsers && !isLoading" class="guest-list">
+                    <p class="no-guests">momentan keine aktiven Gäste</p>
+                </div>
+                <div *ngIf="loadedUsers  && !isLoading" class="guest-list">
+                    <p class="guest-title">Aktive/Zukünftige Gäste</p>
+                    <ion-list *ngFor="let user of loadedUsers">
+                        <app-user-item [user]="user"></app-user-item>
+                    </ion-list>
                 </div>
             </ion-col>
         </ion-row>
 
         <ion-row class="content-row-small">
             <ion-col size-md="12" size-lg="8" offset-lg="2">
-                <app-action-card *ngIf="user.arriveDate > currentDate" title="Bevor Sie Ankommen" image="/assets/images/mountain-2.jpg" (click)="onOpenBeforeArrival()"></app-action-card>
+                <app-action-card *ngIf="user.arriveDate > currentDate" title="Bevor Sie Ankommen" subtitle="Teilen Sie uns einfach mit wie Sie ankommen möchten. Wir kümmern uns darum!" image="/assets/images/mountain-person.jpg" (click)="onOpenBeforeArrival()"></app-action-card>
 
                 <div class="action-field">
                     <ion-row>
@@ -98,10 +133,10 @@
                             Nachricht Schreiben
                             <ion-icon name="chatbubbles-outline"></ion-icon>
                         </ion-button>
-                        <ion-button (click)="onOpenSendMessage()" class="orange-button">
+                        <!-- <ion-button (click)="onOpenSendMessage()" class="orange-button">
                             Feedback zu App senden
                             <ion-icon name="chatbubbles-outline"></ion-icon>
-                        </ion-button>
+                        </ion-button> -->
                     </ion-row>
                 </div>
             </ion-col>

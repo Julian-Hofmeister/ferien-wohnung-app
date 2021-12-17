@@ -1,0 +1,30 @@
+<div class="user-item">
+    <ion-row>
+        <ion-col>
+            <ion-row>
+                <ion-col>
+                    <p>{{ user.email }}</p>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="6">
+                    <div class="date-display">
+                        <p class="center">
+                            {{ user.arriveDate | date: "dd.MM" }} - {{ user.leaveDate | date: "dd.MM" }}
+                        </p>
+                    </div>
+                </ion-col>
+                <ion-col size="2.3"></ion-col>
+                <ion-col>
+                    <div class="room-display">
+                        <ion-row>
+                            <span class="material-icons-outlined"> bed </span>
+
+                            <p>{{ user.apartment }}</p>
+                        </ion-row>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+</div>

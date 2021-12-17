@@ -85,12 +85,75 @@ hr {
     text-align: center;
 }
 
+//----------------------------------------------
 .content-card {
-    background-color: white;
-    padding: 20px;
+    text-align: left;
     border-radius: 30px;
-    margin-top: -30px;
     z-index: 10;
+    padding: 20px;
+    margin-top: -30px;
+    margin-bottom: 1rem;
+    background-color: white;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    .date-display {
+        border: 3px solid #3BB99B;
+        border-radius: 5rem;
+        p {
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        .filled-display {
+            height: 100%;
+            margin: 0;
+            border-radius: 5rem;
+            background-color: #3BB99B;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            p {
+                top: 50%;
+                width: 100%;
+                margin: 0;
+                font-weight: 600;
+                text-align: center;
+                color: white;
+                position: absolute;
+                transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+            }
+        }
+    }
+    .admin-button {
+        width: 100%;
+        font-weight: 600;
+        letter-spacing: .5px;
+        --border-radius: 5rem;
+        --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+}
+
+//----------------------------------------------
+.admin-card {
+    margin-bottom: 2rem;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #eee;
+    .guest-list {
+        margin-top: .7rem;
+        margin-bottom: 5px;
+        .no-guests {
+            opacity: .6;
+        }
+        .guest-title {
+            margin: 0;
+            margin-left: 20px;
+            margin-top: 2.3rem;
+            margin-bottom: .8rem;
+            text-align: start;
+            font-weight: 600;
+        }
+    }
+    ion-list {
+        background: transparent;
+    }
 }
 
 //----------------------------------------------
@@ -107,24 +170,12 @@ hr {
 p {
     color: rgb(61, 61, 61);
     margin: 0.5rem 0;
-    strong {
-        color: #3BB99B;
-    }
 }
 
 .space {
     margin-top: 2rem;
 }
 
-// ion-button {
-//     height: 3rem;
-//     --background: var(--ion-color-accent) !important;
-//     --border-radius: 5rem;
-// }
-// ion-button>p {
-//     color: white;
-//     margin-left: 0.8rem;
-// }
 .action-field {
     background-color: rgb(255, 255, 255);
     border-radius: 15px;

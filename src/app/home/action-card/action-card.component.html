@@ -1,7 +1,26 @@
-<div class="action-card">
+<!-- <div class="action-card">
     <img [src]="image" alt="">
     <div class="centered">
         <h4>{{title}}</h4>
         <p>{{subTitle}}</p>
     </div>
+</div> -->
+
+<div class="before-arrival">
+    <ion-row>
+        <ion-col>
+            <img [src]="image" alt="" />
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <h2>{{ title }}</h2>
+            <p>{{ subtitle }}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="btn-col">
+            <ion-button> mehr Infos </ion-button>
+        </ion-col>
+    </ion-row>
 </div>

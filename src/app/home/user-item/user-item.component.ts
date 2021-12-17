@@ -1,26 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/authentication/user.model';
 
 @Component({
-  selector: 'app-action-card',
-  templateUrl: './action-card.component.html',
-  styleUrls: ['./action-card.component.scss'],
+  selector: 'app-user-item',
+  templateUrl: './user-item.component.html',
+  styleUrls: ['./user-item.component.scss'],
 })
-export class ActionCardComponent implements OnInit {
+export class UserItemComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Input() title: string;
+  @Input() user: User;
+  //#endregion
 
-  @Input() subtitle: string;
-
-  @Input() image: string;
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  //#endregion
-
-  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   //#endregion
 

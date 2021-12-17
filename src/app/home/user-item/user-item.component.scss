@@ -1,0 +1,40 @@
+.user-item {
+    padding: 5px;
+    margin: 20px;
+    margin-top: 0;
+    margin-bottom: 18px;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    p {
+        margin: 0px;
+        text-align: left;
+    }
+    p.center {
+        text-align: center;
+    }
+    .date-display {
+        margin: 0;
+        padding: .2rem;
+        margin-top: .9rem;
+        border-radius: 5rem;
+        background-color: #3BB99B;
+        p {
+            color: #fff;
+        }
+    }
+    .room-display {
+        padding: .2rem;
+        margin-top: .9rem;
+        border-radius: 5rem;
+        background-color: #eee;
+        ion-row {
+            justify-content: center;
+            p {
+                color: rgb(0, 0, 0);
+                font-weight: 600;
+                margin-left: 10px;
+            }
+        }
+    }
+}
