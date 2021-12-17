@@ -47,7 +47,7 @@
                             </ion-button>
                         </div>
                         <p class="warning-text" *ngIf="timeIsAvailable"></p>
-                        <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSetReservation()" [disabled]="!timeIsAvailable || !selectedTimestamp">Reservierung speichern
+                        <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSetReservation()" [disabled]="!timeIsAvailable || !selectedTimestamp && !timeIsDuringStay ">Reservierung speichern
                             <span class="material-icons-outlined"> save </span>
                         </ion-button>
                         <p class="space">space</p>

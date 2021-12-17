@@ -96,7 +96,7 @@ hr {
     background-color: white;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     .date-display {
-        border: 3px solid #3BB99B;
+        border: 2px solid #3BB99B;
         border-radius: 5rem;
         p {
             font-weight: 500;
@@ -105,7 +105,8 @@ hr {
         .filled-display {
             height: 100%;
             margin: 0;
-            border-radius: 5rem;
+            border-radius: 2rem;
+            border: 3px solid #3BB99B;
             background-color: #3BB99B;
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
             p {

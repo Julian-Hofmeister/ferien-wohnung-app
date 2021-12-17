@@ -131,10 +131,12 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
 
     // ### CHECK IF RESERVATION IS DURING THE STAY
     if (
-      this.selectedTimestamp > this.user.leaveDate ||
-      this.selectedTimestamp < this.user.arriveDate
+      this.selectedTimestamp > this.user.leaveDate + 86400000 ||
+      this.selectedTimestamp < this.user.arriveDate - 86400000
     ) {
       this.timeIsDuringStay = false;
+    } else {
+      this.timeIsDuringStay = true;
     }
 
     // ### CHECK IF RESERVATION IS NOT RESERVED BEFORE
@@ -143,6 +145,8 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
         this.timeIsAvailable = false;
       }
     }
+
+    console.log(this.timeIsDuringStay);
   }
 
   // ----------------------------------------------------------------------------------------------
