@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
 import { Reservation } from '../reservation-modal/reservation.model';
 import { ReservationService } from '../reservation-modal/reservation.service';
+import { BookingItem } from './booking-item.model';
 
 @Component({
   selector: 'app-sauna-reservation',
@@ -19,23 +20,27 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  minuteValues: string[] = ['0'];
-  hourValues: string[] = ['10', '12', '14', '16', '18', '20', '22'];
+  bookingDuration = 120 * 60000;
+  startTime = 10 * 3600000;
+  endTime = 20 * 3600000;
 
-  selectedDateTime: any;
+  currentTime = Date.now();
+
+  bookingItems: Reservation[] = [];
+
+  selectedDateTime = Date.now();
   selectedTimestamp: number;
+  selectedItem: BookingItem;
 
-  currentDateTime = Date.now();
-
-  fetchedUserReservation: Reservation;
   loadedReservationList: Reservation[];
+  userReservation: Reservation = null;
 
-  timeIsAvailable = true;
-  timeIsOutdated = false;
   timeIsDuringStay = true;
 
   isLoading = false;
   isLoggedIn = true;
+
+  onlyFreeWindows = false;
 
   user: User = {
     id: localStorage.getItem('user-id'),
@@ -59,7 +64,6 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
 
   constructor(
     public afs: AngularFirestore,
-    private modalCtrl: ModalController,
     private router: Router,
     private reservationService: ReservationService,
     private navCtrl: NavController
@@ -70,8 +74,11 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.checkUserAuthorization();
+    // this.checkUserAuthorization();
+
     this.fetchReservations();
+
+    this.selectedDateTime = this.roundTimeToDate(this.selectedDateTime);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -93,74 +100,64 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   onClose() {
-    // this.modalCtrl.dismiss();
     this.navCtrl.back();
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onSetReservation() {
-    this.onCheckFreeReservation();
+  onNextDay() {
+    this.selectedDateTime = this.selectedDateTime + 86400000;
 
-    if (this.timeIsAvailable) {
-      this.path.doc(this.selectedTimestamp.toString()).set({
-        timestamp: this.selectedTimestamp,
-        user: this.user.email,
-      });
+    this.createTimeWindows();
+  }
 
-      console.log('TIME IS NOW RESERVED..');
+  // ----------------------------------------------------------------------------------------------
 
-      // this.onClose();
+  onPreviousDay() {
+    this.selectedDateTime = this.selectedDateTime - 86400000;
+
+    this.createTimeWindows();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onShowOnlyFreeWindows() {
+    this.createTimeWindows();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onSelectItem(item: BookingItem) {
+    this.timeIsDuringStay = true;
+
+    if (item !== this.selectedItem || !item.isFree || item.isOutdated) {
+      this.checkIfReservationDuringStay(item);
+      this.selectedItem = item;
+    } else {
+      this.selectedItem = null;
     }
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onCheckFreeReservation() {
-    const date = new Date(this.selectedDateTime);
-    this.selectedTimestamp = Math.round(date.getTime() / 1000000) * 1000000;
-
-    this.timeIsAvailable = true;
-    this.timeIsOutdated = false;
-
-    // ### CHECK IF RESERVATION IS IN THE PAST
-    if (this.selectedTimestamp < this.currentDateTime) {
-      this.timeIsAvailable = false;
-      this.timeIsOutdated = true;
+  onSetReservation() {
+    if (!this.userReservation) {
+      this.path.doc(this.selectedItem.time.toString()).set({
+        time: this.selectedItem.time,
+        duration: this.selectedItem.duration,
+        email: this.user.email,
+        date: new Date(this.selectedItem.time),
+      });
     }
-
-    // ### CHECK IF RESERVATION IS DURING THE STAY
-    if (
-      this.selectedTimestamp > this.user.leaveDate + 86400000 ||
-      this.selectedTimestamp < this.user.arriveDate - 86400000
-    ) {
-      this.timeIsDuringStay = false;
-    } else {
-      this.timeIsDuringStay = true;
-    }
-
-    // ### CHECK IF RESERVATION IS NOT RESERVED BEFORE
-    for (const reservation of this.loadedReservationList) {
-      if (reservation.id === this.selectedTimestamp.toString()) {
-        this.timeIsAvailable = false;
-      }
-    }
-
-    console.log(this.timeIsDuringStay);
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   // ----------------------------------------------------------------------------------------------
 
   onDeleteReservation(reservation: Reservation) {
     this.reservationService.deleteReservation(reservation.id);
-    this.fetchedUserReservation = null;
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  toAuthentication() {
-    this.onClose();
-    this.router.navigate(['authentication']);
+    this.userReservation = null;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -179,46 +176,123 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
         for (const loadedReservation of reservations) {
           const fetchedReservation: Reservation = {
             id: loadedReservation.id,
-            timestamp: loadedReservation.timestamp,
+            time: loadedReservation.time,
+            duration: loadedReservation.duration,
+            isFree: false,
             user: loadedReservation.user,
+            isReservedByUser:
+              loadedReservation.email === this.user.email ? true : false,
+            isSelected: false,
           };
 
           this.deleteOutdatedReservations(fetchedReservation);
 
           this.loadedReservationList.push(fetchedReservation);
 
-          this.checkIfUserHasReservation();
+          // this.checkIfUserHasReservation();
+
+          if (fetchedReservation.isReservedByUser) {
+            this.userReservation = fetchedReservation;
+            console.log(this.userReservation);
+          }
         }
+
         this.isLoading = false;
-        console.log(this.loadedReservationList);
+
+        this.createTimeWindows();
       });
   }
 
   // ----------------------------------------------------------------------------------------------
 
   private deleteOutdatedReservations(reservation: Reservation) {
-    if (Number(reservation.timestamp) < this.currentDateTime) {
+    if (Number(reservation.time) < Date.now()) {
       this.reservationService.deleteReservation(reservation.id);
     }
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  private checkIfUserHasReservation() {
-    this.fetchedUserReservation = null;
+  // private checkIfUserHasReservation() {
+  //   this.userReservation = null;
 
-    for (const reservation of this.loadedReservationList) {
-      if (reservation.user === this.user.email) {
-        this.fetchedUserReservation = reservation;
-      }
+  //   for (const reservation of this.loadedReservationList) {
+  //     if (reservation.user === this.user.email) {
+  //       this.userReservation = reservation;
+
+  //       console.log(this.userReservation);
+  //     }
+  //   }
+  // }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private checkIfReservationDuringStay(item: BookingItem) {
+    if (item.time < this.user.arriveDate || item.time > this.user.leaveDate) {
+      this.timeIsDuringStay = false;
     }
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  private checkUserAuthorization() {
-    if (!this.user.email || !this.user.id) {
-      this.isLoggedIn = false;
+  private roundTimeToDate(timestamp: number): number {
+    const d = new Date(timestamp);
+    d.setHours(0, 0, 0, 0);
+
+    timestamp = d.getTime();
+
+    return timestamp;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private createTimeWindows() {
+    const dayInMs = 86400000;
+
+    this.bookingItems = [];
+
+    // ### CREATE TIME WINDOWS ###
+    for (
+      let timeSlot = 0;
+      timeSlot < dayInMs / this.bookingDuration;
+      timeSlot++
+    ) {
+      const timeWindow =
+        this.selectedDateTime + this.bookingDuration * timeSlot;
+
+      // ### CHECK IF TIME WINDOW IS DURING OPENING HOURS ###
+      if (
+        this.bookingDuration * timeSlot >= this.startTime &&
+        this.bookingDuration * timeSlot < this.endTime
+      ) {
+        // ### BOOKING ITEM ###
+        let bookingItem: Reservation = {
+          time: timeWindow,
+          duration: this.bookingDuration,
+          isFree: true,
+          isSelected: false,
+        };
+
+        // ### CHECK IF TIME SLOT IS RESERVED ###
+        this.loadedReservationList.forEach((reservation) => {
+          if (reservation.time === timeWindow) {
+            bookingItem = reservation;
+          }
+        });
+
+        // ### CHECK IF TIME SLOT IS OUTDATED ###
+        if (bookingItem.time < this.currentTime) {
+          bookingItem.isOutdated = true;
+        }
+
+        // ### PUSH ITEM IN LIST ###
+        if (
+          !this.onlyFreeWindows ||
+          (bookingItem.isFree && !bookingItem.isOutdated)
+        ) {
+          this.bookingItems.push(bookingItem);
+        }
+      }
     }
   }
 

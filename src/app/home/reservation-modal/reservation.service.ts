@@ -13,7 +13,7 @@ export class ReservationService {
   reservationList: Observable<any[]>;
 
   path = this.afs.collection('sauna-reservations', (ref) =>
-    ref.orderBy('timestamp')
+    ref.orderBy('time')
   );
 
   //#endregion

@@ -1,9 +1,7 @@
-export interface Reservation {
-  id?: string;
+export interface BookingItem {
   time?: number;
   duration?: number;
   isFree?: boolean;
-  user?: string;
   isReservedByUser?: boolean;
   isOutdated?: boolean;
   isSelected?: boolean;

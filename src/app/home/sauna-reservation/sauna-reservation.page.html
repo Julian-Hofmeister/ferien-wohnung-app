@@ -19,57 +19,130 @@
         </ion-row>
         <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
-                <div class="content-card">
-                    <div *ngIf="!isLoading && isLoggedIn && !fetchedUserReservation">
-                        <ion-button expand="block" fill="outline">
-                            <ion-datetime #datePicker [(ngModel)]="selectedDateTime" displayFormat="MMM DD / HH:mm" [minuteValues]="minuteValues" [hourValues]="hourValues" placeholder="Datum wählen" (ionChange)="onCheckFreeReservation()"></ion-datetime>
-                            <span class="material-icons-outlined" (click)="datePicker.open()">
-                date_range
-              </span>
-                        </ion-button>
-                        <hr />
-                        <p class="warning-text" *ngIf="!timeIsAvailable && !timeIsOutdated && timeIsDuringStay">
+                <!-- <div class="reservation-card">
+                    <p>Sie haben die Sauna für den um reserviert.</p>
+                </div> -->
+                <!-- <div *ngIf="userReservation.time && !isLoading && !fetchedUserReservation" class="reservation-card">
+                    <p>
+                      Sie haben die Sauna für den {{ userReservation.time | date: "dd.MM.yy"}} um {{userReservation.time | date: "HH:mm" }} reserviert.
+                    </p>
+                  </div> -->
+                <div *ngIf="!isLoading && !fetchedUserReservation" class="content-card" [class.reserved-content-card]="userReservation">
+                    <p *ngIf="userReservation">
+                        Sie haben die Sauna für den
+                        <strong> {{ userReservation.time | date: "dd.MM.yy"}} </strong> um
+                        <strong> {{userReservation.time | date: "HH:mm" }} </strong> reserviert.
+                    </p>
+                </div>
+                <div *ngIf="!isLoading && !fetchedUserReservation" class="content-column">
+                    <p *ngIf="userReservation" class="hint">
+                        Wenn Sie die Reservierung ändern möchten löschen Sie zuerst ihren bestehenden Termin
+                    </p>
+                    <br />
+                    <div class="date-display">
+                        <ion-row>
+                            <ion-col size="6">
+                                <p>Datum wählen:</p>
+                            </ion-col>
+                            <ion-col>
+                                <div class="filled-display">
+                                    <ion-row>
+                                        <span class="material-icons" (click)="onPreviousDay()">
+                      chevron_left
+                    </span>
+                                        <p *ngIf="selectedDateTime">
+                                            {{ selectedDateTime | date: "dd.MM" }}
+                                        </p>
+                                        <span class="material-icons" (click)="onNextDay()">
+                      chevron_right
+                    </span>
+                                    </ion-row>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                    <!-- <hr /> -->
+
+                    <br />
+                    <br />
+
+                    <div class="time-select-area">
+                        <ion-row class="center-row">
+                            <ion-col>
+                                <h4>Sauna Zeiten:</h4>
+                            </ion-col>
+                            <ion-col size="8">
+                                <ion-row class="center-row align-right">
+                                    <p class="hint">Nur Freie Zeiten</p>
+                                    <ion-checkbox [(ngModel)]="onlyFreeWindows" (ionChange)="onShowOnlyFreeWindows()"></ion-checkbox>
+                                </ion-row>
+                            </ion-col>
+                        </ion-row>
+                        <br />
+                        <ion-row>
+                            <ion-col *ngIf="bookingItems">
+                                <ion-list *ngFor="let bookingItem of bookingItems">
+                                    <div class="time-item" (click)="onSelectItem(bookingItem)" [class.isSelected]="selectedItem === bookingItem" [class.isOutdated]="bookingItem.isOutdated">
+                                        <ion-row class="space-between-row center-row">
+                                            <ion-col size="3">
+                                                <p class="time">
+                                                    {{ bookingItem.time | date: "HH:mm" }}
+                                                </p>
+                                            </ion-col>
+                                            <ion-col size="6">
+                                                <p class="hint">
+                                                    {{bookingItem.isFree ? "Verfügbar" : "Reserviert"}}
+                                                </p>
+                                            </ion-col>
+                                            <ion-col size="3" class="align-right">
+                                                <span class="material-icons" *ngIf="bookingItem.isFree && !bookingItem.isOutdated">
+                          add_circle_outline
+                        </span>
+                                                <span class="material-icons isReserved" *ngIf="!bookingItem.isFree || bookingItem.isOutdated">
+                          highlight_off
+                        </span>
+                                            </ion-col>
+                                        </ion-row>
+                                    </div>
+                                </ion-list>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                    <!-- <p class="warning-text" *ngIf="!timeIsAvailable && !timeIsOutdated && timeIsDuringStay">
                             Diese Zeit ist nicht verfügbar.
                         </p>
                         <p class="warning-text" *ngIf="!timeIsAvailable && timeIsOutdated && timeIsDuringStay">
                             Diese Zeit liegt in der vergangenheit.
-                        </p>
-                        <p class="warning-text" *ngIf="!timeIsDuringStay">
-                            Die Reservierung liegt außerhalb ihres Aufenthaltes.
-                        </p>
-                        <div class="container" *ngIf="!isLoggedIn">
-                            <p>
-                                Sie sind nicht angemeldet oder Ihre Zugangsdaten sind Abgelaufen.
-                            </p>
-                            <br />
-                            <ion-button (click)="toAuthentication()" fill="outline">
-                                Anmelden
-                            </ion-button>
-                        </div>
-                        <p class="warning-text" *ngIf="timeIsAvailable"></p>
-                        <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSetReservation()" [disabled]="!timeIsAvailable || !selectedTimestamp && !timeIsDuringStay ">Reservierung speichern
-                            <span class="material-icons-outlined"> save </span>
-                        </ion-button>
-                        <p class="space">space</p>
-                    </div>
-                    <div *ngIf="!isLoading && isLoggedIn && fetchedUserReservation">
-                        <h4>Sauna reserviert für:</h4>
-                        <ion-button expand="block" fill="outline" disabled>
-                            <ion-datetime #datePicker [(ngModel)]="fetchedUserReservation.timestamp" displayFormat="MMM DD / HH:mm" [minuteValues]="minuteValues" [hourValues]="hourValues" [placeholder]="fetchedUserReservation.timestamp | date: ' MMMM dd / HH:00 '" (ionChange)="onCheckFreeReservation()"></ion-datetime>
-                            <span class="material-icons-outlined"> date_range </span>
-                        </ion-button>
-                        <hr />
-                        <p id="info-text">
-                            Reservierung löschen <br /> und neue Zeit festlegen
-                        </p>
-                        <br />
-                        <ion-button id="smaller" expand="block" fill="outline" (click)="onDeleteReservation(fetchedUserReservation)">
-                            Reservierung löschen
-                            <span class="material-icons-outlined"> delete_outline </span>
-                        </ion-button>
-                        <p class="space">space</p>
-                    </div>
+                        </p> -->
+                    <p class="warning-text" *ngIf="!timeIsDuringStay">
+                        Die Reservierung liegt außerhalb ihres Aufenthaltes.
+                    </p>
+
+                    <ion-button *ngIf="!userReservation" class="filled-btn" expand="block" id="send-btn" (click)="onSetReservation()" [disabled]="!selectedItem || !timeIsDuringStay || userReservation">Reservierung speichern
+                        <span class="material-icons-outlined"> save </span>
+                    </ion-button>
+
+                    <ion-button *ngIf="userReservation" class="outlined-btn" expand="block" fill="outline" (click)="onDeleteReservation(userReservation)">
+                        Reservierung löschen
+                        <span class="material-icons-outlined"> delete_outline </span>
+                    </ion-button>
+                    <!-- <p class="space">space</p> -->
+                    <br />
                 </div>
+                <!-- <div *ngIf="!isLoading && isLoggedIn && fetchedUserReservation">
+                    <h4>Sauna reserviert für:</h4>
+                    <ion-button expand="block" fill="outline" disabled>
+                        <ion-datetime #datePicker [(ngModel)]="fetchedUserReservation.timestamp" displayFormat="MMM DD / HH:mm" [minuteValues]="minuteValues" [hourValues]="hourValues" [placeholder]="fetchedUserReservation.timestamp | date: ' MMMM dd / HH:00 '" (ionChange)="onCheckFreeReservation()"></ion-datetime>
+                        <span class="material-icons-outlined"> date_range </span>
+                    </ion-button>
+                    <hr />
+                    <p id="info-text">
+                        Reservierung löschen <br /> und neue Zeit festlegen
+                    </p>
+                    <br />
+
+                    <p class="space">space</p>
+                </div> -->
             </ion-col>
         </ion-row>
     </ion-grid>

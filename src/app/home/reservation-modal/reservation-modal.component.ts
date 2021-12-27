@@ -172,7 +172,7 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
         for (const loadedReservation of reservations) {
           const fetchedReservation: Reservation = {
             id: loadedReservation.id,
-            timestamp: loadedReservation.timestamp,
+            time: loadedReservation.time,
             user: loadedReservation.user,
           };
 
@@ -190,7 +190,7 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   private deleteOutdatedReservations(reservation: Reservation) {
-    if (Number(reservation.timestamp) < this.currentDateTime) {
+    if (Number(reservation.time) < this.currentDateTime) {
       this.reservationService.deleteReservation(reservation.id);
     }
   }

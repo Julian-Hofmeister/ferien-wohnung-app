@@ -2,11 +2,11 @@
         margin: 0;
         padding: 0;
     }
-    
+
     ion-content {
         --background: rgb(255, 255, 255);
     }
-    
+
     .background-img {
         height: 20rem;
         width: 100%;
@@ -14,7 +14,7 @@
         // margin: -15px;
         filter: brightness(60%) blur(2px);
     }
-    
+
     .container {
         position: relative;
         text-align: start;
@@ -38,15 +38,10 @@
             margin-bottom: 1rem;
         }
     }
-    
-    .content-card {
-        background-color: white;
-        padding: 20px;
-        border-radius: 30px;
-        margin-top: -30px;
-        margin-bottom: 3rem;
-        z-index: 10;
-        height: 3rem;
+
+    .content-column {
+        margin-left: 20px;
+        margin-right: 20px;
         ion-button {
             --border-radius: 5rem;
             --border-width: 2px;
@@ -71,19 +66,31 @@
             margin-left: 15px;
             font-size: 1.3rem;
         }
-        .send-btn {
+        .filled-btn {
             margin-top: 2rem;
             margin-bottom: 2rem;
-            margin-left: 5%;
-            width: 90%;
+            width: 100%;
+            height: 3rem;
+            --box-shadow: none !important;
             --background: #3BB99B;
             --color: white;
+        }
+        .outlined-btn {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            height: 3rem;
+            --box-shadow: none !important;
         }
         p {
             text-align: center;
             margin-top: 2rem;
             margin-bottom: 0rem;
             color: rgb(145, 145, 145);
+        }
+        p.hint {
+            font-size: .9rem;
+            text-align: center;
         }
         .space {
             margin-top: 1rem;
@@ -97,5 +104,123 @@
         #smaller {
             margin: 0 30px;
             margin-bottom: 2rem;
+        }
+        .date-display {
+            border: 3px solid #3BB99B;
+            border-radius: 5rem;
+            p {
+                font-weight: 500;
+                margin-left: 10px;
+                margin: .5rem;
+            }
+            .filled-display {
+                height: 100%;
+                margin: 0;
+                border-radius: 2rem;
+                border: 3px solid #3BB99B;
+                background-color: #3BB99B;
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                ion-row {
+                    justify-content: space-evenly;
+                    height: 100%;
+                    align-items: center;
+                    p {
+                        margin: 0;
+                        font-weight: 600;
+                        text-align: center;
+                        color: white;
+                    }
+                    span {
+                        margin: 0;
+                        font-weight: 600;
+                        text-align: center;
+                        color: white;
+                        font-size: 2rem;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+        .time-select-area {
+            h4 {
+                font-size: 1rem;
+                font-weight: 500;
+                text-align: start;
+                margin: 0;
+            }
+            p {
+                margin: 0;
+            }
+            p.hint {
+                text-align: left;
+                margin-right: 10px;
+            }
+            .center-row {
+                align-items: center;
+            }
+            .space-evenly-row {
+                justify-content: space-evenly;
+            }
+            .align-right {
+                justify-content: right;
+                text-align: right;
+            }
+            .time-item {
+                padding-top: 10px;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid rgb(230, 230, 230);
+                .space-between-row {
+                    justify-content: space-between;
+                    ion-col {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    p.time {
+                        font-weight: 600;
+                        color: rgb(44, 44, 44);
+                        margin-right: 15px;
+                        text-align: left;
+                    }
+                    span {
+                        font-size: 1.5rem;
+                        color: #3BB99B;
+                    }
+                    .isReserved {
+                        color: #585858;
+                    }
+                }
+            }
+            .isSelected {
+                background-color: #3bb99b23;
+            }
+            .isOutdated {
+                opacity: .6;
+            }
+        }
+    }
+
+    .content-card {
+        padding: 30px;
+        border-radius: 30px;
+        margin-top: -30px;
+        margin-bottom: -3.8rem;
+        background-color: rgb(255, 255, 255);
+    }
+
+    .reserved-content-card {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: 30px;
+        margin-bottom: 2rem;
+        p {
+            color: black;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center
+        }
+        strong {
+            color: #3BB99B;
+            font-weight: 700;
         }
     }
