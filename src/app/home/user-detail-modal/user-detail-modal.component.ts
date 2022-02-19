@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { User } from '../authentication/user.model';
+import { ModalController } from '@ionic/angular';
+import { User } from 'src/app/authentication/user.model';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.page.html',
-  styleUrls: ['./admin.page.scss'],
+  selector: 'app-user-detail-modal',
+  templateUrl: './user-detail-modal.component.html',
+  styleUrls: ['./user-detail-modal.component.scss'],
 })
-export class AdminPage {
+export class UserDetailModalComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  @Input() user: User;
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  email: string;
-  apartment: string;
-  newUserId: string;
-
   arriveDate: any;
   leaveDate: any;
+  apartment: string;
+
+  isDisabled = true;
 
   //#endregion
 
@@ -34,14 +34,19 @@ export class AdminPage {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    private afs: AngularFirestore,
-    private navCtrl: NavController,
-    private router: Router
+    private modalCtrl: ModalController,
+    private afs: AngularFirestore
   ) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
+  ngOnInit() {
+    this.arriveDate = new Date(this.user.arriveDate).toISOString();
+    this.leaveDate = new Date(this.user.leaveDate).toISOString();
+    this.apartment = this.user.apartment;
+  }
 
   //#endregion
 
@@ -55,61 +60,39 @@ export class AdminPage {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onChangeEmail() {
-    console.log(this.email);
+  onDidChange() {
+    this.isDisabled = false;
+  }
+
+  onClose() {
+    this.modalCtrl.dismiss();
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onChangeApartment() {
-    console.log(this.apartment);
+  onDeleteUser() {
+    this.path.doc(this.user.id).delete();
+
+    this.onClose();
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onBack() {
-    this.navCtrl.back();
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onOpenDetailEditor() {
-    this.router.navigate(['admin/detail-editor']);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onCreateUser() {
-    this.newUserId = Math.floor(100000 + Math.random() * 900000).toString();
-
+  onSaveChanges() {
     const arriveTimestamp =
       Math.round(new Date(this.arriveDate).getTime() / 10000000) * 10000000;
 
     const leaveTimestamp =
       Math.round(new Date(this.leaveDate).getTime() / 10000000) * 10000000;
 
-    const user: User = {
-      email: this.email,
-      id: this.newUserId,
+    this.path.doc(this.user.id).update({
       arriveDate: arriveTimestamp,
       leaveDate: leaveTimestamp,
-      apartment: this.apartment,
-    };
-
-    this.path.doc(user.id).set({
-      email: user.email,
-      arriveDate: arriveTimestamp,
-      leaveDate: leaveTimestamp,
-      room: user.apartment,
+      room: this.apartment,
     });
 
-    this.email = null;
-    this.apartment = null;
-
-    this.onBack();
+    this.onClose();
   }
-
-  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 

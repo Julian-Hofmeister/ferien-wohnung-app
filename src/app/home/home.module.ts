@@ -11,6 +11,7 @@ import { ActionCardComponent } from './action-card/action-card.component';
 import { ReservationModalComponent } from './reservation-modal/reservation-modal.component';
 import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
 import { UserItemComponent } from './user-item/user-item.component';
+import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
@@ -20,6 +21,7 @@ import { UserItemComponent } from './user-item/user-item.component';
     ReservationModalComponent,
     FeedbackModalComponent,
     UserItemComponent,
+    UserDetailModalComponent,
   ],
 })
 export class HomePageModule {}

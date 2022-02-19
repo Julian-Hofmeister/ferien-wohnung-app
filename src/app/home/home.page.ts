@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { AuthService } from '../authentication/auth.service';
 import { User } from '../authentication/user.model';
 import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
+import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomePage implements OnInit {
 
   isAdmin = false;
 
-  loadedUsers: User[];
+  loadedUsers: User[] = [];
   isLoading = false;
 
   currentDate = Date.now();
@@ -109,6 +110,20 @@ export class HomePage implements OnInit {
   onOpenApartmentDetail() {
     console.log('open Information detail');
     this.router.navigate(['/apartment-detail']);
+  }
+
+  onOpenUserDetailModal(user: User) {
+    this.modalCtrl
+      .create({
+        component: UserDetailModalComponent,
+        cssClass: 'user-detail-modal-css',
+        componentProps: {
+          user,
+        },
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
   }
 
   // ----------------------------------------------------------------------------------------------

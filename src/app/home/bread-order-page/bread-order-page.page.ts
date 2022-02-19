@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ModalController, NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { BreadOrderService } from './bread-order-page.service';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 @Component({
@@ -21,11 +23,19 @@ export class BreadOrderPagePage implements OnInit {
 
   email = localStorage.getItem('user-email');
 
+  bakerEmail = '';
+
+  savedBakerEmail = '';
+
   room = localStorage.getItem('user-apartment');
+
+  isLoading = false;
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  private breadOrderSub: Subscription;
 
   //#endregion
 
@@ -34,14 +44,17 @@ export class BreadOrderPagePage implements OnInit {
   constructor(
     public afs: AngularFirestore,
     private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private breadOrderService: BreadOrderService
   ) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchBakerEmail();
+  }
 
   //#endregion
 
@@ -63,6 +76,7 @@ export class BreadOrderPagePage implements OnInit {
 
   onOrderBread() {
     this.afs.collection('breakfast-orders').add({
+      senderEmail: this.bakerEmail,
       email: this.email,
       room: this.room,
       order: this.message,
@@ -90,9 +104,36 @@ export class BreadOrderPagePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
+  onChangeBakerEmail() {
+    this.afs.collection('data').doc('baker-email').set({
+      bakerEmail: this.bakerEmail,
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private fetchBakerEmail(): void {
+    this.isLoading = true;
+    this.breadOrderSub = this.breadOrderService
+      .getBakerEmail()
+      .subscribe((data) => {
+        for (const loadedData of data) {
+          this.bakerEmail = loadedData.bakerEmail;
+          this.savedBakerEmail = loadedData.bakerEmail;
+          console.log(loadedData);
+        }
+
+        this.isLoading = false;
+      });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------------------------------
 
   // ----------------------------------------------------------------------------------------------
 

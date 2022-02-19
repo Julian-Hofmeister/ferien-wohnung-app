@@ -39,6 +39,7 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
 
   isLoading = false;
   isLoggedIn = true;
+  isAdmin = false;
 
   onlyFreeWindows = false;
 

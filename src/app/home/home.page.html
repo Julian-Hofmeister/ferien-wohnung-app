@@ -71,13 +71,13 @@
                         Gast hinzufügen
                     </ion-button>
                 </div>
-                <div *ngIf="!loadedUsers && !isLoading" class="guest-list">
+                <div *ngIf="!loadedUsers.length && !isLoading" class="guest-list">
                     <p class="no-guests">momentan keine aktiven Gäste</p>
                 </div>
-                <div *ngIf="loadedUsers  && !isLoading" class="guest-list">
+                <div *ngIf="loadedUsers.length && !isLoading " class="guest-list">
                     <p class="guest-title">Aktive/Zukünftige Gäste</p>
                     <ion-list *ngFor="let user of loadedUsers">
-                        <app-user-item [user]="user"></app-user-item>
+                        <app-user-item [user]="user" (click)="onOpenUserDetailModal(user)"></app-user-item>
                     </ion-list>
                 </div>
             </ion-col>

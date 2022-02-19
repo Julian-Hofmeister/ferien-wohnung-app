@@ -46,7 +46,7 @@ export const newBreakfastOrder = functions.firestore
 
     // Email
     const msg = {
-      to: 'info@oberstdorf-ohrwumslar.de',
+      to: [order.senderEmail, 'info@oberstdorf-ohrwumslar.de'],
       from: order.email,
       templateId: 'd-c42980c050c34195abd26bf28dab1753',
       // eslint-disable-next-line @typescript-eslint/naming-convention

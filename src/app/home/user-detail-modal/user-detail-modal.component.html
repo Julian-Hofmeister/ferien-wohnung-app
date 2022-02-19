@@ -1,0 +1,73 @@
+<ion-content>
+    <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="onClose()">
+        <ion-icon name="close-outline" id="close-icon"></ion-icon>
+    </ion-fab>
+
+    <div class="container">
+        <ion-row>
+            <ion-col>
+                <h3>E-mail</h3>
+                <p class="mail">{{ user.email }}</p>
+                <hr />
+                <h3>Reisedaten</h3>
+                <ion-row class="info-line">
+                    <ion-col size="6">
+                        <p class="tag">Ankunft:</p>
+                    </ion-col>
+                    <ion-col size="4.5">
+                        <div class="date-display">
+                            <ion-row>
+                                <ion-datetime #arrivePicker [(ngModel)]="arriveDate" displayFormat="DD.MM.YY" (ionChange)="onDidChange()"></ion-datetime>
+                            </ion-row>
+                        </div>
+                    </ion-col>
+                    <ion-col size="1.5">
+                        <span class="material-icons"> edit </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="info-line">
+                    <ion-col size="6">
+                        <p class="tag">Abreise:</p>
+                    </ion-col>
+                    <ion-col size="4.5">
+                        <div class="date-display">
+                            <ion-row>
+                                <ion-datetime #leavePicker [(ngModel)]="leaveDate" displayFormat="DD.MM.YY" (ionChange)="onDidChange()"></ion-datetime>
+                            </ion-row>
+                        </div>
+                    </ion-col>
+                    <ion-col size="1.5">
+                        <span class="material-icons"> edit </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="info-line">
+                    <ion-col size="6">
+                        <p class="tag">Zimmer:</p>
+                    </ion-col>
+                    <ion-col size="4.5">
+                        <div class="date-display">
+                            <ion-row>
+                                <ion-select [(ngModel)]="apartment" value="apartment" interface="action-sheet" (ionChange)="onDidChange()">
+                                    <ion-select-option value="251">251</ion-select-option>
+                                    <ion-select-option value="252">252</ion-select-option>
+                                    <ion-select-option value="253">253</ion-select-option>
+                                    <ion-select-option value="403">403</ion-select-option>
+                                </ion-select>
+                            </ion-row>
+                        </div>
+                    </ion-col>
+                    <ion-col size="1.5">
+                        <span class="material-icons"> edit </span>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+        <div class="space"></div>
+        <ion-button (click)="onDeleteUser()" class="alarm">
+            Account Löschen
+        </ion-button>
+        <ion-button (click)="onSaveChanges()" disabled="{{ isDisabled }}">
+            Änderungen Speichern
+        </ion-button>
+    </div>
+</ion-content>

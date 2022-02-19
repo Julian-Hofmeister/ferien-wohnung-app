@@ -7,14 +7,14 @@ import { InfoDetailItem } from 'src/app/information-detail/information-detail.mo
 @Injectable({
   providedIn: 'root',
 })
-export class ApartmentDetailService {
+export class BreadOrderService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  infoDetailItems: Observable<any[]>;
+  data: Observable<any[]>;
 
   dateNow = Date.now();
 
-  path = this.afs.collection('breakfast-orders');
+  path = this.afs.collection('data');
 
   //#endregion
 
@@ -26,8 +26,8 @@ export class ApartmentDetailService {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  getOrders() {
-    this.infoDetailItems = this.path.snapshotChanges().pipe(
+  getBakerEmail() {
+    this.data = this.path.snapshotChanges().pipe(
       map(
         (changes) =>
           changes.map((item) => {
@@ -38,7 +38,7 @@ export class ApartmentDetailService {
         shareReplay(1)
       )
     );
-    return this.infoDetailItems;
+    return this.data;
   }
 
   // ----------------------------------------------------------------------------------------------

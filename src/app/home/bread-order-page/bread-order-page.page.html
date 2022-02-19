@@ -1,36 +1,3 @@
-<!-- <ion-content>
-    <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="onBack()">
-        <ion-icon name="close-outline"></ion-icon>
-    </ion-fab>
-    <div class="container">
-        <ion-row>
-            <h2>Brötchen Service</h2>
-            <p id="subtitle">
-                Schreiben Sie uns einfach am Vortag eine Liste mit Brötchen, wir bringen Sie am nächsten Morgen vorbei!
-            </p>
-
-            <div class="date-display">
-                <ion-row class="ion-justify-content-evenly">
-                    <p>Bestellung für den</p>
-                    <p>{{ nextDay | date: "dd.MM.y" }}</p>
-                </ion-row>
-            </div>
-            <ion-textarea placeholder="2x Vollkorn Semmel, ..." rows="12" autofocus="true" (ionChange)="onChangeMessage($event)"></ion-textarea>
-
-            <ion-row class="ion-justify-content-center">
-                <ion-button id="send-btn" (click)="onOrderBread()" [disabled]="email === 'admin'">
-                    <ion-icon name="paper-plane"></ion-icon>
-                    <p>Senden</p>
-                </ion-button>
-            </ion-row>
-            <p *ngIf="email === 'admin'" id="subtitle">
-                Sie sind als Administrator eingeloggt.<br /> Sie können dieses Feature nicht nutzen.
-            </p>
-            <div class="space"></div>
-        </ion-row>
-    </div>
-</ion-content> -->
-
 <ion-content>
     <ion-grid>
         <ion-row>
@@ -52,7 +19,7 @@
         </ion-row>
         <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
-                <div class="content-card">
+                <div *ngIf="email !== 'admin'" class="content-card">
                     <ion-button expand="block" fill="outline">Bestellung für den: {{ nextDay | date: "dd.MM.y" }}
                         <span class="material-icons-outlined"> shopping_basket </span>
                     </ion-button>
@@ -63,10 +30,20 @@
                     <p *ngIf="email === 'admin'" id="subtitle">
                         Sie sind als Administrator eingeloggt.<br /> Sie können dieses Feature nicht nutzen.
                     </p>
-                    <ion-button class="send-btn" expand="block" id="send-btn" (click)="onOrderBread()" [disabled]="email === 'admin' || !message">Bestellung abschicken
-                        <span class="material-icons-outlined"> send </span>
+                    <ion-button class="send-btn filled-btn" expand="block" id="send-btn" (click)="onOrderBread()" [disabled]="email === 'admin' || !message">Bestellung abschicken
+                        <span class="material-icons"> send </span>
                     </ion-button>
                     <p class="space">space</p>
+                </div>
+                <div *ngIf="email === 'admin'" class="content-card">
+                    <div class="input-field">
+                        <p>Bäcker E-mail:</p>
+                        <ion-input [(ngModel)]="bakerEmail" type="email"></ion-input>
+                    </div>
+                    <p id="subtitle">
+                        Sie sind als Administrator eingeloggt.<br /> Hier können Sie die E-mail Adresse ihres Bäckers oder Beauftragten bearbeiten. Alle Anfragen werden an Sie und diese E-mail geschickt.
+                    </p>
+                    <ion-button class="send-btn" (click)="onChangeBakerEmail()" disabled="{{bakerEmail === savedBakerEmail}}">Speichern</ion-button>
                 </div>
             </ion-col>
         </ion-row>

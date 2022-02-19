@@ -120,8 +120,11 @@
                         <p class="warning-text" *ngIf="!timeIsAvailable && timeIsOutdated && timeIsDuringStay">
                             Diese Zeit liegt in der vergangenheit.
                         </p> -->
-                    <p class="warning-text" *ngIf="!timeIsDuringStay">
+                    <p class="warning-text" *ngIf="!timeIsDuringStay && user.email !== 'admin'">
                         Die Reservierung liegt außerhalb ihres Aufenthaltes.
+                    </p>
+                    <p *ngIf="user.email === 'admin' && selectedItem" class="warning-text">
+                        Sie sind als Administrator eingeloggt.<br /> Sie können dieses Feature nicht nutzen.
                     </p>
 
                     <ion-button *ngIf="!userReservation" class="filled-btn" expand="block" id="send-btn" (click)="onSetReservation()" [disabled]="!selectedItem || !timeIsDuringStay || userReservation">Reservierung speichern
