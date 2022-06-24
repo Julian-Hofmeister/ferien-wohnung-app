@@ -1,62 +1,3 @@
-<!-- <ion-content>
-    <ion-grid>
-        <img src="/assets/images/berge-bw.jpg" />
-
-        <div class="container">
-            <ion-row>
-                <ion-col>
-                    <div class="space"></div>
-                    <ion-icon name="arrow-back-outline" (click)="onBack()"></ion-icon>
-                    <h4>BEVOR SIE</h4>
-                    <h2>ANKOMMEN</h2>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <div class="bike-reservation-card">
-                        <ion-row>
-                            <ion-col>
-                                <p>Fahrradstellplätze Reservieren</p>
-                                <p class="desc"></p>
-                                <div>
-                                    <ion-item lines="none">
-                                        <ion-label>Plätze</ion-label>
-                                        <ion-select [(ngModel)]="bikeAmount" [value]="bikeAmount" interface="action-sheet" (ionChange)="onChangeAmount($event)">
-                                            <ion-select-option [value]="0">0</ion-select-option>
-                                            <ion-select-option [value]="1">1</ion-select-option>
-                                            <ion-select-option [value]="2">2</ion-select-option>
-                                            <ion-select-option [value]="3">3</ion-select-option>
-                                            <ion-select-option [value]="4">4</ion-select-option>
-                                        </ion-select>
-                                    </ion-item>
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </div>
-                    <div class="starter-pack-card">
-                        <ion-row>
-                            <ion-col>
-                                <p>Erstausstattung bei Ankunft</p>
-                                <p class="desc">
-                                    Schreiben Sie uns einfach eine Einkaufsliste mit Lebensmitteln die Sie gerne bei der Ankuft auffinden möchten
-                                </p>
-
-                                <ion-textarea [(ngModel)]="starterMessage" [value]="starterMessage" placeholder="Wurst und Käse, 2x Vollkorn Semmel ..." rows="12" autofocus="true" (ionChange)="onChangeMessage($event)"></ion-textarea>
-                            </ion-col>
-                        </ion-row>
-                    </div>
-                </ion-col>
-            </ion-row>
-            <div id="center">
-                <ion-button (click)="onSendStarterMessage()" [disabled]="!starterMessage && !bikeAmount">
-                    Speichern
-                </ion-button>
-            </div>
-            <div class="space-big"></div>
-        </div>
-    </ion-grid>
-</ion-content> -->
-
 <ion-content>
     <ion-grid>
         <ion-row>
@@ -79,9 +20,9 @@
         <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="content-card">
-                    <h3>Erstausstattung bei Ankunft</h3>
+                    <h3>Erstausstattung bei Ihrer Ankunft</h3>
                     <p>
-                        Schreiben Sie uns einfach eine Einkaufsliste mit Dingen die Sie gerne bei Ihr Ankuft auffinden möchten
+                        Schreiben Sie uns einfach eine Einkaufsliste mit Dingen die Sie gerne bei Ihrer Ankuft auffinden möchten
                     </p>
                     <ion-textarea [(ngModel)]="starterMessage" placeholder="Wurst und Käse, ..." rows="12" autofocus="false"></ion-textarea>
                     <p *ngIf="email === 'admin'" id="subtitle">

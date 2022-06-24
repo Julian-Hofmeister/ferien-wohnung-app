@@ -100,7 +100,7 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onClose() {
+  onBack() {
     this.navCtrl.back();
   }
 

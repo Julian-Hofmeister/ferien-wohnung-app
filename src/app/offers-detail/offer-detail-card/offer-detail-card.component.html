@@ -1,39 +1,37 @@
 <div class="offer-detail-card">
     <ion-row>
-        <h2>{{ detailItem.title }}</h2>
+        <h4>{{ detailItem.title }}</h4>
     </ion-row>
     <ion-row>
         <p>
             {{ detailItem.description }}
         </p>
     </ion-row>
+
     <ion-row>
         <ion-col size="5" *ngIf="detailItem.website">
             <ion-row id="row">
                 <!-- <ion-icon name="globe-outline"></ion-icon> -->
                 <span class="material-icons-outlined"> public </span>
-                <!-- <p id="link">Webseite</p> -->
                 <a id="link" [href]="detailItem.website">Webseite</a>
             </ion-row>
         </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col *ngIf="detailItem.phoneNumber">
+            <ion-row id="row">
+                <!-- <ion-icon name="call-outline"></ion-icon> -->
+                <span class="material-icons-outlined"> phone </span>
+                <a id="link" [href]="'tel:' + detailItem.phoneNumber">Anrufen</a>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+    <ion-row>
         <ion-col *ngIf="detailItem.maps">
             <ion-row id="row">
                 <!-- <ion-icon name="map-outline"></ion-icon> -->
                 <span class="material-icons-outlined"> location_on </span>
-
-                <!-- <p id="link">Auf Karte anzeigen</p> -->
                 <a id="link" [href]="detailItem.maps">Auf Karte anzeigen</a>
-            </ion-row>
-        </ion-col>
-    </ion-row>
-    <ion-row *ngIf="detailItem.phoneNumber">
-        <ion-col>
-            <ion-row id="row">
-                <!-- <ion-icon name="call-outline"></ion-icon> -->
-                <span class="material-icons-outlined"> phone </span>
-
-                <!-- <p id="link ">Anrufen</p> -->
-                <a id="link" [href]="'tel:' + detailItem.phoneNumber">Anrufen</a>
             </ion-row>
         </ion-col>
     </ion-row>

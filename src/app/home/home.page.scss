@@ -4,82 +4,28 @@
 }
 
 ion-content {
-    --background: rgb(255, 255, 255);
+    --background: var(--ion-color-light);
+    ;
 }
 
 .background-img {
     height: 20rem;
     width: 100%;
     object-fit: cover;
-    // margin: -15px;
     filter: brightness(70%);
 }
 
 .container {
     position: relative;
     text-align: center;
-    color: white;
-    background-color: rgb(61, 61, 61);
+    color: var(--ion-color-light);
+    background-color: var(--ion-color-medium);
 }
 
 //----------------------------------------------
-.icon-container {
-    background-color: white;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 5rem;
-    place-content: center;
-    position: relative;
-    .material-icons-outlined {
-        color: #3BB99B;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
-    ion-icon {
-        font-size: 1.5rem;
-        color: #3BB99B;
-    }
-}
-
-.top-right {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
-
-.top-left {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-}
-
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-//----------------------------------------------
-h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-}
-
-#subtitle {
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: white;
-}
-
 hr {
-    background-color: rgba(255, 255, 255, 0.603);
+    background-color: var(--ion-color-light);
+    opacity: 0.6;
     height: 1px;
     margin: .8rem 1rem;
     text-align: center;
@@ -93,21 +39,22 @@ hr {
     padding: 20px;
     margin-top: -30px;
     margin-bottom: 1rem;
-    background-color: white;
+    background-color: var(--ion-color-light);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     .date-display {
-        border: 3px solid #3BB99B;
+        border: 3px solid var(--ion-color-primary);
         border-radius: 5rem;
         p {
             font-weight: 500;
+            margin: 0.5rem 0;
             margin-left: 10px;
         }
         .filled-display {
             height: 100%;
             margin: 0;
             border-radius: 2rem;
-            outline: 2px solid #3BB99B;
-            background-color: #3BB99B;
+            border: 2px solid var(--ion-color-primary);
+            background-color: var(--ion-color-primary);
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
             z-index: 10;
             p {
@@ -116,7 +63,7 @@ hr {
                 margin: 0;
                 font-weight: 600;
                 text-align: center;
-                color: white;
+                color: var(--ion-color-light);
                 position: absolute;
                 transform: translateY(-50%);
                 -ms-transform: translateY(-50%);
@@ -137,7 +84,7 @@ hr {
     margin-bottom: 2rem;
     text-align: center;
     border-radius: 30px;
-    background-color: #eee;
+    background-color: var(--ion-color-light-shade);
     .guest-list {
         margin-top: .7rem;
         margin-bottom: 5px;
@@ -169,17 +116,12 @@ hr {
     margin-top: .5rem;
 }
 
-p {
-    color: rgb(61, 61, 61);
-    margin: 0.5rem 0;
-}
-
 .space {
     margin-top: 2rem;
 }
 
 .action-field {
-    background-color: rgb(255, 255, 255);
+    background-color: var(--ion-color-light);
     border-radius: 15px;
     padding: 0px;
     position: relative;
@@ -197,11 +139,11 @@ p {
         height: 3rem;
         width: 100%;
         ion-icon {
-            margin-left: 5px;
+            margin-left: 1rem;
         }
     }
     .orange-button {
-        --background: #e67b3d;
+        --background: var(--ion-color-secondary);
     }
 }
 
@@ -209,7 +151,8 @@ p {
     margin: 10px;
     position: relative;
     text-align: center;
-    color: white;
+    color: var(--ion-color-light);
+    ;
     .centered {
         position: absolute;
         top: 50%;

@@ -4,14 +4,14 @@
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="container">
                     <img class="background-img" src="/assets/images/sauna.jpg" />
+                    <div class="top-left" (click)="onBack()">
+                        <span class="material-icons-outlined"> arrow_back </span>
+                    </div>
                     <div class="centered">
-                        <span class="material-icons-outlined" (click)="onClose()">
-              arrow_back
-            </span>
                         <h2>Sauna Reservieren</h2>
-                        <hr />
-                        <p id="subtitle">
-                            Reservieren Sie ganz einfach unsere Hauseigene Sauna während Ihres Aufenthaltes!
+
+                        <p>
+                            Reservieren Sie ganz einfach unsere hauseigene Sauna während Ihres Aufenthaltes!
                         </p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                     <div class="time-select-area">
                         <ion-row class="center-row">
                             <ion-col>
-                                <h4>Sauna Zeiten:</h4>
+                                <p>Sauna Zeiten:</p>
                             </ion-col>
                             <ion-col size="8">
                                 <ion-row class="center-row align-right">
@@ -128,12 +128,12 @@
                     </p>
 
                     <ion-button *ngIf="!userReservation" class="filled-btn" expand="block" id="send-btn" (click)="onSetReservation()" [disabled]="!selectedItem || !timeIsDuringStay || userReservation">Reservierung speichern
-                        <span class="material-icons-outlined"> save </span>
+                        <!-- <span class="material-icons-outlined"> save </span> -->
                     </ion-button>
 
                     <ion-button *ngIf="userReservation" class="outlined-btn" expand="block" fill="outline" (click)="onDeleteReservation(userReservation)">
                         Reservierung löschen
-                        <span class="material-icons-outlined"> delete_outline </span>
+                        <!-- <span class="material-icons-outlined"> delete_outline </span> -->
                     </ion-button>
                     <!-- <p class="space">space</p> -->
                     <br />

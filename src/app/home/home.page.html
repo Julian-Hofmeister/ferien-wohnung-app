@@ -13,9 +13,7 @@
                     <img class="background-img" src="/assets/images/mountain-1.jpg" />
 
                     <div class="top-right" (click)="onLogout()">
-                        <div class="icon-container">
-                            <span class="material-icons-outlined"> logout </span>
-                        </div>
+                        <span class="material-icons-outlined"> logout </span>
                     </div>
 
                     <!-- <div class="top-left" *ngIf="user.email === 'admin'" (click)="onOpenAdmin()">
@@ -27,10 +25,10 @@
                     </div> -->
 
                     <div class="centered">
-                        <h2>Ohrwumslar</h2>
+                        <h1>Ohrwumslar</h1>
                         <!-- <div class="custom-hr"></div> -->
                         <hr />
-                        <p id="subtitle">Ihre Ferienwohnung</p>
+                        <h5>Ihre Ferienwohnung</h5>
                     </div>
                 </div>
             </ion-col>
@@ -40,8 +38,9 @@
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="content-card">
                     <p>
-                        Liebe Gäste,<br /> wir wünschen Ihnen, dass Sie sich hier in der Wohnung wohlfühlen, Ihren Alltag hinter sich lassen und in der herrlichen Natur der Oberstdorfer Bergwelt auftanken können. <br /><br />
+                        Liebe Gäste,<br /> wir wünschen Ihnen, dass Sie sich hier in der Wohnung wohlfühlen, Ihren Alltag hinter sich lassen und Ihre Energie in der herrlichen Natur der Oberstdorfer Bergwelt auftanken können.
                     </p>
+                    <br />
                     <div class="date-display">
                         <ion-row>
                             <ion-col size="7">
@@ -131,7 +130,7 @@
 
                         <ion-button (click)="onOpenSendMessage()">
                             Nachricht Schreiben
-                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                            <ion-icon name="chatbubbles"></ion-icon>
                         </ion-button>
                         <!-- <ion-button (click)="onOpenSendMessage()" class="orange-button">
                             Feedback zu App senden

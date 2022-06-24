@@ -1,11 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .offer-detail-card {
     align-items: center;
     width: 94%;
     margin: 0 3%;
     margin-top: 20px;
-    padding: 0 20px;
+    padding: 20px;
     border-radius: 10px;
-    background-color: white;
+    background-color: var(--ion-color-light);
     box-shadow: 0px 0px 4px #31313115;
 }
 
@@ -14,35 +19,20 @@
     height: 100%;
     left: 5%;
     align-items: center;
-    margin-bottom: 1rem;
-}
-
-ion-icon {
-    font-size: 1.4rem;
-    color: #3BB99B;
+    margin: .5rem 0;
 }
 
 span {
     font-size: 1.4rem;
-    color: #3BB99B;
-}
-
-h2 {
-    font-size: 1.4rem;
-    margin: 0;
-    margin-top: 1rem;
-    white-space: pre-line;
+    color: var(--ion-color-primary);
 }
 
 p {
-    line-height: 1.2rem;
-    color: rgb(77, 77, 77);
-    white-space: pre-line;
+    margin-top: 5px;
 }
 
 #link {
-    font-size: 0.8rem;
-    line-height: 1.2rem;
     margin-left: 0.8rem;
-    color: var(--ion-color-accent) !important;
+    line-height: 1.2rem;
+    color: var(--ion-color-primary);
 }

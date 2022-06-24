@@ -21,17 +21,12 @@
 }
 
 p {
-    color: rgb(56, 56, 56);
+    color: var(--ion-color-medium);
     letter-spacing: 0.5px;
     margin: 0;
 }
 
-ion-icon {
-    font-size: 1.4rem;
-    color: var(--ion-color-accent) !important;
-}
-
 span {
     font-size: 1.4rem;
-    color: var(--ion-color-accent) !important;
+    color: var(--ion-color-primary);
 }

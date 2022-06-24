@@ -2,24 +2,10 @@
     <ion-grid>
         <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
-                <!-- <ion-row>
-                    <div class="container">
-                        <img src="/assets/images/Information-Image.jpg" alt="" />
+                <div class="top-left" (click)="onBack()">
+                    <span class="material-icons-outlined"> arrow_back </span>
+                </div>
 
-                        <div class="bottom-left">
-                            <ion-row class="ion-align-items-center" (click)="onBack()">
-                                <ion-icon name="arrow-back-outline"></ion-icon>
-                                <h3 *ngIf="title">{{title}}</h3>
-                            </ion-row>
-                        </div>
-                    </div>
-                </ion-row> -->
-
-                <ion-row>
-                    <div class="icon-container" (click)="onBack()">
-                        <span class="material-icons-outlined"> arrow_back </span>
-                    </div>
-                </ion-row>
                 <h3 *ngIf="title">{{title}}</h3>
                 <hr />
                 <app-item-editor *ngIf="isAdmin" pathHint="offers-detail" [selectedItem]="selectedItem"></app-item-editor>

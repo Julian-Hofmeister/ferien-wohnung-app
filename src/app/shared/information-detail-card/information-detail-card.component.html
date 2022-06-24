@@ -3,7 +3,7 @@
         <p id="category" *ngIf="detailItem.category">{{ detailItem.category }}</p>
     </ion-row>
     <ion-row *ngIf="detailItem.title">
-        <h2>{{ detailItem.title }}</h2>
+        <h4>{{ detailItem.title }}</h4>
     </ion-row>
     <ion-row *ngIf="detailItem.description">
         <p>
@@ -18,20 +18,22 @@
                 <a id="link" [href]="detailItem.website">Webseite</a>
             </ion-row>
         </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col *ngIf="detailItem.phoneNumber">
+            <ion-row id="row">
+                <!-- <ion-icon name="call-outline"></ion-icon> -->
+                <span class="material-icons-outlined"> phone </span>
+                <a id="link" [href]="'tel:' + detailItem.phoneNumber">Anrufen</a>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+    <ion-row>
         <ion-col *ngIf="detailItem.maps">
             <ion-row id="row">
                 <!-- <ion-icon name="map-outline"></ion-icon> -->
                 <span class="material-icons-outlined"> location_on </span>
                 <a id="link" [href]="detailItem.maps">Auf Karte anzeigen</a>
-            </ion-row>
-        </ion-col>
-    </ion-row>
-    <ion-row *ngIf="detailItem.phoneNumber">
-        <ion-col>
-            <ion-row id="row">
-                <!-- <ion-icon name="call-outline"></ion-icon> -->
-                <span class="material-icons-outlined"> phone </span>
-                <a id="link" [href]="'tel:' + detailItem.phoneNumber">Anrufen</a>
             </ion-row>
         </ion-col>
     </ion-row>
