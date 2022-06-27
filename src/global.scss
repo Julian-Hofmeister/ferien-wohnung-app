@@ -31,7 +31,17 @@
 //
 @import 'material-icons/iconfont/material-icons.css';
 //
-// # MODALS
+//
+// ### MODALS ###
+.logout-modal-css .modal-wrapper {
+    height: 40%;
+    width: 85%;
+    top: 30%;
+    border-radius: 20px;
+    position: absolute;
+    display: block;
+}
+
 .reservation-modal-css .modal-wrapper {
     height: 60%;
     width: 85%;

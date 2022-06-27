@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { InformationPage } from '../information/information.page';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-tabs',
-  templateUrl: 'tabs.page.html',
-  styleUrls: ['tabs.page.scss'],
+  selector: 'app-logout-modal',
+  templateUrl: './logout-modal.component.html',
+  styleUrls: ['./logout-modal.component.scss'],
 })
-export class TabsPage {
+export class LogoutModalComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   //#endregion
@@ -22,11 +22,13 @@ export class TabsPage {
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private navCtrl: NavController) {}
+  constructor(private modalCtrl: ModalController, private router: Router) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
+  ngOnInit() {}
 
   //#endregion
 
@@ -40,6 +42,17 @@ export class TabsPage {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
+  onLogout() {
+    localStorage.clear();
+    this.router.navigate(['authentication']);
+    this.modalCtrl.dismiss();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onClose() {
+    this.modalCtrl.dismiss();
+  }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

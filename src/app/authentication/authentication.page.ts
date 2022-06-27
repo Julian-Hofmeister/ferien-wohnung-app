@@ -73,7 +73,13 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onChange() {}
+  onChange() {
+    this.emailNotFound = false;
+
+    this.passwordIncorrect = false;
+
+    this.falsePasswordFormat = false;
+  }
 
   // ----------------------------------------------------------------------------------------------
 
@@ -112,6 +118,18 @@ export class AuthenticationPage implements OnInit, OnDestroy {
       }
     }
   }
+  // ----------------------------------------------------------------------------------------------
+
+  focusInput(input: string) {
+    document.getElementById(input).style.border =
+      'solid 1px var(--ion-color-primary)';
+  }
+
+  unFocusInput(input: string) {
+    document.getElementById(input).style.border =
+      'solid 1px rgba(218,218,218,0)';
+  }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

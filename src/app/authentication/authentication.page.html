@@ -7,8 +7,6 @@
 
                     <div class="centered">
                         <h1>Ohrwumslar</h1>
-                        <!-- <div class="custom-hr"></div> -->
-                        <hr />
                         <h5>Ihre Ferienwohnung</h5>
                     </div>
                 </div>
@@ -41,9 +39,12 @@
 
           <ion-input
             [(ngModel)]="email"
+            (change)="onChange()"
             type="email"
             autofocus
-            placeholder="example@email.com"
+            id="email-input"
+            (ionFocus)="focusInput('email-input')"
+            (ionBlur)="unFocusInput('email-input')"
           ></ion-input>
         </div>
 
@@ -57,7 +58,9 @@
             #theInput
             [(ngModel)]="password"
             (change)="onChange()"
-            placeholder="123456"
+            id="password-input"
+            (ionFocus)="focusInput('password-input')"
+            (ionBlur)="unFocusInput('password-input')"
           ></ion-input>
         </div>
 

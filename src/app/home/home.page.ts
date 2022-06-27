@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { AuthService } from '../authentication/auth.service';
 import { User } from '../authentication/user.model';
 import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
+import { LogoutModalComponent } from './logout-modal/logout-modal.component';
 import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
 
 @Component({
@@ -76,9 +77,14 @@ export class HomePage implements OnInit {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   onLogout() {
-    localStorage.clear();
-
-    this.router.navigate(['authentication']);
+    this.modalCtrl
+      .create({
+        component: LogoutModalComponent,
+        cssClass: 'logout-modal-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
   }
 
   // ----------------------------------------------------------------------------------------------
