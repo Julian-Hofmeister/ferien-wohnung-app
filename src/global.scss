@@ -32,7 +32,8 @@
 @import 'material-icons/iconfont/material-icons.css';
 //
 //
-// ### MODALS ###
+// MODALS
+// ----------------------------------------------------
 .logout-modal-css .modal-wrapper {
     height: 40%;
     width: 85%;
@@ -96,6 +97,7 @@
     border-radius: 30px;
 }
 
+// FONTS
 // ----------------------------------------------------
 @font-face {
     font-family: 'Poppins';
@@ -145,4 +147,128 @@
     src: url('/assets/fonts/Poppins-ExtraBold.ttf');
 }
 
+// TEXT STYLES
 // ----------------------------------------------------
+h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+}
+
+h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+h5 {
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+p {
+    font-size: 1rem;
+    color: rgb(61, 61, 61);
+}
+
+// ICONS
+// ----------------------------------------------------
+ion-icon {
+    font-size: 1.5rem;
+}
+
+span.material-icons-outlined {
+    color: white;
+    font-size: 2rem;
+}
+
+// POSITIONING
+// ----------------------------------------------------
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.centered-vertical {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(0%, -50%);
+}
+
+.centered-horizontal {
+    justify-content: center;
+}
+
+.top-left {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.top-right {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+// ELEMENTS
+// ----------------------------------------------------
+ion-button {
+    --border-radius: 5rem;
+    --box-shadow: none !important;
+    --color: var(--ion-color-light);
+    --background: var(--ion-color-primary);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    font-weight: 700;
+    height: 3rem;
+}
+
+ion-button.outlined {
+    --background: none;
+    --border: 3px solid;
+    --box-shadow: none !important;
+    --border-color: var(--ion-color-primary);
+    color: var(--ion-color-primary);
+    ion-icon {
+        color: var(--ion-color-primary);
+    }
+}
+
+// CLASSES
+// ----------------------------------------------------
+.spinner-container {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    ion-spinner {
+        transform: scale(2);
+        color: var(--ion-color-primary) !important;
+    }
+}

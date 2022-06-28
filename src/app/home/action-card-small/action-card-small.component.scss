@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.action-card-small {
+    position: relative;
+    text-align: center;
+    max-width: 10rem;
+    width: calc(100% - 10px);
+    margin: 10px;
+    color: var(--ion-color-light);
+    img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        filter: brightness(70%);
+        border-radius: 20px;
+    }
+    p {
+        color: var(--ion-color-light);
+    }
+    span {
+        font-size: 2.5rem;
+    }
+}

@@ -1,11 +1,4 @@
 <ion-content>
-    <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="onOpenSendMessage()">
-        <ion-button>
-            <ion-icon name="paper-plane"></ion-icon>
-
-            <p>Nachrichten</p>
-        </ion-button>
-    </ion-fab> -->
     <ion-grid>
         <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
@@ -16,18 +9,11 @@
                         <span class="material-icons-outlined"> logout </span>
                     </div>
 
-                    <!-- <div class="top-left" *ngIf="user.email === 'admin'" (click)="onOpenAdmin()">
-                        <div class="icon-container">
-                            <span class="material-icons-outlined">
-                admin_panel_settings
-              </span>
-                        </div>
-                    </div> -->
-
                     <div class="centered">
                         <h1>Ohrwumslar</h1>
-                        <!-- <div class="custom-hr"></div> -->
+
                         <hr />
+
                         <h5>Ihre Ferienwohnung</h5>
                     </div>
                 </div>
@@ -65,7 +51,9 @@
                     <p>
                         Sie sind als Administrator eingeloggt. Hier können Sie ganz einfach einen neuen Gast hinzufügen.
                     </p>
+
                     <br />
+
                     <ion-button (click)="onOpenAdmin()" class="admin-button">
                         Gast hinzufügen
                     </ion-button>
@@ -87,68 +75,30 @@
                 <app-action-card *ngIf="user.arriveDate > currentDate" title="Bevor Sie Ankommen" subtitle="Teilen Sie uns einfach mit wie Sie ankommen möchten. Wir kümmern uns darum!" image="/assets/images/mountain-person.jpg" (click)="onOpenBeforeArrival()"></app-action-card>
 
                 <div class="action-field">
-                    <ion-row>
-                        <ion-col size="6">
-                            <div class="action-card-small" (click)="onOpenApartmentDetail()">
-                                <img src="/assets/images/apartment.jpeg" alt="" />
-                                <div class="centered">
-                                    <span class="material-icons-outlined"> bed </span>
-                                    <h4>Ihre Wohnung</h4>
-                                </div>
-                            </div>
-                        </ion-col>
-                        <ion-col size="6">
-                            <div class="action-card-small" (click)="onOpenBreadOrderPage()">
-                                <img src="/assets/images/bread.jpg" alt="" />
-                                <div class="centered">
-                                    <span class="material-icons-outlined"> bakery_dining </span>
-                                    <h4>Frühstücks Service</h4>
-                                </div>
-                            </div>
-                        </ion-col>
-                        <ion-col size="6">
-                            <div class="action-card-small" (click)="onOpenReservationModal()">
-                                <img src="/assets/images/sauna.jpeg" alt="" />
-                                <div class="centered">
-                                    <span class="material-icons-outlined"> hot_tub </span>
-                                    <h4>Sauna Reservieren</h4>
-                                </div>
-                            </div>
-                        </ion-col>
-                        <ion-col size="6">
-                            <a href="https://g.page/r/CcgiqX68TxgkEAg/review">
-                                <div class="action-card-small">
-                                    <img src="/assets/images/feedback.jpg" alt="" />
-                                    <div class="centered">
-                                        <span class="material-icons-outlined"> grade </span>
-                                        <h4>Bewerten Sie uns</h4>
-                                    </div>
-                                </div>
-                            </a>
-                        </ion-col>
+                    <ion-row class="centered-horizontal">
+                        <app-action-card-small title="Ihre Wohnung" icon="bed" image="/assets/images/apartment.jpeg" (click)="onOpenApartmentDetail()">
+                        </app-action-card-small>
+
+                        <app-action-card-small title="Frühstücks Service" icon="bakery_dining" image="/assets/images/bread.jpg" (click)="onOpenBreadOrderPage()">
+                        </app-action-card-small>
+
+                        <app-action-card-small title="Sauna Reservieren" icon="hot_tub" image="/assets/images/sauna.jpeg" (click)="onOpenReservationModal()">
+                        </app-action-card-small>
+
+                        <app-action-card-small title="Bewerten Sie uns" icon="grade" image="/assets/images/feedback.jpg" href="https://g.page/r/CcgiqX68TxgkEAg/review">
+                        </app-action-card-small>
+
                         <hr />
 
                         <ion-button (click)="onOpenSendMessage()">
                             Nachricht Schreiben
                             <ion-icon name="chatbubbles"></ion-icon>
                         </ion-button>
-                        <!-- <ion-button (click)="onOpenSendMessage()" class="orange-button">
-                            Feedback zu App senden
-                            <ion-icon name="chatbubbles-outline"></ion-icon>
-                        </ion-button> -->
                     </ion-row>
                 </div>
             </ion-col>
         </ion-row>
+
         <ion-row class="space"></ion-row>
     </ion-grid>
 </ion-content>
-
-<!--
-  <app-action-card title="Ihre Wohnung" subTitle="Spezielle Informationen" image="/assets/images/mountain-2.jpg" (click)="onOpenApartmentDetail()"></app-action-card>
-
-                <app-action-card title="Semmeln bestellen" subTitle="Wir liefern direkt aufs Zimmer" image="/assets/images/bread.jpg" (click)="onOpenBreadOrderPage()"></app-action-card>
-
-                <app-action-card title="Reservierungen" subTitle="Sauna Reservieren" image="/assets/images/Sauna-Image.jpg" (click)="onOpenReservationModal()"></app-action-card>
-
-                <app-action-card title="Feedback" subTitle="Bewerten Sie uns!" image="/assets/images/Feedback-Image.jpg" (click)="onOpenFeedbackModal()"></app-action-card> -->
