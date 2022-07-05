@@ -1,39 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .user-item {
-    padding: 5px;
-    margin: 20px;
+    padding: 1rem;
+    margin: 1rem;
     margin-top: 0;
-    margin-bottom: 18px;
-    border-radius: 15px;
-    background-color: white;
+    border-radius: 1rem;
+    background-color: var(--ion-color-light);
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     p {
-        margin: 0px;
         text-align: left;
     }
-    p.center {
-        text-align: center;
-    }
     .date-display {
-        margin: 0;
-        padding: .2rem;
-        margin-top: .9rem;
+        height: 2rem;
+        line-height: 2rem;
+        margin-top: 1rem;
         border-radius: 5rem;
-        background-color: #3BB99B;
+        background-color: var(--ion-color-primary);
         p {
-            color: #fff;
+            text-align: center;
+            color: var(--ion-color-light);
         }
     }
     .room-display {
-        padding: .2rem;
-        margin-top: .9rem;
+        height: 2rem;
+        line-height: 2rem;
+        margin-top: 1rem;
         border-radius: 5rem;
-        background-color: #eee;
+        background-color: var(--ion-color-light-shade);
         ion-row {
             justify-content: center;
             p {
-                color: rgb(0, 0, 0);
-                font-weight: 600;
                 margin-left: 10px;
+            }
+            span {
+                margin-top: .2rem;
+                font-size: 1.6rem;
+                color: var(--ion-color-medium);
             }
         }
     }

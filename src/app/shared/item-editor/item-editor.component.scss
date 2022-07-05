@@ -1,11 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .apartment-editor {
     background-color: white;
     border-radius: 20px;
     margin: 15px;
     padding-top: .8rem;
-    h2 {
-        margin: 1rem;
-        font-weight: 600;
+    h3 {
+        margin-left: 1rem;
     }
     hr {
         background-color: var(--ion-color-accent) !important;
@@ -13,8 +17,7 @@
     .input {
         margin: 1rem;
         .hint {
-            margin: 0;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
         ion-input {
             font-size: 0.9em;

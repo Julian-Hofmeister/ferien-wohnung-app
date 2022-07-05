@@ -30,6 +30,7 @@ export class ApartmentDetailPage implements OnInit, OnDestroy {
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
     apartment: localStorage.getItem('user-apartment'),
+    houseId: localStorage.getItem('user-houseId'),
   };
 
   isAdmin = false;

@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/authentication/user.model';
 
 @Component({
-  selector: 'app-feedback-modal',
-  templateUrl: './feedback-modal.component.html',
-  styleUrls: ['./feedback-modal.component.scss'],
+  selector: 'app-user-card',
+  templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.scss'],
 })
-export class FeedbackModalComponent implements OnInit {
+export class UserCardComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  //#endregion
+  @Input() user: User;
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+  profileLetter: string;
 
   //#endregion
 
@@ -19,15 +19,23 @@ export class FeedbackModalComponent implements OnInit {
 
   //#endregion
 
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor() {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.user);
+
+    this.profileLetter = Array.from(this.user.email)[0];
+  }
 
   //#endregion
 
@@ -41,9 +49,7 @@ export class FeedbackModalComponent implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onClose() {
-    this.modalCtrl.dismiss();
-  }
+  onOpenMessagePage() {}
 
   // ----------------------------------------------------------------------------------------------
 

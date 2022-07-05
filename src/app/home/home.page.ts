@@ -1,19 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AuthService } from '../authentication/auth.service';
 import { User } from '../authentication/user.model';
-import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
 import { LogoutModalComponent } from './logout-modal/logout-modal.component';
 import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { House } from './house.model';
+import { HouseService } from './house.service';
+
+// ----------------------------------------------------------------------------------------------
+
+// import Data from '../../assets/json/ohrwumslar.json';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   //#endregion
@@ -22,17 +29,25 @@ export class HomePage implements OnInit {
 
   isAdmin = false;
 
+  isLoading = true;
+
   loadedUsers: User[] = [];
-  isLoading = false;
+
+  loadedHouse: House;
 
   currentDate = Date.now();
 
+  data = null;
+
+  // ----------------------------------------------------------------------------------------------
+
   user: User = {
-    email: localStorage.getItem('user-email'),
     id: localStorage.getItem('user-id'),
+    email: localStorage.getItem('user-email'),
+    apartment: localStorage.getItem('user-apartment'),
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
-    apartment: localStorage.getItem('user-apartment'),
+    houseId: localStorage.getItem('house-id'),
   };
 
   //#endregion
@@ -41,6 +56,10 @@ export class HomePage implements OnInit {
 
   private userSub: Subscription;
 
+  private houseSub: Subscription;
+
+  private _jsonURL = 'assets/json/ohrwumslar.json';
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -48,8 +67,18 @@ export class HomePage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private router: Router,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private houseService: HouseService,
+    private http: HttpClient
+  ) {
+    this.getJSON().subscribe((data) => {
+      console.log(data);
+
+      this.data = data;
+
+      this.isLoading = false;
+    });
+  }
 
   //#endregion
 
@@ -60,8 +89,12 @@ export class HomePage implements OnInit {
       this.isAdmin = true;
       this.fetchUsers();
     }
+  }
 
-    console.log(this.user.apartment);
+  // ----------------------------------------------------------------------------------------------
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
   }
 
   //#endregion
@@ -76,21 +109,14 @@ export class HomePage implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onLogout() {
-    this.modalCtrl
-      .create({
-        component: LogoutModalComponent,
-        cssClass: 'logout-modal-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
+  onOpenAdminPage() {
+    this.router.navigate(['admin']);
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenAdmin() {
-    this.router.navigate(['admin']);
+  onOpenBeforeArrivalPage() {
+    this.router.navigate(['before-arrival']);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -101,22 +127,35 @@ export class HomePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenSendMessage() {
-    this.router.navigate(['send-message']);
+  onOpenReservationPage() {
+    this.router.navigate(['sauna-reservation']);
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenBeforeArrival() {
-    this.router.navigate(['before-arrival']);
+  onOpenApartmentDetailPage() {
+    this.router.navigate(['apartment-detail']);
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenApartmentDetail() {
-    console.log('open Information detail');
-    this.router.navigate(['/apartment-detail']);
+  onOpenMessagePage() {
+    this.router.navigate(['/message']);
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenContactsPage() {
+    this.router.navigate(['/contacts']);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenFeedbackLink() {
+    window.location.href = 'https://g.page/r/CcgiqX68TxgkEAg/review';
+  }
+
+  // ----------------------------------------------------------------------------------------------
 
   onOpenUserDetailModal(user: User) {
     this.modalCtrl
@@ -134,33 +173,16 @@ export class HomePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenReservationModal() {
-    // this.modalCtrl
-    //   .create({
-    //     component: ReservationModalComponent,
-    //     cssClass: 'reservation-modal-css',
-    //     backdropDismiss: true,
-    //   })
-    //   .then((modalEl) => {
-    //     modalEl.present();
-    //   });
-    this.router.navigate(['sauna-reservation']);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onOpenFeedbackModal() {
+  onLogout() {
     this.modalCtrl
       .create({
-        component: FeedbackModalComponent,
-        cssClass: 'feedback-modal-css',
+        component: LogoutModalComponent,
+        cssClass: 'logout-modal-css',
       })
       .then((modalEl) => {
         modalEl.present();
       });
   }
-
-  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
@@ -168,6 +190,7 @@ export class HomePage implements OnInit {
 
   private fetchUsers() {
     this.isLoading = true;
+
     this.userSub = this.authService.getUsers().subscribe((users) => {
       this.loadedUsers = [];
 
@@ -183,6 +206,7 @@ export class HomePage implements OnInit {
           arriveDate: currentUser.arriveDate,
           leaveDate: currentUser.leaveDate,
           apartment: currentUser.room,
+          houseId: currentUser.houseId,
         };
 
         if (fetchedUser.leaveDate > this.currentDate) {
@@ -190,12 +214,61 @@ export class HomePage implements OnInit {
         }
 
         this.isLoading = false;
-        console.log(this.loadedUsers);
       }
     });
   }
 
   // ----------------------------------------------------------------------------------------------
+
+  private fetchHouseData() {
+    this.isLoading = true;
+
+    this.houseSub = this.houseService.getUsers().subscribe((houses) => {
+      this.loadedUsers = [];
+
+      // * DEFINE NEW ITEM
+      for (const currentHouse of houses) {
+        // const imagePath = this.afStorage
+        //   .ref(currentLoadedItem.imagePath)
+        //   .getDownloadURL();
+
+        const fetchedHouse: House = {
+          id: currentHouse.id,
+
+          pageTitle: currentHouse.pageTitle,
+          pageSubtitle: currentHouse.pageSubtitle,
+
+          backgroundImage: currentHouse.backgroundImage,
+
+          welcomeMessage: currentHouse.welcomeMessage,
+
+          periodOfStayWidget: currentHouse.periodOfStayWidget,
+
+          apartmentDetailService: currentHouse.apartmentDetailService,
+          breakfastService: currentHouse.breakfastService,
+          saunaService: currentHouse.saunaService,
+          feedbackService: currentHouse.feedbackService,
+
+          feedbackLink: currentHouse.feedbackLink,
+
+          bakerEmail: currentHouse.bakerEmail,
+          clientEmail: currentHouse.clientEmail,
+        };
+
+        if (fetchedHouse.id == this.user.houseId) {
+          this.loadedHouse = fetchedHouse;
+        }
+
+        this.isLoading = false;
+      }
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private getJSON(): Observable<any> {
+    return this.http.get(this._jsonURL);
+  }
 
   //#endregion
 }

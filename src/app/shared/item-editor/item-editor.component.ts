@@ -34,6 +34,7 @@ export class ItemEditorComponent implements OnInit {
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   private path: AngularFirestoreCollection;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -49,8 +50,6 @@ export class ItemEditorComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    console.log(this.pathHint);
-
     this.path = this.afs.collection(this.pathHint);
   }
 
@@ -65,18 +64,6 @@ export class ItemEditorComponent implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-
-  onChangeTitle() {
-    console.log(this.selectedItem.title);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onChangeApartment() {
-    console.log(this.selectedItem.apartment);
-  }
-
-  // ----------------------------------------------------------------------------------------------
 
   onSave() {
     if (this.selectedItem.id) {
@@ -106,6 +93,7 @@ export class ItemEditorComponent implements OnInit {
       this.path.doc(this.selectedItem.id).delete();
     }
   }
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////

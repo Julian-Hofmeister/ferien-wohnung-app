@@ -22,6 +22,7 @@ const routes: Routes = [
         (m) => m.SendMessagePageModule
       ),
   },
+
   {
     path: 'bread-order-page',
     loadChildren: () =>
@@ -31,7 +32,19 @@ const routes: Routes = [
   },
   {
     path: 'sauna-reservation',
-    loadChildren: () => import('./sauna-reservation/sauna-reservation.module').then( m => m.SaunaReservationPageModule)
+    loadChildren: () =>
+      import('./sauna-reservation/sauna-reservation.module').then(
+        (m) => m.SaunaReservationPageModule
+      ),
+  },
+  {
+    path: 'message',
+    loadChildren: () =>
+      import('./message/message.module').then((m) => m.MessagePageModule),
+  },
+  {
+    path: 'contacts',
+    loadChildren: () => import('./contacts/contacts.module').then( m => m.ContactsPageModule)
   },
 ];
 

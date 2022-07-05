@@ -6,6 +6,7 @@ import { NavController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 import { InfoDetailItem } from '../information-detail/information-detail.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-information',
@@ -19,7 +20,7 @@ export class InformationPage implements OnInit, OnDestroy {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  isLoading = false;
+  isLoading = true;
 
   loadedInformationItemList: InformationItem[];
 
@@ -28,11 +29,15 @@ export class InformationPage implements OnInit, OnDestroy {
 
   searchTerm: string;
 
+  data = null;
+
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   private itemSub: Subscription;
+
+  private _jsonURL = 'assets/json/ohrwumslar.json';
 
   //#endregion
 
@@ -41,8 +46,19 @@ export class InformationPage implements OnInit, OnDestroy {
   constructor(
     private informationService: InformationService,
     private navCtrl: NavController,
-    private firestore: AngularFirestore
-  ) {}
+    private firestore: AngularFirestore,
+    private http: HttpClient
+  ) {
+    this.getJSON().subscribe((data) => {
+      console.log(data);
+
+      this.data = data;
+
+      this.isLoading = false;
+
+      // this.loadInformationList();
+    });
+  }
 
   //#endregion
 
@@ -75,12 +91,7 @@ export class InformationPage implements OnInit, OnDestroy {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   onOpenInformationDetailPage(item: InformationItem) {
-    this.navCtrl.navigateForward([
-      '/',
-      'information-detail',
-      item.id,
-      item.title,
-    ]);
+    this.navCtrl.navigateForward(['/information-detail', item.id, item.title]);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -146,6 +157,12 @@ export class InformationPage implements OnInit, OnDestroy {
           this.isLoading = false;
         }
       });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private getJSON(): Observable<any> {
+    return this.http.get(this._jsonURL);
   }
 
   // ----------------------------------------------------------------------------------------------

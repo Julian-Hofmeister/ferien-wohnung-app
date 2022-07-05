@@ -69,11 +69,11 @@
             </ion-col>
         </ion-row>
         <div class="space"></div>
-        <ion-button (click)="onDeleteUser()" class="alarm">
-            Account Löschen
-        </ion-button>
         <ion-button (click)="onSaveChanges()" disabled="{{ isDisabled }}">
             Änderungen Speichern
+        </ion-button>
+        <ion-button (click)="onDeleteUser()" class="alarm outlined">
+            Account Löschen
         </ion-button>
     </div>
 </ion-content>

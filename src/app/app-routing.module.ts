@@ -30,6 +30,20 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'message',
+    loadChildren: () =>
+      import('./home/message/message-routing.module').then(
+        (m) => m.MessagePageRoutingModule
+      ),
+  },
+  {
+    path: 'contacts',
+    loadChildren: () =>
+      import('./home/contacts/contacts-routing.module').then(
+        (m) => m.ContactsPageRoutingModule
+      ),
+  },
+  {
     path: 'sauna-reservation',
     loadChildren: () =>
       import('./home/sauna-reservation/sauna-reservation-routing.module').then(
@@ -75,6 +89,10 @@ const routes: Routes = [
       import('./apartment-detail/apartment-detail.module').then(
         (m) => m.ApartmentDetailPageModule
       ),
+  },
+  {
+    path: 'page-creator',
+    loadChildren: () => import('./page-creator/page-creator.module').then( m => m.PageCreatorPageModule)
   },
 ];
 @NgModule({

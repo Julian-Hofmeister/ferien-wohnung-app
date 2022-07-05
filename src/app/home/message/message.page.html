@@ -1,0 +1,32 @@
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <div class="top-left" (click)="onBack()">
+                    <span class="material-icons-outlined"> arrow_back </span>
+                </div>
+            </ion-col>
+        </ion-row>
+        <div class="container" *ngIf="!isLoading">
+            <p>
+                Bei Fragen, Wünschen oder Problemen, können Sie uns hier ganz einfach eine Nachricht schreiben
+            </p>
+            <ion-list *ngFor="let message of loadedMessages">
+                <div class="message sent" [ngClass]="{recieved: message.email !== user.email}">
+                    <p>{{message.message}}</p>
+                </div>
+            </ion-list>
+        </div>
+        <div class="spinner-container" *ngIf="isLoading">
+            <ion-spinner name="dots"></ion-spinner>
+        </div>
+    </ion-grid>
+</ion-content>
+<ion-footer align-title="center" class="ion-no-border">
+    <ion-row>
+        <ion-textarea placeholder="Nachricht" auto-grow="true" id="textbar" lines="none" type="text" rows="1" [(ngModel)]="message"></ion-textarea>
+        <ion-icon name="paper-plane" (click)="onSendMessage()"></ion-icon>
+    </ion-row>
+</ion-footer>
+
+<!--  -->

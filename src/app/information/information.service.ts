@@ -12,7 +12,12 @@ export class InformationService {
 
   informationItems: Observable<any[]>;
 
-  path = this.afs.collection('information', (ref) => ref.orderBy('title'));
+  houseId = localStorage.getItem('house-id');
+
+  path = this.afs.collection(
+    'houses/' + this.houseId + '/information-categories',
+    (ref) => ref.orderBy('title')
+  );
 
   //#endregion
 

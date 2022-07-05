@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
+import { UserService } from 'src/app/authentication/user.service';
 import { Reservation } from '../reservation-modal/reservation.model';
 import { ReservationService } from '../reservation-modal/reservation.service';
 import { BookingItem } from './booking-item.model';
@@ -43,13 +44,18 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
 
   onlyFreeWindows = false;
 
-  user: User = {
-    id: localStorage.getItem('user-id'),
-    email: localStorage.getItem('user-email'),
-    arriveDate: Number(localStorage.getItem('user-arriveDate')),
-    leaveDate: Number(localStorage.getItem('user-leaveDate')),
-    apartment: localStorage.getItem('user-apartment'),
-  };
+  // ----------------------------------------------------------------------------------------------
+
+  // user: User = {
+  //   id: localStorage.getItem('user-id'),
+  //   email: localStorage.getItem('user-email'),
+  //   arriveDate: Number(localStorage.getItem('user-arriveDate')),
+  //   leaveDate: Number(localStorage.getItem('user-leaveDate')),
+  //   apartment: localStorage.getItem('user-apartment'),
+  //   houseId: localStorage.getItem('user-houseId'),
+  // };
+
+  user = this.userService.getUser();
 
   //#endregion
 
@@ -67,6 +73,7 @@ export class SaunaReservationPage implements OnInit, OnDestroy {
     public afs: AngularFirestore,
     private router: Router,
     private reservationService: ReservationService,
+    private userService: UserService,
     private navCtrl: NavController
   ) {}
 

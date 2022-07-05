@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NavController } from '@ionic/angular';
+import { User } from 'src/app/authentication/user.model';
 
 @Component({
   selector: 'app-before-arrival',
@@ -18,16 +19,14 @@ export class BeforeArrivalPage implements OnInit {
 
   starterMessage = '';
 
-  email = localStorage.getItem('user-email');
-
-  room =
-    localStorage.getItem('user-apartment') != null
-      ? localStorage.getItem('user-apartment')
-      : 'no room number';
-
-  arriveDate = localStorage.getItem('user-arriveDate');
-
-  leaveDate = localStorage.getItem('user-leaveDate');
+  user: User = {
+    id: localStorage.getItem('user-id'),
+    email: localStorage.getItem('user-email'),
+    apartment: localStorage.getItem('user-apartment'),
+    arriveDate: Number(localStorage.getItem('user-arriveDate')),
+    leaveDate: Number(localStorage.getItem('user-leaveDate')),
+    houseId: localStorage.getItem('user-houseId'),
+  };
 
   //#endregion
 
@@ -77,10 +76,10 @@ export class BeforeArrivalPage implements OnInit {
 
   onSendStarterMessage() {
     this.afs.collection('bevore-arrival').add({
-      email: this.email,
-      room: this.room,
-      arriveDate: new Date(Number(this.arriveDate)).toLocaleDateString(),
-      leaveDate: new Date(Number(this.leaveDate)).toLocaleDateString(),
+      email: this.user.email,
+      room: this.user.apartment,
+      arriveDate: new Date(Number(this.user.arriveDate)).toLocaleDateString(),
+      leaveDate: new Date(Number(this.user.leaveDate)).toLocaleDateString(),
 
       // bikeAmount: this.bikeAmount.toString(),
       starterMessage: this.starterMessage,
@@ -91,10 +90,10 @@ export class BeforeArrivalPage implements OnInit {
 
   onSendBikeReservation() {
     this.afs.collection('bevore-arrival').add({
-      email: this.email,
-      room: this.room,
-      arriveDate: new Date(Number(this.arriveDate)).toLocaleDateString(),
-      leaveDate: new Date(Number(this.leaveDate)).toLocaleDateString(),
+      // email: this.email,
+      // room: this.room,
+      // arriveDate: new Date(Number(this.arriveDate)).toLocaleDateString(),
+      // leaveDate: new Date(Number(this.leaveDate)).toLocaleDateString(),
 
       bikeAmount: this.bikeAmount.toString(),
       //  starterMessage: this.starterMessage,

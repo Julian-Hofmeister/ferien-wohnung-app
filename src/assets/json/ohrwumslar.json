@@ -1,0 +1,27 @@
+{
+
+    "client-email": "info@oberstdorf-ohrwumslar.de",
+
+    "pageTitle": "Ohrwumslar",
+    "pageSubtitle": "Ihre Ferienwohnung",
+
+    "backgroundImage": "https://firebasestorage.googleapis.com/v0/b/vacation-home-app-ohrwumslar.appspot.com/o/test%2Fmountain-1.jpg?alt=media&token=30f56fdd-2e6f-42f2-8cc5-89c82de4ea1f",
+
+    "welcomeMessage": "Liebe Gäste, wir wünschen Ihnen, dass Sie sich hier in der Wohnung wohlfühlen, Ihren Alltag hinter sich lassen und Ihre Energie in der herrlichen Natur der Oberstdorfer Bergwelt auftanken können.",
+
+    "periodOfStayWidget": true,
+
+    "apartmentDetailService": true,
+    "breakfastService": true,
+    "saunaService": true,
+    "feedbackService": true,
+
+    "feedbackLink": "https://g.page/r/CcgiqX68TxgkEAg/review",
+
+    "baker-email": "test@example.com"
+
+
+
+
+
+}

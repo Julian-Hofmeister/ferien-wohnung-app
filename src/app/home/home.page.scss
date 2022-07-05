@@ -80,7 +80,7 @@ hr {
     text-align: center;
     margin-bottom: 2rem;
     border-radius: 30px;
-    background-color: var(--ion-color-light-shade);
+    background-color: #eaeff1;
     .guest-list {
         margin-top: .6rem;
         margin-bottom: .6rem;
@@ -101,14 +101,9 @@ hr {
     }
 }
 
-//----------------------------------------------
-.content-row {
-    margin: 0 20px;
-    margin-top: 1rem;
-}
-
+// //----------------------------------------------
 .content-row-small {
-    margin: 0 10px;
+    margin: 0;
     margin-top: .5rem;
 }
 
@@ -122,11 +117,11 @@ hr {
     padding: 0px;
     hr {
         background-color: rgba(56, 56, 56, 0.274);
-        width: 100%;
+        width: 90%;
         margin-bottom: 1.5rem;
     }
     ion-button {
-        width: 100%;
+        width: 90%;
         ion-icon {
             margin-left: 1rem;
         }
@@ -136,24 +131,8 @@ hr {
     }
 }
 
-.action-card-small {
-    position: relative;
-    text-align: center;
+app-action-card-small {
+    width: 100%;
     max-width: 10rem;
-    width: calc(50% - 10px);
     margin: 10px;
-    color: var(--ion-color-light);
-    img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        filter: brightness(70%);
-        border-radius: 20px;
-    }
-    p {
-        color: var(--ion-color-light);
-    }
-    span {
-        font-size: 2.5rem;
-    }
 }

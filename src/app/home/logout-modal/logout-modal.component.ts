@@ -44,7 +44,9 @@ export class LogoutModalComponent implements OnInit {
 
   onLogout() {
     localStorage.clear();
+
     this.router.navigate(['authentication']);
+
     this.modalCtrl.dismiss();
   }
 
@@ -53,6 +55,7 @@ export class LogoutModalComponent implements OnInit {
   onClose() {
     this.modalCtrl.dismiss();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

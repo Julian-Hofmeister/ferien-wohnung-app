@@ -31,6 +31,8 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   falsePasswordFormat = false;
 
+  houseId = 'cY5uJEjXWiA45P9QMCbk';
+
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -73,6 +75,12 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
+  onOpenPageCreator() {
+    this.router.navigate(['/page-creator']);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
   onChange() {
     this.emailNotFound = false;
 
@@ -107,6 +115,9 @@ export class AuthenticationPage implements OnInit, OnDestroy {
         localStorage.setItem('user-arriveDate', user.arriveDate.toString());
         localStorage.setItem('user-leaveDate', user.leaveDate.toString());
         localStorage.setItem('user-apartment', user.apartment);
+        localStorage.setItem('user-houseID', user.houseId);
+
+        localStorage.setItem('house-id', this.houseId);
       } else if (user.email === this.email) {
         this.emailNotFound = false;
 
@@ -118,12 +129,15 @@ export class AuthenticationPage implements OnInit, OnDestroy {
       }
     }
   }
+
   // ----------------------------------------------------------------------------------------------
 
   focusInput(input: string) {
     document.getElementById(input).style.border =
       'solid 1px var(--ion-color-primary)';
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   unFocusInput(input: string) {
     document.getElementById(input).style.border =
@@ -153,6 +167,7 @@ export class AuthenticationPage implements OnInit, OnDestroy {
           arriveDate: currentUser.arriveDate,
           leaveDate: currentUser.leaveDate,
           apartment: currentUser.room,
+          houseId: currentUser.houseId,
         };
 
         this.loadedUsers.push(fetchUser);

@@ -25,10 +25,10 @@
                         Schreiben Sie uns einfach eine Einkaufsliste mit Dingen die Sie gerne bei Ihrer Ankuft auffinden möchten
                     </p>
                     <ion-textarea [(ngModel)]="starterMessage" placeholder="Wurst und Käse, ..." rows="12" autofocus="false"></ion-textarea>
-                    <p *ngIf="email === 'admin'" id="subtitle">
+                    <p *ngIf="user.email === 'admin'" id="subtitle">
                         Sie sind als Administrator eingeloggt.<br /> Sie können dieses Feature nicht nutzen.
                     </p>
-                    <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSendStarterMessage()" [disabled]="email === 'admin' || !starterMessage">Liste abschicken
+                    <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSendStarterMessage()" [disabled]="user.email === 'admin' || !starterMessage">Liste abschicken
                         <span class="material-icons-outlined"> send </span>
                     </ion-button>
                     <p class="space">space</p>
@@ -50,7 +50,7 @@
                         </ion-item>
                     </div>
 
-                    <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSendBikeReservation()" [disabled]="email === 'admin' || !bikeAmount">Anzahl abschicken
+                    <ion-button class="send-btn" expand="block" id="send-btn" (click)="onSendBikeReservation()" [disabled]="user.email === 'admin' || !bikeAmount">Anzahl abschicken
                         <span class="material-icons-outlined"> send </span>
                     </ion-button>
                     <p class="space">space</p>

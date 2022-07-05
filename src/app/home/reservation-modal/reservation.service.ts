@@ -12,8 +12,11 @@ export class ReservationService {
 
   reservationList: Observable<any[]>;
 
-  path = this.afs.collection('sauna-reservations', (ref) =>
-    ref.orderBy('time')
+  houseId = localStorage.getItem('house-id');
+
+  path = this.afs.collection(
+    'houses/' + this.houseId + '/3sauna-reservations',
+    (ref) => ref.orderBy('time')
   );
 
   //#endregion

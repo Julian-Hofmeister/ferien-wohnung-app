@@ -1,4 +1,4 @@
 export interface InformationItem {
   title: string;
-  id: string;
+  id?: string;
 }

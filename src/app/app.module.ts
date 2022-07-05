@@ -11,21 +11,24 @@ import { AppComponent } from './app.component';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { IonicNativePlugin } from '@ionic-native/core';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        IonicModule.forRoot(),
-        AppRoutingModule,
-        AngularFireModule.initializeApp(environment.firebase, 'angularfs'),
-    ],
-    providers: [
-        {
-            provide: RouteReuseStrategy,
-            useClass: IonicRouteStrategy,
-        },
-        { provide: EmailComposer, useClass: IonicNativePlugin },
-    ],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase, 'angularfs'),
+    HttpClientModule,
+  ],
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy,
+    },
+    { provide: EmailComposer, useClass: IonicNativePlugin },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

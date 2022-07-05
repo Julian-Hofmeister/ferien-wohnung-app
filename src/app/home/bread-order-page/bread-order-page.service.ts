@@ -14,7 +14,9 @@ export class BreadOrderService {
 
   dateNow = Date.now();
 
-  path = this.afs.collection('data');
+  houseId = localStorage.getItem('house-id');
+
+  path = this.afs.collection('houses');
 
   //#endregion
 

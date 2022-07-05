@@ -91,6 +91,9 @@ export class AdminPage {
     const user: User = {
       email: this.email,
       id: this.newUserId,
+      //TODO: Real HouseID
+      houseId: 'cY5uJEjXWiA45P9QMCbk',
+
       arriveDate: arriveTimestamp,
       leaveDate: leaveTimestamp,
       apartment: this.apartment,

@@ -12,7 +12,12 @@ export class OffersService {
 
   offerItems: Observable<any[]>;
 
-  path = this.afs.collection('offers', (ref) => ref.orderBy('title'));
+  houseId = localStorage.getItem('house-id');
+
+  path = this.afs.collection(
+    'houses/' + this.houseId + '/offer-categories',
+    (ref) => ref.orderBy('title')
+  );
 
   //#endregion
 
@@ -25,6 +30,8 @@ export class OffersService {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   getOfferItems(): Observable<any[]> {
+    console.log(this.houseId);
+
     this.offerItems = this.path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {

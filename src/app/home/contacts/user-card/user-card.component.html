@@ -1,0 +1,12 @@
+<div class="user-card" [ngClass]="{ unread: user.isRead === false }">
+    <div class="top-right" *ngIf="user.isRead === false"></div>
+    <ion-row>
+        <div class="profile-card">
+            <h1>{{ profileLetter }}</h1>
+        </div>
+        <ion-col>
+            <h4>{{ user.email }}</h4>
+            <p>{{ user.latestMessage }}</p>
+        </ion-col>
+    </ion-row>
+</div>
