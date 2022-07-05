@@ -15,7 +15,7 @@ export class ApartmentDetailService {
   houseId = localStorage.getItem('house-id');
 
   path = this.afs.collection(
-    'houses/' + this.houseId + 'apartment-detail',
+    'houses/' + this.houseId + '/apartment-detail',
     (ref) => ref.orderBy('title')
   );
 

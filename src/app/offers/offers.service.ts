@@ -14,10 +14,12 @@ export class OffersService {
 
   houseId = localStorage.getItem('house-id');
 
-  path = this.afs.collection(
-    'houses/' + this.houseId + '/offer-categories',
-    (ref) => ref.orderBy('title')
-  );
+  path = this.afs
+    .collection('houses')
+    .doc(this.houseId)
+    .collection('offer-categories', (ref) => ref.orderBy('title'));
+
+  // path = this.afs.collection('offers');
 
   //#endregion
 

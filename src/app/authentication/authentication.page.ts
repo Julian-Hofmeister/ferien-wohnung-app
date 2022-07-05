@@ -18,20 +18,29 @@ export class AuthenticationPage implements OnInit, OnDestroy {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   loadedUsers: User[];
+
   isLoading = false;
 
-  email: string;
-  password: number;
+  // ----------------------------------------------------------------------------------------------
+
+  // BUG WITH SPACE
+  houseId = 'cY5uJEjXWiA45P9QMCbk';
+
+  email: string = 'ju.hofmeister@web.de';
+
+  password: number = 605966;
+
+  // ----------------------------------------------------------------------------------------------
 
   showHelpText = false;
+
+  // ----------------------------------------------------------------------------------------------
 
   emailNotFound = false;
 
   passwordIncorrect = false;
 
   falsePasswordFormat = false;
-
-  houseId = 'cY5uJEjXWiA45P9QMCbk';
 
   //#endregion
 
@@ -59,8 +68,12 @@ export class AuthenticationPage implements OnInit, OnDestroy {
     this.falsePasswordFormat = false;
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   ngOnDestroy() {
-    this.userSub.unsubscribe();
+    if (this.userSub) {
+      this.userSub.unsubscribe();
+    }
   }
 
   //#endregion
@@ -110,14 +123,7 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
         this.router.navigate(['home']);
 
-        localStorage.setItem('user-email', user.email);
-        localStorage.setItem('user-id', user.id);
-        localStorage.setItem('user-arriveDate', user.arriveDate.toString());
-        localStorage.setItem('user-leaveDate', user.leaveDate.toString());
-        localStorage.setItem('user-apartment', user.apartment);
-        localStorage.setItem('user-houseID', user.houseId);
-
-        localStorage.setItem('house-id', this.houseId);
+        this.setUserToLocalStorage(user);
       } else if (user.email === this.email) {
         this.emailNotFound = false;
 
@@ -176,7 +182,16 @@ export class AuthenticationPage implements OnInit, OnDestroy {
       }
     });
   }
+
   // ----------------------------------------------------------------------------------------------
 
+  private setUserToLocalStorage(user: User) {
+    localStorage.setItem('user-email', user.email);
+    localStorage.setItem('user-id', user.id);
+    localStorage.setItem('user-arriveDate', user.arriveDate.toString());
+    localStorage.setItem('user-leaveDate', user.leaveDate.toString());
+    localStorage.setItem('user-apartment', user.apartment);
+    localStorage.setItem('house-id', user.houseId.toString());
+  }
   //#endregion
 }

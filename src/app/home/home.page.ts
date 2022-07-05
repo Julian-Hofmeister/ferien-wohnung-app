@@ -89,6 +89,8 @@ export class HomePage implements OnInit, OnDestroy {
       this.isAdmin = true;
       this.fetchUsers();
     }
+
+    this.fetchHouseData();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -257,6 +259,8 @@ export class HomePage implements OnInit, OnDestroy {
 
         if (fetchedHouse.id == this.user.houseId) {
           this.loadedHouse = fetchedHouse;
+
+          console.log(fetchedHouse);
         }
 
         this.isLoading = false;

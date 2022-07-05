@@ -139,6 +139,8 @@ export class OffersPage implements OnInit, OnDestroy {
           this.loadedOfferItemList.push(fetchedItem);
 
           this.isLoading = false;
+
+          console.log(this.loadedOfferItemList);
         }
       });
   }

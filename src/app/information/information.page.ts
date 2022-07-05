@@ -20,7 +20,7 @@ export class InformationPage implements OnInit, OnDestroy {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  isLoading = true;
+  isLoading = false;
 
   loadedInformationItemList: InformationItem[];
 
@@ -29,15 +29,11 @@ export class InformationPage implements OnInit, OnDestroy {
 
   searchTerm: string;
 
-  data = null;
-
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   private itemSub: Subscription;
-
-  private _jsonURL = 'assets/json/ohrwumslar.json';
 
   //#endregion
 
@@ -48,17 +44,7 @@ export class InformationPage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private firestore: AngularFirestore,
     private http: HttpClient
-  ) {
-    this.getJSON().subscribe((data) => {
-      console.log(data);
-
-      this.data = data;
-
-      this.isLoading = false;
-
-      // this.loadInformationList();
-    });
-  }
+  ) {}
 
   //#endregion
 
@@ -68,6 +54,8 @@ export class InformationPage implements OnInit, OnDestroy {
     this.fetchInformationItemsFromFirestore();
 
     this.detailItemList = await this.initializeItems();
+
+    console.log(this.isLoading);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -153,6 +141,7 @@ export class InformationPage implements OnInit, OnDestroy {
           };
 
           this.loadedInformationItemList.push(fetchedItem);
+          console.log(this.loadedInformationItemList);
 
           this.isLoading = false;
         }
@@ -160,10 +149,6 @@ export class InformationPage implements OnInit, OnDestroy {
   }
 
   // ----------------------------------------------------------------------------------------------
-
-  private getJSON(): Observable<any> {
-    return this.http.get(this._jsonURL);
-  }
 
   // ----------------------------------------------------------------------------------------------
 

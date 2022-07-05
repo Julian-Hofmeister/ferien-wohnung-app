@@ -37,6 +37,7 @@ export class InformationService {
           data.id = item.payload.doc.id;
           console.log('data: ' + data);
 
+          console.log(this.informationItems);
           return data;
         })
       ),
