@@ -1,6 +1,9 @@
 export interface House {
   id: string;
 
+  clientId: string;
+  clientEmail: string;
+
   pageTitle: string;
   pageSubtitle: string;
 
@@ -18,5 +21,4 @@ export interface House {
   feedbackLink: string;
 
   bakerEmail?: string;
-  clientEmail: string;
 }

@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { IonContent, IonList, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { User } from 'src/app/authentication/user.model';
 import { Message } from './message.model';
@@ -15,6 +15,8 @@ import { MessageService } from './message.service';
 export class MessagePage implements OnInit, OnDestroy {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
+  @ViewChild(IonContent) content: IonContent;
+
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
@@ -23,11 +25,17 @@ export class MessagePage implements OnInit, OnDestroy {
 
   user: User = {
     id: localStorage.getItem('user-id'),
+
     email: localStorage.getItem('user-email'),
+    password: localStorage.getItem('user-password'),
+
+    role: localStorage.getItem('user-role'),
+
+    houseId: localStorage.getItem('user-houseId'),
+    apartment: localStorage.getItem('user-apartment'),
+
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
-    apartment: localStorage.getItem('user-apartment'),
-    houseId: localStorage.getItem('user-houseId'),
   };
 
   isLoading = false;
@@ -73,6 +81,8 @@ export class MessagePage implements OnInit, OnDestroy {
     this.fetchMessages();
 
     this.readMessage();
+
+    this.isLoading = false;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -139,14 +149,17 @@ export class MessagePage implements OnInit, OnDestroy {
 
         // * DEFINE NEW ITEM
         for (const currentMessage of messages) {
+          const message = currentMessage.message.replaceAll('\\n', '\n');
+
           const fetchMessage: Message = {
             timestamp: currentMessage.timestamp,
             email: currentMessage.email,
-            message: currentMessage.message,
+            message: message,
           };
 
           this.loadedMessages.push(fetchMessage);
-          this.isLoading = false;
+
+          this.content.scrollToBottom(600);
         }
       });
   }

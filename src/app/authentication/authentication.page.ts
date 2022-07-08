@@ -24,7 +24,6 @@ export class AuthenticationPage implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   // BUG WITH SPACE
-  houseId = 'cY5uJEjXWiA45P9QMCbk';
 
   email: string = 'ju.hofmeister@web.de';
 
@@ -169,11 +168,17 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
         const fetchUser: User = {
           id: currentUser.id,
+
           email: currentUser.email,
+          password: currentUser.password,
+
+          role: currentUser.role,
+
+          houseId: currentUser.houseId,
+          apartment: currentUser.room,
+
           arriveDate: currentUser.arriveDate,
           leaveDate: currentUser.leaveDate,
-          apartment: currentUser.room,
-          houseId: currentUser.houseId,
         };
 
         this.loadedUsers.push(fetchUser);
@@ -186,12 +191,18 @@ export class AuthenticationPage implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   private setUserToLocalStorage(user: User) {
-    localStorage.setItem('user-email', user.email);
     localStorage.setItem('user-id', user.id);
+
+    localStorage.setItem('user-email', user.email);
+    localStorage.setItem('user-password', user.password);
+
+    localStorage.setItem('user-role', user.role);
+
+    localStorage.setItem('house-id', user.houseId);
+    localStorage.setItem('user-apartment', user.apartment);
+
     localStorage.setItem('user-arriveDate', user.arriveDate.toString());
     localStorage.setItem('user-leaveDate', user.leaveDate.toString());
-    localStorage.setItem('user-apartment', user.apartment);
-    localStorage.setItem('house-id', user.houseId.toString());
   }
   //#endregion
 }

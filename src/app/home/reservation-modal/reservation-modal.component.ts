@@ -38,11 +38,17 @@ export class ReservationModalComponent implements OnInit, OnDestroy {
 
   user: User = {
     id: localStorage.getItem('user-id'),
+
     email: localStorage.getItem('user-email'),
+    password: localStorage.getItem('user-password'),
+
+    role: localStorage.getItem('user-role'),
+
+    houseId: localStorage.getItem('user-houseId'),
+    apartment: localStorage.getItem('user-apartment'),
+
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
-    apartment: localStorage.getItem('user-apartment'),
-    houseId: localStorage.getItem('user-houseId'),
   };
 
   //#endregion

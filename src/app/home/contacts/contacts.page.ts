@@ -96,13 +96,20 @@ export class ContactsPage implements OnInit, OnDestroy {
       for (const currentUser of users) {
         const fetchedUser: User = {
           id: currentUser.id,
+
           email: currentUser.email,
+          password: currentUser.password,
+
+          role: currentUser.role,
+
+          houseId: currentUser.houseId,
+          apartment: currentUser.room,
+
           arriveDate: currentUser.arriveDate,
           leaveDate: currentUser.leaveDate,
-          apartment: currentUser.room,
+
           latestMessage: currentUser.latestMessage,
           isRead: currentUser.isRead,
-          houseId: currentUser.houseId,
         };
 
         // if (fetchedUser.leaveDate > this.currentDate) {

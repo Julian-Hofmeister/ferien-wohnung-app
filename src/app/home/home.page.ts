@@ -45,11 +45,17 @@ export class HomePage implements OnInit, OnDestroy {
 
   user: User = {
     id: localStorage.getItem('user-id'),
+
     email: localStorage.getItem('user-email'),
+    password: localStorage.getItem('user-password'),
+
+    role: localStorage.getItem('user-role'),
+
+    houseId: localStorage.getItem('house-id'),
     apartment: localStorage.getItem('user-apartment'),
+
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
-    houseId: localStorage.getItem('house-id'),
   };
 
   //#endregion
@@ -198,11 +204,17 @@ export class HomePage implements OnInit, OnDestroy {
 
         const fetchedUser: User = {
           id: currentUser.id,
+
           email: currentUser.email,
+          password: currentUser.password,
+
+          role: currentUser.role,
+
+          houseId: currentUser.houseId,
+          apartment: currentUser.room,
+
           arriveDate: currentUser.arriveDate,
           leaveDate: currentUser.leaveDate,
-          apartment: currentUser.room,
-          houseId: currentUser.houseId,
         };
 
         if (fetchedUser.leaveDate > this.currentDate) {
@@ -219,7 +231,7 @@ export class HomePage implements OnInit, OnDestroy {
   private fetchHouseData() {
     this.isLoading = true;
 
-    this.houseSub = this.houseService.getUsers().subscribe((houses) => {
+    this.houseSub = this.houseService.getHouses().subscribe((houses) => {
       this.loadedUsers = [];
 
       // * DEFINE NEW ITEM
@@ -250,6 +262,8 @@ export class HomePage implements OnInit, OnDestroy {
           bakerEmail: currentHouse.bakerEmail,
           clientEmail: currentHouse.clientEmail,
         };
+
+        console.log(fetchedHouse.id + this.user.houseId);
 
         if (fetchedHouse.id == this.user.houseId) {
           this.loadedHouse = fetchedHouse;

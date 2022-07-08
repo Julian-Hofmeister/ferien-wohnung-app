@@ -1,10 +1,17 @@
 export interface User {
   id?: string;
-  houseId: string;
+
   email: string;
+  password: string;
+
+  role: string;
+
+  houseId: string;
+  apartment: string;
+
   arriveDate: number;
   leaveDate: number;
-  apartment: string;
+
   latestMessage?: string;
   isRead?: boolean;
 }

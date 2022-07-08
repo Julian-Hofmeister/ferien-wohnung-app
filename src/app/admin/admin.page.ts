@@ -17,8 +17,12 @@ export class AdminPage {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   email: string;
+  password: string;
+
+  role: string;
+
+  house: string;
   apartment: string;
-  newUserId: string;
 
   arriveDate: any;
   leaveDate: any;
@@ -80,7 +84,7 @@ export class AdminPage {
   // ----------------------------------------------------------------------------------------------
 
   onCreateUser() {
-    this.newUserId = Math.floor(100000 + Math.random() * 900000).toString();
+    this.password = Math.floor(100000 + Math.random() * 900000).toString();
 
     const arriveTimestamp =
       Math.round(new Date(this.arriveDate).getTime() / 10000000) * 10000000;
@@ -90,20 +94,27 @@ export class AdminPage {
 
     const user: User = {
       email: this.email,
-      id: this.newUserId,
+      password: this.password,
+
+      role: this.role,
+
       //TODO: Real HouseID
       houseId: 'cY5uJEjXWiA45P9QMCbk',
+      apartment: this.apartment,
 
       arriveDate: arriveTimestamp,
       leaveDate: leaveTimestamp,
-      apartment: this.apartment,
     };
 
-    this.path.doc(user.id).set({
+    this.path.add({
       email: user.email,
+      password: user.password,
+
       arriveDate: arriveTimestamp,
       leaveDate: leaveTimestamp,
-      room: user.apartment,
+
+      apartment: user.apartment,
+      houseId: user.houseId,
     });
 
     this.email = null;
