@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { AngularFireStorage } from '@angular/fire/storage';
+import { House } from '../home/house.model';
 
 @Component({
   selector: 'app-page-creator',
@@ -15,13 +16,17 @@ export class PageCreatorPage implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  accountId = Date.now().toString();
+  // accountId = Date.now().toString();
+
+  accountId = 'cY5uJEjXWiA45P9QMCbk';
 
   // ----------------------------------------------------------------------------------------------
 
+  house: House;
+
   pageTitle: string;
 
-  pageSubitle: string;
+  pageSubtitle: string;
 
   welcomeMessage: string;
 
@@ -104,9 +109,9 @@ export class PageCreatorPage implements OnInit {
       // Get the fullPath in Storage after upload
       const fullPathInStorage = await this.uploadImage(file);
 
-      this.afs.collection('account').doc(this.accountId).update({
+      this.afs.collection('houses').doc('cY5uJEjXWiA45P9QMCbk').update({
         pageTitle: this.pageTitle,
-        pageSubitle: this.pageSubitle,
+        pageSubtitle: this.pageSubtitle,
         welcomeMessage: this.welcomeMessage,
 
         imagePath: fullPathInStorage,
@@ -119,6 +124,8 @@ export class PageCreatorPage implements OnInit {
         feedbackService: this.feedbackService,
 
         feedbackLink: this.feedbackLink,
+
+        // house: this.house,
       });
 
       // Get the downloadUrl for the src of img

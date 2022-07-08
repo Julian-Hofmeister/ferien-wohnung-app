@@ -10,11 +10,11 @@
                     </div>
 
                     <div class="centered">
-                        <h1>{{data.pageTitle}}</h1>
+                        <h1>{{house.pageTitle}}</h1>
 
                         <hr />
 
-                        <h5>{{data.pageSubtitle}}</h5>
+                        <h5>{{house.pageSubtitle}}</h5>
                     </div>
                 </div>
             </ion-col>
@@ -23,9 +23,9 @@
         <ion-row *ngIf="!isAdmin">
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="content-card">
-                    <p>{{data.welcomeMessage}}</p>
+                    <p>{{house.welcomeMessage}}</p>
                     <br />
-                    <div class="date-display" *ngIf="data.periodOfStayWidget">
+                    <div class="date-display" *ngIf="house.periodOfStayWidget">
                         <ion-row>
                             <ion-col size="7">
                                 <p>Ihre Buchung:</p>
@@ -74,16 +74,16 @@
 
                 <div class="action-field">
                     <ion-row class="centered-horizontal">
-                        <app-action-card-small *ngIf="data.apartmentDetailService" title="Ihre Wohnung" icon="bed" image="/assets/images/apartment.jpeg" (click)="onOpenApartmentDetailPage()">
+                        <app-action-card-small *ngIf="house.apartmentDetailService" title="Ihre Wohnung" icon="bed" image="/assets/images/apartment.jpeg" (click)="onOpenApartmentDetailPage()">
                         </app-action-card-small>
 
-                        <app-action-card-small *ngIf="data.breakfastService" title="Frühstücks Service" icon="bakery_dining" image="/assets/images/bread.jpg" (click)="onOpenBreadOrderPage()">
+                        <app-action-card-small *ngIf="house.breakfastService" title="Frühstücks Service" icon="bakery_dining" image="/assets/images/bread.jpg" (click)="onOpenBreadOrderPage()">
                         </app-action-card-small>
 
-                        <app-action-card-small *ngIf="data.saunaService" title="Sauna Reservieren" icon="hot_tub" image="/assets/images/sauna.jpeg" (click)="onOpenReservationPage()">
+                        <app-action-card-small *ngIf="house.saunaService" title="Sauna Reservieren" icon="hot_tub" image="/assets/images/sauna.jpeg" (click)="onOpenReservationPage()">
                         </app-action-card-small>
 
-                        <app-action-card-small *ngIf="data.feedbackService" title="Bewerten Sie uns" icon="grade" image="/assets/images/feedback.jpg" (click)="onOpenFeedbackLink()">
+                        <app-action-card-small *ngIf="house.feedbackService" title="Bewerten Sie uns" icon="grade" image="/assets/images/feedback.jpg" (click)="onOpenFeedbackLink()">
                         </app-action-card-small>
 
                         <hr />

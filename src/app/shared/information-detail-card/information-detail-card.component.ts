@@ -30,10 +30,12 @@ export class InformationDetailCardComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.detailItem.description = this.detailItem.description.replace(
-      '\\n',
-      '\n'
-    );
+    if (this.detailItem.description) {
+      this.detailItem.description = this.detailItem.description.replace(
+        '\\n',
+        '\n'
+      );
+    }
   }
 
   //#endregion

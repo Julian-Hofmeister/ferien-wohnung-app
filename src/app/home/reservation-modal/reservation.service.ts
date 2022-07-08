@@ -15,7 +15,7 @@ export class ReservationService {
   houseId = localStorage.getItem('house-id');
 
   path = this.afs.collection(
-    'houses/' + this.houseId + '/3sauna-reservations',
+    'houses/' + this.houseId + '/sauna-reservations',
     (ref) => ref.orderBy('time')
   );
 

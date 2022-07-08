@@ -39,6 +39,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   data = null;
 
+  house: House;
+
   // ----------------------------------------------------------------------------------------------
 
   user: User = {
@@ -70,15 +72,7 @@ export class HomePage implements OnInit, OnDestroy {
     private authService: AuthService,
     private houseService: HouseService,
     private http: HttpClient
-  ) {
-    this.getJSON().subscribe((data) => {
-      console.log(data);
-
-      this.data = data;
-
-      this.isLoading = false;
-    });
-  }
+  ) {}
 
   //#endregion
 
@@ -261,6 +255,8 @@ export class HomePage implements OnInit, OnDestroy {
           this.loadedHouse = fetchedHouse;
 
           console.log(fetchedHouse);
+
+          this.house = fetchedHouse;
         }
 
         this.isLoading = false;
@@ -269,10 +265,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   // ----------------------------------------------------------------------------------------------
-
-  private getJSON(): Observable<any> {
-    return this.http.get(this._jsonURL);
-  }
 
   //#endregion
 }
