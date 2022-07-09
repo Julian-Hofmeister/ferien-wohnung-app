@@ -15,7 +15,7 @@ export class ClientEditorComponent implements OnInit {
 
   @Input() client: Client;
 
-  @ContentChild(IonInput) input: IonInput;
+  // @ContentChild(IonInput) input: IonInput;
 
   //#endregion
 

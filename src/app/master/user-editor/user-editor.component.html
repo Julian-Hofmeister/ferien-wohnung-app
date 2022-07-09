@@ -1,0 +1,39 @@
+<div class="user-editor">
+    <h3>{{ user.email }}</h3>
+
+    <div class="input-field">
+        <p id="hint-text">ID:</p>
+        <ion-input [(ngModel)]="id" type="text" disabled></ion-input>
+    </div>
+
+    <hr />
+
+    <div class="input-field">
+        <p id="hint-text">E-mail:</p>
+        <ion-input [(ngModel)]="email" type="text"></ion-input>
+    </div>
+
+    <div class="input-field">
+        <p id="hint-text">Passwort:</p>
+        <ion-input [(ngModel)]="password" class="type-toggle" (click)="toggleShow()" [type]="showPassword ? 'text' : 'password'">
+            <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+            <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+        </ion-input>
+    </div>
+
+    <br />
+
+    <ion-list>
+        <p id="hint-text">Rolle:</p>
+        <ion-item lines="none">
+            <ion-select interface="popover" placeholder="Select Role">
+                <ion-select-option value="guest">Gast</ion-select-option>
+                <ion-select-option value="admin">Administrator</ion-select-option>
+                <ion-select-option value="manager">Manager</ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+
+    <ion-datetime presentation="date"></ion-datetime>
+    <ion-button (click)="onSave()"> Speichern </ion-button>
+</div>

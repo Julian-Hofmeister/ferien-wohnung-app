@@ -11,10 +11,12 @@
                 <app-category (selectionEmitter)="onSelectCategory($event)"></app-category>
             </ion-col>
             <ion-col size="4" class="border">
-                <app-clients *ngIf="selection === 'clients'" (selectionEmitter)="onSelectClient($event)"></app-clients>
+                <app-clients *ngIf="selection === 'clients'" (clientEmitter)="onSelectClient($event)"></app-clients>
+                <app-users *ngIf="selection === 'users'" (userEmitter)="onSelectUser($event)"></app-users>
             </ion-col>
             <ion-col size="6">
                 <app-client-editor *ngIf="selectedClient" [client]="selectedClient"></app-client-editor>
+                <app-user-editor *ngIf="selectedUser" [user]="selectedUser" [changing]="changingValue"></app-user-editor>
             </ion-col>
         </ion-row>
     </ion-grid>

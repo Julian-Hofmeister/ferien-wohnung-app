@@ -1,28 +1,35 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-import { User } from '../authentication/user.model';
-import { Client } from './category/client.model';
-import { UserEditorComponent } from './user-editor/user-editor.component';
+import { Component, ContentChild, Input, OnInit } from '@angular/core';
+import { IonInput } from '@ionic/angular';
+import { Subject, Subscription } from 'rxjs';
+import { User } from 'src/app/authentication/user.model';
+import { UsersService } from '../users/users.service';
 
 @Component({
-  selector: 'app-master',
-  templateUrl: './master.page.html',
-  styleUrls: ['./master.page.scss'],
+  selector: 'app-user-editor',
+  templateUrl: './user-editor.component.html',
+  styleUrls: ['./user-editor.component.scss'],
 })
-export class MasterPage implements OnInit {
+export class UserEditorComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  @Input() user: User;
+
+  @Input() changing: Subject<boolean>;
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  selection: string;
+  id = '';
 
-  selectedClient: Client;
+  email = '';
+  password = '';
 
-  selectedUser: User;
+  showPassword = false;
 
-  changingValue: Subject<boolean> = new Subject();
+  loadedUsers: User[];
+
+  isLoading = false;
 
   //#endregion
 
@@ -38,7 +45,13 @@ export class MasterPage implements OnInit {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.onChange();
+
+    this.changing.subscribe((v) => {
+      this.onChange();
+    });
+  }
 
   //#endregion
 
@@ -52,32 +65,25 @@ export class MasterPage implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onSelectCategory(selection: string) {
-    this.selection = selection;
+  onChange() {
+    this.id = this.user.id;
 
-    this.selectedClient = null;
-    this.selectedUser = null;
+    this.email = this.user.email;
+    this.password = this.user.password;
+
+    console.log(this.id + ' ' + this.user.id);
+
+    if (this.id != this.user.id) {
+      this.onChange();
+    }
+
+    console.log('Changed');
   }
-
   // ----------------------------------------------------------------------------------------------
 
-  onSelectClient(client: Client) {
-    this.selectedClient = client;
-    console.log(client);
+  onSave() {
+    console.log('Saved');
   }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onSelectUser(user: User) {
-    this.selectedUser = user;
-
-    this.changingValue.next(true);
-
-    console.log(this.selectedUser);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

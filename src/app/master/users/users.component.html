@@ -1,3 +1,10 @@
-<p>
-  users works!
-</p>
+<div class="users">
+    <h3>Users</h3>
+    <ion-list *ngFor="let user of loadedUsers">
+        <div class="user-card" (click)="onSelectUser(user)" [ngClass]="{ selected: selectedUser === user }">
+            <p><strong> Id:</strong> {{ user.id }}</p>
+
+            <p><strong> Email:</strong> {{ user.email }}</p>
+        </div>
+    </ion-list>
+</div>

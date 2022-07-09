@@ -11,6 +11,7 @@ import { CategoryComponent } from './category/category.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientEditorComponent } from './client-editor/client-editor.component';
 import { UsersComponent } from './users/users.component';
+import { UserEditorComponent } from './user-editor/user-editor.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, MasterPageRoutingModule],
@@ -20,6 +21,7 @@ import { UsersComponent } from './users/users.component';
     ClientsComponent,
     ClientEditorComponent,
     UsersComponent,
+    UserEditorComponent,
   ],
 })
 export class MasterPageModule {}

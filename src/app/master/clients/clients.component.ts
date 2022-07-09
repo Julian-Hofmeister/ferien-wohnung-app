@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/authentication/user.model';
 import { Client } from '../category/client.model';
 import { ClientsService } from './clients.service';
 
@@ -11,7 +12,7 @@ import { ClientsService } from './clients.service';
 export class ClientsComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Output() selectionEmitter = new EventEmitter<Client>();
+  @Output() clientEmitter = new EventEmitter<Client>();
 
   //#endregion
 
@@ -19,9 +20,13 @@ export class ClientsComponent implements OnInit {
 
   loadedClients: Client[] = [];
 
+  loadedUsers: User[] = [];
+
   isLoading: boolean;
 
   selectedClient: Client;
+
+  selectedUser: User;
 
   //#endregion
 
@@ -70,7 +75,7 @@ export class ClientsComponent implements OnInit {
 
     console.log(client);
 
-    this.selectionEmitter.emit(client);
+    this.clientEmitter.emit(client);
   }
 
   // ----------------------------------------------------------------------------------------------
