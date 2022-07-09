@@ -1,0 +1,67 @@
+<div class="client-editor">
+    <h3>{{ client.firstName + " " + client.lastName }}</h3>
+
+    <div class="input-field">
+        <p id="hint-text">ID:</p>
+        <ion-input [(ngModel)]="id" type="text" disabled></ion-input>
+    </div>
+
+    <hr />
+
+    <div class="input-field">
+        <p id="hint-text">Vorname:</p>
+        <ion-input [(ngModel)]="firstName" type="text"></ion-input>
+    </div>
+
+    <div class="input-field">
+        <p id="hint-text">Nachname:</p>
+        <ion-input [(ngModel)]="lastName" type="text"></ion-input>
+    </div>
+
+    <hr />
+
+    <div class="input-field">
+        <p id="hint-text">E-mail:</p>
+        <ion-input [(ngModel)]="email" type="text"></ion-input>
+    </div>
+
+    <div class="input-field">
+        <p id="hint-text">Passwort:</p>
+        <ion-input [(ngModel)]="password" class="type-toggle" (click)="toggleShow()" [type]="showPassword ? 'text' : 'password'">
+            <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+            <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+        </ion-input>
+    </div>
+
+    <br />
+
+    <ion-button (click)="onDisplayHouseSelection()">
+        Ferienhäuser
+        <ion-icon name="caret-down-outline" [hidden]="showHouses"></ion-icon>
+        <ion-icon name="caret-up-outline" [hidden]="!showHouses"></ion-icon>
+    </ion-button>
+
+    <ion-list *ngFor="let house of loadedHouses" [hidden]="!showHouses">
+        <div class="house-card">
+            <ion-row>
+                <p>{{ house.pageTitle }}</p>
+                <ion-icon name="trash-outline" [hidden]="!showHouses" (click)="onDetachHouse(house)"></ion-icon>
+            </ion-row>
+        </div>
+    </ion-list>
+
+    <ion-button (click)="onCreateHouse()" [hidden]="!showHouses">
+        Neues Haus erstellen
+        <ion-icon name="add-outline"></ion-icon>
+    </ion-button>
+</div>
+
+<!-- <ion-list>
+      <ion-item>
+          <ion-select placeholder="Select all fruits that apply" [multiple]="true" [ngModel]="houses" (ionChange)="onSelectHouse()">
+              <ion-select-option value="apples">Apples</ion-select-option>
+              <ion-select-option value="oranges">Oranges</ion-select-option>
+              <ion-select-option value="bananas">Bananas</ion-select-option>
+          </ion-select>
+      </ion-item>
+  </ion-list> -->

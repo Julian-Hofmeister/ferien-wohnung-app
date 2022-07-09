@@ -1,0 +1,12 @@
+<div class="clients">
+    <h3>Clients</h3>
+    <ion-list *ngFor="let client of loadedClients">
+        <div class="client-card" (click)="onSelectClient(client)" [ngClass]="{ selected: selectedClient === client }">
+            <p><strong> Id:</strong> {{ client.id }}</p>
+            <p>
+                <strong> Name:</strong> {{ client.firstName + " " + client.lastName }}
+            </p>
+            <p><strong> Email:</strong> {{ client.email }}</p>
+        </div>
+    </ion-list>
+</div>

@@ -31,7 +31,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   isLoading = true;
 
-  loadedUsers: User[] = [];
+  loadedHouses: User[] = [];
 
   loadedHouse: House;
 
@@ -97,6 +97,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
+    this.houseSub.unsubscribe();
   }
 
   //#endregion
@@ -194,7 +195,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this.userSub = this.authService.getUsers().subscribe((users) => {
-      this.loadedUsers = [];
+      this.loadedHouses = [];
 
       // * DEFINE NEW ITEM
       for (const currentUser of users) {
@@ -218,7 +219,7 @@ export class HomePage implements OnInit, OnDestroy {
         };
 
         if (fetchedUser.leaveDate > this.currentDate) {
-          this.loadedUsers.push(fetchedUser);
+          this.loadedHouses.push(fetchedUser);
         }
 
         this.isLoading = false;
@@ -232,7 +233,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this.houseSub = this.houseService.getHouses().subscribe((houses) => {
-      this.loadedUsers = [];
+      this.loadedHouses = [];
 
       // * DEFINE NEW ITEM
       for (const currentHouse of houses) {

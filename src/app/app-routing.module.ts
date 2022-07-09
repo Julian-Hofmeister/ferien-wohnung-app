@@ -94,6 +94,10 @@ const routes: Routes = [
     path: 'page-creator',
     loadChildren: () => import('./page-creator/page-creator.module').then( m => m.PageCreatorPageModule)
   },
+  {
+    path: 'master',
+    loadChildren: () => import('./master/master.module').then( m => m.MasterPageModule)
+  },
 ];
 @NgModule({
   imports: [

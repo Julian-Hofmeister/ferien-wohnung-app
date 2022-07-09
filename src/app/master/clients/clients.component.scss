@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.clients {
+    margin: 1rem;
+    h3 {
+        margin: 1rem 0;
+    }
+}
+
+.client-card {
+    padding: 1rem;
+    margin: .5rem 0;
+    // border: 1px solid red;
+    background-color: #F3F5F7;
+    border-radius: 15px;
+}
+
+.selected {
+    border: 2px solid var(--ion-color-primary);
+}

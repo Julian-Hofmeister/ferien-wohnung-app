@@ -88,7 +88,7 @@ export class AuthenticationPage implements OnInit, OnDestroy {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   onOpenPageCreator() {
-    this.router.navigate(['/page-creator']);
+    this.router.navigate(['/master']);
   }
 
   // ----------------------------------------------------------------------------------------------

@@ -1,62 +1,41 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from './user.model';
+import { User } from 'src/app/authentication/user.model';
+import { Client } from '../category/client.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class ClientsService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  users: Observable<any[]>;
+  clients: Observable<any[]>;
 
-  path = this.afs.collection('users');
+  path = this.afs.collection('clients');
 
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(public afs: AngularFirestore, private router: Router) {}
+  constructor(public afs: AngularFirestore) {}
 
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  getUsers(): Observable<any[]> {
-    this.users = this.path.snapshotChanges().pipe(
+  getClients(): Observable<any[]> {
+    this.clients = this.path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {
-          const data = item.payload.doc.data() as User;
+          const data = item.payload.doc.data() as Client;
           data.id = item.payload.doc.id;
           return data;
         })
       )
     );
-    return this.users;
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  autoSignIn(): true | UrlTree {
-    const userEmail = localStorage.getItem('user-email');
-    const userId = localStorage.getItem('user-id');
-
-    if (userEmail && userId) {
-      this.router.navigate(['tabs/home']);
-      // this.router.navigate(['before-arrival']);
-
-      console.log('LOGIN SUCCESS');
-
-      return true;
-    } else {
-      console.log('NO SUCCESS');
-
-      this.router.navigate(['master']);
-      return this.router.createUrlTree(['/master']);
-    }
+    return this.clients;
   }
 
   // ----------------------------------------------------------------------------------------------

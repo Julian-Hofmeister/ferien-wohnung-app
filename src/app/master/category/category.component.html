@@ -1,0 +1,13 @@
+<div class="categories">
+    <h3 (click)="onSelect('clients')" [ngClass]="{ selectedCategory: selection === 'clients' }">
+        Clients
+    </h3>
+
+    <h3 (click)="onSelect('users')" [ngClass]="{ selectedCategory: selection === 'users' }">
+        Users
+    </h3>
+
+    <h3 (click)="onSelect('houses')" [ngClass]="{ selectedCategory: selection === 'houses' }">
+        Houses
+    </h3>
+</div>
