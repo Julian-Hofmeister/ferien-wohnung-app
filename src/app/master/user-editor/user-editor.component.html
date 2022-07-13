@@ -3,7 +3,7 @@
 
     <div class="input-field">
         <p id="hint-text">ID:</p>
-        <ion-input [(ngModel)]="id" type="text" disabled></ion-input>
+        <ion-input [(ngModel)]="id" disabled></ion-input>
     </div>
 
     <hr />
@@ -23,10 +23,44 @@
 
     <br />
 
+    <div *ngIf="loadedClients">
+        <ion-list *ngFor="let client of loadedClients">
+            <p id="hint-text">Client:</p>
+            <ion-item lines="none">
+                <ion-select interface="popover" placeholder="Select Client" [(ngModel)]="selectedClient" (ionChange)="onSelectClient()">
+                    <ion-select-option [value]="client">{{ client.email }}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <ion-list *ngIf="selectedClient">
+        <p id="hint-text ">House:</p>
+        <ion-item lines="none ">
+            <ion-select interface="popover " placeholder="Select House " [(ngModel)]="selectedHouse" (ionChange)="onSelectHouse()">
+                <ion-select-option [value]="house" *ngFor="let house of loadedHouses">{{ house.pageTitle }}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="selectedHouse">
+        <p id="hint-text ">Apartment:</p>
+        <ion-item lines="none ">
+            <ion-select interface="popover " placeholder="Select Apartment " [(ngModel)]="selectedApartment">
+                <ion-select-option [value]="apartment" *ngFor="let apartment of loadedApartments">{{ apartment.title }}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+
+    <br />
+
     <ion-list>
-        <p id="hint-text">Rolle:</p>
-        <ion-item lines="none">
-            <ion-select interface="popover" placeholder="Select Role">
+        <p id="hint-text ">Rolle:</p>
+        <ion-item lines="none ">
+            <ion-select interface="popover " placeholder="Select Role " [(ngModel)]="role">
                 <ion-select-option value="guest">Gast</ion-select-option>
                 <ion-select-option value="admin">Administrator</ion-select-option>
                 <ion-select-option value="manager">Manager</ion-select-option>
@@ -34,6 +68,20 @@
         </ion-item>
     </ion-list>
 
-    <ion-datetime presentation="date"></ion-datetime>
+    <ion-row>
+        <ion-col class="date-col" size="6 ">
+            <p class="hint-text">Ankunftsdatum:</p>
+
+            <ion-datetime presentation="date " [(ngModel)]="arriveDate">
+            </ion-datetime>
+        </ion-col>
+        <ion-col class="date-col" size="6 ">
+            <p class="hint-text">Abreisedatum:</p>
+
+            <ion-datetime presentation="date " [(ngModel)]="leaveDate">
+            </ion-datetime>
+        </ion-col>
+    </ion-row>
+
     <ion-button (click)="onSave()"> Speichern </ion-button>
 </div>

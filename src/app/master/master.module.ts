@@ -12,6 +12,8 @@ import { ClientsComponent } from './clients/clients.component';
 import { ClientEditorComponent } from './client-editor/client-editor.component';
 import { UsersComponent } from './users/users.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
+import { HousesComponent } from './houses/houses.component';
+import { HouseEditorComponent } from './house-editor/house-editor.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, MasterPageRoutingModule],
@@ -22,6 +24,8 @@ import { UserEditorComponent } from './user-editor/user-editor.component';
     ClientEditorComponent,
     UsersComponent,
     UserEditorComponent,
+    HousesComponent,
+    HouseEditorComponent,
   ],
 })
 export class MasterPageModule {}

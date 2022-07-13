@@ -66,8 +66,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   private houseSub: Subscription;
 
-  private _jsonURL = 'assets/json/ohrwumslar.json';
-
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -76,8 +74,7 @@ export class HomePage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private router: Router,
     private authService: AuthService,
-    private houseService: HouseService,
-    private http: HttpClient
+    private houseService: HouseService
   ) {}
 
   //#endregion
@@ -90,14 +87,19 @@ export class HomePage implements OnInit, OnDestroy {
       this.fetchUsers();
     }
 
-    this.fetchHouseData();
+    this.fetchHouses();
   }
 
   // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
-    this.userSub.unsubscribe();
-    this.houseSub.unsubscribe();
+    if (this.houseSub) {
+      this.houseSub.unsubscribe();
+    }
+
+    if (this.userSub) {
+      this.userSub.unsubscribe();
+    }
   }
 
   //#endregion
@@ -229,7 +231,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  private fetchHouseData() {
+  private fetchHouses() {
     this.isLoading = true;
 
     this.houseSub = this.houseService.getHouses().subscribe((houses) => {

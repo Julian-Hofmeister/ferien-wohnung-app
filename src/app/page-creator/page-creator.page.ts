@@ -142,7 +142,7 @@ export class PageCreatorPage implements OnInit {
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
-  async uploadImage(file): Promise<string> {
+  private async uploadImage(file): Promise<string> {
     /**
      * You can add random number in file.name to avoid overwrites,
      * or replace the file.name to a static string if you intend to overwrite

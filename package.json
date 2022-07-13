@@ -28,7 +28,7 @@
     "@ionic-native/core": "^5.34.0",
     "@ionic-native/email-composer": "^5.34.0",
     "@ionic-native/keyboard": "^4.20.0",
-    "@ionic/angular": "^5.5.2",
+    "@ionic/angular": "^6.1.13",
     "@sendgrid/mail": "^7.4.6",
     "@types/nodemailer": "^6.4.4",
     "@types/nodemailer-direct-transport": "^1.0.32",

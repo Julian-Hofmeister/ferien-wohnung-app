@@ -2,7 +2,7 @@ export interface House {
   id: string;
 
   clientId?: string;
-  clientEmail: string;
+  clientEmail?: string;
 
   pageTitle: string;
   pageSubtitle: string;

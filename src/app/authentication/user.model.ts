@@ -6,7 +6,9 @@ export interface User {
 
   role: string;
 
+  clientId?: string;
   houseId: string;
+  apartmentId?: string;
   apartment: string;
 
   arriveDate: number;

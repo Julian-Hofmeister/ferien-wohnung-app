@@ -39,6 +39,39 @@ export class UsersService {
 
   // ----------------------------------------------------------------------------------------------
 
+  createUser(user: User) {
+    this.afs.collection('users').add({
+      email: user.email,
+      password: user.password,
+
+      role: user.role,
+
+      clientId: user.clientId,
+      houseId: user.houseId,
+      apartment: user.apartment,
+
+      arriveDate: user.arriveDate,
+      leaveDate: user.leaveDate,
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  updateUser(user: User) {
+    this.afs.collection('users').doc(user.id).update({
+      email: user.email,
+      password: user.password,
+
+      role: user.role,
+
+      clientId: user.clientId,
+      houseId: user.houseId,
+      apartment: user.apartment,
+
+      arriveDate: user.arriveDate,
+      leaveDate: user.leaveDate,
+    });
+  }
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////

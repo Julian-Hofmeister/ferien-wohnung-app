@@ -1,36 +1,29 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
-import { Client } from '../category/client.model';
-import { ClientsService } from './clients.service';
+import { House } from 'src/app/home/house.model';
+import { HouseService } from 'src/app/home/house.service';
+import { UsersService } from '../users/users.service';
 
 @Component({
-  selector: 'app-clients',
-  templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.scss'],
+  selector: 'app-houses',
+  templateUrl: './houses.component.html',
+  styleUrls: ['./houses.component.scss'],
 })
-export class ClientsComponent implements OnInit, OnDestroy {
+export class HousesComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Output() clientEmitter = new EventEmitter<Client>();
+  @Output() houseEmitter = new EventEmitter<House>();
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  loadedClients: Client[] = [];
+  loadedHouses: House[] = [];
 
-  loadedUsers: User[] = [];
+  selectedHouse: House;
 
   isLoading: boolean;
-
-  selectedClient: Client;
 
   selectedUser: User;
 
@@ -38,31 +31,29 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
-  private clientSub: Subscription;
+  private houseSub: Subscription;
 
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private clientsService: ClientsService) {}
+  constructor(private houseService: HouseService) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.fetchClients();
+    this.fetchHouses();
   }
 
   // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
-    if (this.clientSub) {
-      this.clientSub.unsubscribe();
+    if (this.houseSub) {
+      this.houseSub.unsubscribe();
     }
   }
-
-  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
@@ -76,12 +67,12 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onSelectClient(client: Client) {
-    this.selectedClient = client;
+  onSelectHouse(house: House) {
+    this.selectedHouse = house;
 
-    console.log(client);
+    console.log(house.id);
 
-    this.clientEmitter.emit(client);
+    this.houseEmitter.emit(house);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -90,32 +81,44 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
-  private fetchClients() {
+  private fetchHouses() {
     this.isLoading = true;
-    this.clientSub = this.clientsService.getClients().subscribe((clients) => {
-      this.loadedClients = [];
+
+    this.houseSub = this.houseService.getHouses().subscribe((houses) => {
+      this.loadedHouses = [];
 
       // * DEFINE NEW ITEM
-      for (const currentClient of clients) {
+      for (const currentHouse of houses) {
         // const imagePath = this.afStorage
         //   .ref(currentLoadedItem.imagePath)
         //   .getDownloadURL();
 
-        const fetchedClient: Client = {
-          id: currentClient.id,
+        const fetchedHouse: House = {
+          id: currentHouse.id,
 
-          email: currentClient.email,
-          password: currentClient.password,
+          pageTitle: currentHouse.pageTitle,
+          pageSubtitle: currentHouse.pageSubtitle,
 
-          firstName: currentClient.firstName,
-          lastName: currentClient.lastName,
+          backgroundImage: currentHouse.backgroundImage,
 
-          houses: currentClient.houses,
+          welcomeMessage: currentHouse.welcomeMessage,
+
+          periodOfStayWidget: currentHouse.periodOfStayWidget,
+
+          apartmentDetailService: currentHouse.apartmentDetailService,
+          breakfastService: currentHouse.breakfastService,
+          saunaService: currentHouse.saunaService,
+          feedbackService: currentHouse.feedbackService,
+
+          feedbackLink: currentHouse.feedbackLink,
+
+          bakerEmail: currentHouse.bakerEmail,
+          clientEmail: currentHouse.clientEmail,
         };
 
-        this.loadedClients.push(fetchedClient);
+        this.loadedHouses.push(fetchedHouse);
+
         this.isLoading = false;
-        console.log(this.loadedClients);
       }
     });
   }

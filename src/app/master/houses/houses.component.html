@@ -1,0 +1,10 @@
+<div class="houses">
+    <h3>Houses</h3>
+    <ion-list *ngFor="let house of loadedHouses">
+        <div class="house-card" (click)="onSelectHouse(house)" [ngClass]="{ selected: selectedHouse === house }">
+            <p><strong> Id:</strong> {{ house.id }}</p>
+
+            <p><strong> Name:</strong> {{ house.pageTitle }}</p>
+        </div>
+    </ion-list>
+</div>

@@ -76,7 +76,8 @@ export class ContactsPage implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onOpenChat(userId: any) {
-    this.navCtrl.navigateForward('/message', { state: userId });
+    //TODO UPDATE NAVIGATION
+    // this.navCtrl.navigateForward('/message', { state: userId });
   }
 
   // ----------------------------------------------------------------------------------------------

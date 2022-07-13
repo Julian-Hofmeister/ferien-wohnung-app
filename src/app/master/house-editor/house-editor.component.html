@@ -1,0 +1,67 @@
+<div class="house-editor">
+    <h3>{{ house.pageTitle }}</h3>
+
+    <div class="input-field">
+        <p id="hint-text">ID:</p>
+        <ion-input [(ngModel)]="id" disabled></ion-input>
+    </div>
+
+    <hr />
+
+    <div class="input-field">
+        <p id="hint-text">pageTitle:</p>
+        <ion-input [(ngModel)]="pageTitle" type="text"></ion-input>
+    </div>
+
+    <div class="input-field">
+        <p id="hint-text">pageSubtitle:</p>
+        <ion-input [(ngModel)]="pageSubtitle" type="text"></ion-input>
+    </div>
+
+    <div class="input-field">
+        <p id="hint-text">welcomeMessage:</p>
+        <ion-textarea auto-grow="true" id="textbar" lines="none" type="text" rows="1" [(ngModel)]="welcomeMessage"></ion-textarea>
+    </div>
+
+    <br />
+
+    <div class="input-field">
+        <p id="hint-text">imagePath:*</p>
+        <ion-input type="file" (change)="onFileChosen($event)"></ion-input>
+        <img [src]="selectedImage ? selectedImage : backgroundImage" id="output" />
+    </div>
+
+    <h3>Features</h3>
+
+    <ion-item>
+        <ion-label>periodOfStayWidget</ion-label>
+        <ion-toggle [(ngModel)]="periodOfStayWidget"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>apartmentDetailService</ion-label>
+        <ion-toggle [(ngModel)]="apartmentDetailService"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>breakfastService</ion-label>
+        <ion-toggle [(ngModel)]="breakfastService"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>saunaService</ion-label>
+        <ion-toggle [(ngModel)]="saunaService"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>feedbackService</ion-label>
+        <ion-toggle [(ngModel)]="feedbackService"></ion-toggle>
+    </ion-item>
+
+    <div class="input-field" *ngIf="feedbackService">
+        <p id="hint-text">feedbackLink:*</p>
+        <ion-input [(ngModel)]="feedbackLink" type="text" autofocus></ion-input>
+    </div>
+
+    <ion-button (click)="onSave()"> Speichern </ion-button>
+</div>
