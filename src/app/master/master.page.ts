@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { User } from '../authentication/user.model';
 import { House } from '../home/house.model';
 import { Client } from './category/client.model';
-import { UserEditorComponent } from './user-editor/user-editor.component';
 
 @Component({
   selector: 'app-master',
@@ -27,11 +26,13 @@ export class MasterPage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
-  changingClient: Subject<boolean> = new Subject();
+  // changingClient: Subject<boolean> = new Subject();
 
   changingUser: Subject<boolean> = new Subject();
 
   changingHouse: Subject<boolean> = new Subject();
+
+  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
@@ -73,9 +74,7 @@ export class MasterPage implements OnInit {
   onSelectClient(client: Client) {
     this.selectedClient = client;
 
-    this.changingClient.next(true);
-
-    console.log(this.selectedClient);
+    // this.changingClient.next(true);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -83,9 +82,7 @@ export class MasterPage implements OnInit {
   onSelectUser(user: User) {
     this.selectedUser = user;
 
-    this.changingUser.next(true);
-
-    console.log(this.selectedUser);
+    // this.changingUser.next(true);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -94,8 +91,6 @@ export class MasterPage implements OnInit {
     this.selectedHouse = house;
 
     this.changingHouse.next(true);
-
-    console.log(this.selectedHouse);
   }
 
   // ----------------------------------------------------------------------------------------------

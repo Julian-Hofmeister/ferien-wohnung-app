@@ -5,7 +5,6 @@
 
 ion-content {
     --background: var(--ion-color-light);
-    ;
 }
 
 .background-img {
@@ -75,6 +74,12 @@ hr {
     }
 }
 
+.dropdown {
+    text-align: center;
+    justify-content: center;
+    // margin-top: 1rem,
+}
+
 //----------------------------------------------
 .admin-card {
     text-align: center;
@@ -102,9 +107,13 @@ hr {
 }
 
 // //----------------------------------------------
-.content-row-small {
+.content-row {
     margin: 0;
-    margin-top: .5rem;
+    margin-top: 2rem;
+    .title {
+        margin-left: 1rem;
+        margin-bottom: -.5rem;
+    }
 }
 
 .space {
@@ -136,3 +145,12 @@ app-action-card-small {
     max-width: 10rem;
     margin: 10px;
 }
+
+// ion-accordion-group {
+//     margin: auto;
+//     padding: 1rem;
+//     ion-accordion {
+//         margin: auto;
+//         // padding: 1rem;
+//     }
+// }

@@ -14,6 +14,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('../home/home.module').then((m) => m.HomePageModule),
       },
+
       {
         path: 'information',
         loadChildren: () =>
@@ -27,13 +28,23 @@ const routes: Routes = [
         loadChildren: () =>
           import('../offers/offers.module').then((m) => m.OffersPageModule),
       },
+
       {
-        path: 'offers-detail',
+        path: 'chat',
         loadChildren: () =>
-          import('../offers-detail/offers-detail.module').then(
-            (m) => m.OffersDetailPageModule
+          import('../home/message/message.module').then(
+            (m) => m.MessagePageModule
           ),
       },
+
+      {
+        path: 'contacts',
+        loadChildren: () =>
+          import('../home/contacts/contacts.module').then(
+            (m) => m.ContactsPageModule
+          ),
+      },
+
       {
         path: '',
         redirectTo: '/tabs/home',

@@ -45,7 +45,7 @@ export class UserDetailModalComponent implements OnInit {
   ngOnInit() {
     this.arriveDate = new Date(this.user.arriveDate).toISOString();
     this.leaveDate = new Date(this.user.leaveDate).toISOString();
-    this.apartment = this.user.apartment;
+    this.apartment = this.user.apartmentId;
   }
 
   //#endregion

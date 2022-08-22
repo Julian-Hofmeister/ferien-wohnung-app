@@ -1,19 +1,16 @@
-import {
-  Component,
-  ContentChild,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { IonInput } from '@ionic/angular';
-import { Subject, Subscription } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
+
 import { User } from 'src/app/authentication/user.model';
 import { Apartment } from 'src/app/home/apartment.model';
 import { House } from 'src/app/home/house.model';
-import { HouseService } from 'src/app/home/house.service';
 import { Client } from '../category/client.model';
-import { ClientsService } from '../clients/clients.service';
-import { UsersService } from '../users/users.service';
+
+import { FormControl, FormGroup } from '@angular/forms';
+import { ClientsService } from '../clients.service';
+import { UsersService } from '../users.service';
+import { HouseService } from '../house.service';
+import { ApartmentsService } from '../apartments.service';
 
 @Component({
   selector: 'app-user-editor',
@@ -23,25 +20,34 @@ import { UsersService } from '../users/users.service';
 export class UserEditorComponent implements OnInit, OnDestroy {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Input() user: User;
+  // @Input() user: User;
 
-  @Input() changing: Subject<boolean>;
+  // @Input() changing: Subject<boolean>;
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  id = '';
+  user: User;
 
-  email = '';
-  password = '';
+  userForm = new FormGroup({
+    id: new FormControl(),
 
-  arriveDate: any;
-  leaveDate: any;
+    email: new FormControl(),
+    password: new FormControl(),
 
-  role: string;
+    role: new FormControl(),
+
+    clientId: new FormControl(),
+    houseId: new FormControl(),
+    apartmentId: new FormControl(),
+
+    arriveDate: new FormControl(),
+    leaveDate: new FormControl(),
+  });
 
   selectedClient: Client;
+
   selectedHouse: House;
   selectedApartment: Apartment;
 
@@ -53,13 +59,19 @@ export class UserEditorComponent implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  loadedUsers: User[] = [];
+  // loadedUsers: User[] = [];
 
-  loadedClients: Client[] = [];
+  // loadedClients: Client[] = [];
 
-  loadedHouses: House[] = [];
+  // loadedHouses: House[] = [];
 
   loadedApartments: Apartment[] = [];
+
+  loadedHouses$: Observable<House[]>;
+
+  loadedClients$: Observable<Client[]>;
+
+  loadedApartments$: Observable<Apartment[]>;
 
   // ----------------------------------------------------------------------------------------------
 
@@ -67,7 +79,7 @@ export class UserEditorComponent implements OnInit, OnDestroy {
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
-  private clientSub: Subscription;
+  private userSub: Subscription;
 
   private houseSub: Subscription;
 
@@ -80,7 +92,8 @@ export class UserEditorComponent implements OnInit, OnDestroy {
   constructor(
     private clientsService: ClientsService,
     private houseService: HouseService,
-    private userService: UsersService
+    private userService: UsersService,
+    private apartmentsService: ApartmentsService
   ) {}
 
   //#endregion
@@ -88,18 +101,50 @@ export class UserEditorComponent implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.onSetUser();
+    // this.onSetUser();
 
-    this.changing.subscribe((v) => {
-      this.onSetUser();
+    this.loadedHouses$ = this.houseService.loadHouses();
+
+    this.loadedClients$ = this.clientsService.loadClients();
+
+    this.userSub = this.userService.currentUser.subscribe((user: User) => {
+      this.user = user;
+
+      console.log(user);
+
+      this.userForm.setValue({
+        id: user.id ?? '',
+
+        email: user.email ?? '',
+        password: user.password ?? '',
+
+        role: user.role ?? '',
+
+        clientId: user.clientId,
+        houseId: user.houseId,
+        apartmentId: user.apartmentId,
+
+        arriveDate: user.arriveDate
+          ? new Date(user.arriveDate).toISOString()
+          : Date.now(),
+        leaveDate: user.arriveDate
+          ? new Date(user.leaveDate).toISOString()
+          : Date.now(),
+      });
     });
+
+    // this.loadedApartments$ = this.apartmentsService.loadApartments(this.selectedHouse.id);
+
+    // this.changing.subscribe((v) => {
+    //   this.onSetUser();
+    // });
   }
 
   // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
-    if (this.clientSub) {
-      this.clientSub.unsubscribe();
+    if (this.userSub) {
+      this.userSub.unsubscribe();
     }
 
     if (this.houseSub) {
@@ -123,47 +168,43 @@ export class UserEditorComponent implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onSetUser() {
-    this.id = null;
-    this.selectedClient = null;
-    this.selectedHouse = null;
-    this.selectedApartment = null;
+  // onSetUser() {
+  //   this.id = null;
+  //   this.selectedClient = null;
+  //   this.selectedHouse = null;
+  //   this.selectedApartment = null;
 
-    this.fetchClients();
+  //   this.fetchClients();
 
-    this.id = this.user.id;
+  //   this.id = this.user.id;
 
-    this.email = this.user.email;
-    this.password = this.user.password;
+  //   this.email = this.user.email;
+  //   this.password = this.user.password;
 
-    this.role = this.user.role;
+  //   this.role = this.user.role;
 
-    this.arriveDate = new Date(this.user.arriveDate).toISOString();
-    this.leaveDate = new Date(this.user.leaveDate).toISOString();
-  }
+  //   this.arriveDate = new Date(this.user.arriveDate).toISOString();
+  //   this.leaveDate = new Date(this.user.leaveDate).toISOString();
+  // }
 
   // ----------------------------------------------------------------------------------------------
 
   onSave() {
-    const user: User = {
-      id: this.id,
-      email: this.email,
-      password: this.password,
-
-      role: this.role,
-
-      clientId: this.selectedClient.id,
-      houseId: this.selectedHouse.id,
-      apartmentId: this.selectedApartment.id,
-      apartment: this.selectedApartment.id,
-
-      arriveDate: this.arriveDate,
-      leaveDate: this.leaveDate,
-    };
+    const user: User = this.userForm.value;
 
     console.log(user);
 
-    if (this.id) {
+    user.arriveDate =
+      Math.round(
+        new Date(this.userForm.get('arriveDate').value).getTime() / 10000000
+      ) * 10000000;
+
+    user.leaveDate =
+      Math.round(
+        new Date(this.userForm.get('leaveDate').value).getTime() / 10000000
+      ) * 10000000;
+
+    if (this.user.id) {
       this.userService.updateUser(user);
     } else {
       this.userService.createUser(user);
@@ -173,13 +214,18 @@ export class UserEditorComponent implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onSelectClient() {
-    this.fetchHouses();
+    // this.fetchHouses();
+    console.log(this.userForm.get('clientId').value);
   }
 
   // ----------------------------------------------------------------------------------------------
 
   onSelectHouse() {
-    this.fetchApartments();
+    console.log(this.userForm.get('houseId').value);
+
+    this.loadedApartments$ = this.apartmentsService.loadApartments(
+      this.userForm.get('houseId').value
+    );
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -193,130 +239,81 @@ export class UserEditorComponent implements OnInit, OnDestroy {
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
-  private fetchClients() {
-    this.isLoading = true;
-    this.clientSub = this.clientsService.getClients().subscribe((clients) => {
-      this.loadedClients = [];
+  // private fetchClients() {
+  //   this.isLoading = true;
+  //   this.clientSub = this.clientsService.loadClients().subscribe((clients) => {
+  //     this.loadedClients = [];
 
-      // * DEFINE NEW ITEM
-      for (const currentClient of clients) {
-        // const imagePath = this.afStorage
-        //   .ref(currentLoadedItem.imagePath)
-        //   .getDownloadURL();
+  //     for (const currentClient of clients) {
+  //       const fetchedClient: Client = {
+  //         ...currentClient,
+  //       };
 
-        const fetchedClient: Client = {
-          id: currentClient.id,
+  //       this.loadedClients.push(fetchedClient);
 
-          email: currentClient.email,
-          password: currentClient.password,
+  //       if (this.user.clientId == currentClient.id) {
+  //         this.selectedClient = fetchedClient;
 
-          firstName: currentClient.firstName,
-          lastName: currentClient.lastName,
+  //         this.fetchHouses();
+  //       }
 
-          houses: currentClient.houses,
-        };
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
 
-        this.loadedClients.push(fetchedClient);
+  // // ----------------------------------------------------------------------------------------------
 
-        if (this.user.clientId == currentClient.clientId) {
-          this.selectedClient = fetchedClient;
+  // private fetchHouses() {
+  //   this.isLoading = true;
 
-          this.fetchHouses();
-        }
+  //   this.houseSub = this.houseService.getHouses().subscribe((houses) => {
+  //     this.loadedHouses = [];
 
-        this.isLoading = false;
-        console.log(this.loadedApartments);
-      }
-    });
-  }
+  //     for (const currentHouse of houses) {
+  //       const fetchedHouse: House = {
+  //         ...currentHouse,
+  //       };
 
-  // ----------------------------------------------------------------------------------------------
+  //       if (this.selectedClient.id == fetchedHouse.clientId) {
+  //         this.loadedHouses.push(fetchedHouse);
+  //       }
 
-  private fetchHouses() {
-    this.isLoading = true;
+  //       if (this.user.houseId == fetchedHouse.id) {
+  //         this.selectedHouse = fetchedHouse;
 
-    this.houseSub = this.houseService.getHouses().subscribe((houses) => {
-      this.loadedHouses = [];
+  //         this.fetchApartments();
+  //       }
 
-      // * DEFINE NEW ITEM
-      for (const currentHouse of houses) {
-        // const imagePath = this.afStorage
-        //   .ref(currentLoadedItem.imagePath)
-        //   .getDownloadURL();
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
 
-        const fetchedHouse: House = {
-          id: currentHouse.id,
-          clientId: currentHouse.clientId,
+  // // ----------------------------------------------------------------------------------------------
 
-          pageTitle: currentHouse.pageTitle,
-          pageSubtitle: currentHouse.pageSubtitle,
+  // private fetchApartments() {
+  //   this.isLoading = true;
+  //   this.apartmentSub = this.houseService
+  //     .getApartment(this.selectedHouse.id)
+  //     .subscribe((apartments) => {
+  //       this.loadedApartments = [];
 
-          backgroundImage: currentHouse.backgroundImage,
+  //       for (const currentApartment of apartments) {
+  //         const fetchedApartment: Apartment = {
+  //           ...currentApartment,
+  //         };
 
-          welcomeMessage: currentHouse.welcomeMessage,
+  //         if (this.user.apartment == fetchedApartment.id) {
+  //           this.selectedApartment = fetchedApartment;
+  //         }
 
-          periodOfStayWidget: currentHouse.periodOfStayWidget,
+  //         this.loadedApartments.push(fetchedApartment);
 
-          apartmentDetailService: currentHouse.apartmentDetailService,
-          breakfastService: currentHouse.breakfastService,
-          saunaService: currentHouse.saunaService,
-          feedbackService: currentHouse.feedbackService,
-
-          feedbackLink: currentHouse.feedbackLink,
-
-          bakerEmail: currentHouse.bakerEmail,
-          clientEmail: currentHouse.clientEmail,
-        };
-
-        if (this.selectedClient.id == fetchedHouse.clientId) {
-          this.loadedHouses.push(fetchedHouse);
-        }
-
-        if (this.user.houseId == fetchedHouse.id) {
-          this.selectedHouse = fetchedHouse;
-
-          this.fetchApartments();
-        }
-
-        console.log(fetchedHouse);
-
-        // this.house = fetchedHouse;
-
-        this.isLoading = false;
-      }
-    });
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  private fetchApartments() {
-    this.isLoading = true;
-    this.apartmentSub = this.houseService
-      .getApartment(this.selectedHouse.id)
-      .subscribe((apartments) => {
-        this.loadedApartments = [];
-
-        // * DEFINE NEW ITEM
-        for (const currentApartment of apartments) {
-          // const imagePath = this.afStorage
-          //   .ref(currentLoadedItem.imagePath)
-          //   .getDownloadURL();
-
-          const fetchedApartment: Apartment = {
-            id: currentApartment.id,
-            title: currentApartment.title,
-          };
-
-          if (this.user.apartment == fetchedApartment.id) {
-            this.selectedApartment = fetchedApartment;
-          }
-
-          this.loadedApartments.push(fetchedApartment);
-          this.isLoading = false;
-          console.log(this.loadedApartments);
-        }
-      });
-  }
+  //         this.isLoading = false;
+  //       }
+  //     });
+  // }
 
   // ----------------------------------------------------------------------------------------------
 

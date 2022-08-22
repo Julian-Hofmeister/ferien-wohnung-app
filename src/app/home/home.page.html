@@ -3,14 +3,14 @@
         <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="container">
-                    <img class="background-img" src="/assets/images/mountain-1.jpg" />
+                    <img class="background-img" [src]="house.backgroundImage" />
 
                     <div class="top-right" (click)="onLogout()">
                         <span class="material-icons-outlined"> logout </span>
                     </div>
 
                     <div class="centered">
-                        <h1>{{house.pageTitle}}</h1>
+                        <h1 (click)="onOpenPageCreator()">{{house.pageTitle}}</h1>
 
                         <hr />
 
@@ -20,7 +20,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="!isAdmin">
+        <ion-row *ngIf="user.role !== 'admin'">
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="content-card">
                     <p>{{house.welcomeMessage}}</p>
@@ -43,7 +43,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="isAdmin" class="admin-card">
+        <ion-row *ngIf="user.role == 'admin'" class="admin-card">
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="content-card">
                     <p>
@@ -61,39 +61,59 @@
                 </div>
                 <div *ngIf="loadedUsers.length && !isLoading " class="guest-list">
                     <p class="guest-title">Aktive/Zukünftige Gäste</p>
-                    <ion-list *ngFor="let user of loadedUsers">
-                        <app-user-item [user]="user" (click)="onOpenUserDetailModal(user)"></app-user-item>
+                    <ion-list *ngFor="let user of loadedUsers ">
+                        <app-user-item [user]="user" (click)="onOpenAdminPage(user)"></app-user-item>
                     </ion-list>
                 </div>
             </ion-col>
         </ion-row>
 
-        <ion-row class="content-row-small">
+        <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
-                <app-action-card *ngIf="user.arriveDate > currentDate" title="Bevor Sie Ankommen" subtitle="Teilen Sie uns einfach mit wie Sie ankommen möchten. Wir kümmern uns darum!" image="/assets/images/mountain-person.jpg" (click)="onOpenBeforeArrival()"></app-action-card>
+                <app-apartment-info> </app-apartment-info>
+            </ion-col>
+        </ion-row>
 
-                <div class="action-field">
+        <ion-row class="content-row">
+            <ion-col size-md="12" size-lg="8" offset-lg="2">
+                <!-- FUNCTIONS BIG -->
+                <p class="title">Funktionen</p>
+                <app-action-card *ngIf="user.arriveDate > currentDate && !isAdmin" title="Bevor Sie Ankommen" subtitle="Teilen Sie uns einfach mit wie Sie ankommen möchten. Wir kümmern uns darum!" btnText="Nachricht" image="/assets/images/mountain-person.jpg" (click)="onOpenBeforeArrival()">
+                </app-action-card>
+
+                <app-action-card *ngIf="house.breakfastService" title="Frühstücks Service" subtitle="Schreiben Sie uns einfach am Vortag eine Liste mit Brötchen, wir bringen Sie am nächsten Morgen vorbei!" btnText="Bestellen" icon="bakery_dining" image="/assets/images/bread2.jpg"
+                    (click)="onOpenBreadOrderPage()">
+                </app-action-card>
+
+                <app-action-card *ngIf="house.saunaService" title="Sauna Reservieren" subtitle="Reservieren Sie ganz einfach unsere hauseigene Sauna während Ihres Aufenthaltes!" btnText="Reservieren" icon="hot_tub" image="/assets/images/sauna3.jpg" (click)="onOpenReservationPage()">
+                </app-action-card>
+
+                <app-action-card *ngIf="house.feedbackService" title="Bewerten Sie uns" subtitle="Teilen Sie doch Ihre Erfahrungen mit anderen und bewerten Sie uns auf Google." btnText="Bewerten" icon="grade" image="/assets/images/feedback-img.jpg" (click)="onOpenFeedbackLink()">
+                </app-action-card>
+
+                <!-- FUNCTIONS SQUARE FORM -->
+                <!-- <div class="action-field">
                     <ion-row class="centered-horizontal">
                         <app-action-card-small *ngIf="house.apartmentDetailService" title="Ihre Wohnung" icon="bed" image="/assets/images/apartment.jpeg" (click)="onOpenApartmentDetailPage()">
                         </app-action-card-small>
 
-                        <app-action-card-small *ngIf="house.breakfastService" title="Frühstücks Service" icon="bakery_dining" image="/assets/images/bread.jpg" (click)="onOpenBreadOrderPage()">
+                        <app-action-card-small *ngIf="house.breakfastService" title="Frühstücks Service" subtitle="Schreiben Sie uns einfach am Vortag eine Liste mit Brötchen, wir bringen Sie am nächsten Morgen vorbei!" icon="bakery_dining" image="/assets/images/bread.jpg" (click)="onOpenBreadOrderPage()">
                         </app-action-card-small>
 
-                        <app-action-card-small *ngIf="house.saunaService" title="Sauna Reservieren" icon="hot_tub" image="/assets/images/sauna.jpeg" (click)="onOpenReservationPage()">
+                        <app-action-card-small *ngIf="house.saunaService" title="Sauna Reservieren" subtitle="Reservieren Sie ganz einfach unsere hauseigene Sauna während Ihres Aufenthaltes!" icon="hot_tub" image="/assets/images/sauna.jpeg" (click)="onOpenReservationPage()">
                         </app-action-card-small>
 
                         <app-action-card-small *ngIf="house.feedbackService" title="Bewerten Sie uns" icon="grade" image="/assets/images/feedback.jpg" (click)="onOpenFeedbackLink()">
                         </app-action-card-small>
 
-                        <hr />
+                        < <hr />
 
                         <ion-button (click)="user.email === 'admin' ? onOpenContactsPage() : onOpenMessagePage()">
                             Nachricht Schreiben
                             <ion-icon name="chatbubbles"></ion-icon>
                         </ion-button>
                     </ion-row>
-                </div>
+                </div> -->
             </ion-col>
         </ion-row>
         <ion-row class="space"></ion-row>

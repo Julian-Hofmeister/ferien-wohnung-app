@@ -1,26 +1,21 @@
-<!-- <div class="action-card">
-    <img [src]="image" alt="">
-    <div class="centered">
-        <h4>{{title}}</h4>
-        <p>{{subTitle}}</p>
-    </div>
-</div> -->
-
-<div class="before-arrival">
+<div class="card">
     <ion-row>
         <ion-col>
-            <img [src]="image" alt="" />
+            <img [src]="image" />
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col>
-            <h2>{{ title }}</h2>
+            <h4>{{ title }}</h4>
             <p>{{ subtitle }}</p>
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col class="btn-col">
-            <ion-button> mehr Infos </ion-button>
+            <ion-button>
+                {{ btnText }}
+                <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
+            </ion-button>
         </ion-col>
     </ion-row>
 </div>

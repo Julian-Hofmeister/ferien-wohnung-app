@@ -1,12 +1,55 @@
-<ion-header>
-    <ion-row>
+<ion-header class="ion-no-border">
+    <!-- <ion-row>
         <span class="material-icons-outlined" (click)="onBack()"> arrow_back </span>
         <img src="/assets/images/mountain-1.jpg" alt="" />
         <h4>Ohrwumslar</h4>
-        <!-- <span class="material-icons-outlined align-right" (click)="onBack()">
-      info_outlined
-    </span> -->
-    </ion-row>
+
+    </ion-row> -->
+
+    <ion-accordion-group *ngIf="user.role !== 'admin'" class="light" expand="inset">
+        <ion-accordion value="first">
+            <ion-item slot="header">
+                <ion-avatar>
+                    <img src="/assets/images/avatar.jpg" alt="" />
+                </ion-avatar>
+                <ion-label class="name">Ohrwumslar</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+                <ion-row class="space-between">
+                    <ion-icon name="call-outline"></ion-icon>
+                    <p>08322 7172</p>
+                </ion-row>
+                <ion-row class="space-between">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <p>info@ohrwumslar.de</p>
+                </ion-row>
+            </div>
+        </ion-accordion>
+    </ion-accordion-group>
+
+    <ion-accordion-group *ngIf="user.role === 'admin'" class="light" expand="inset">
+        <ion-accordion value="first">
+            <ion-item slot="header">
+                <ion-icon class="back-icon" name="arrow-back-outline" (click)="onBack()"></ion-icon>
+                <ion-avatar>
+                    <img src="/assets/images/avatar.jpg" alt="" />
+                </ion-avatar>
+                <ion-label class="name">{{selectedUser.email}}</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+                <ion-row class="space-between">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    <p>
+                        {{selectedUser.arriveDate | date:'MMM d' }} - {{selectedUser.leaveDate | date:'MMM d, y'}}
+                    </p>
+                </ion-row>
+                <ion-row class="space-between">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <p>{{selectedUser.email}}</p>
+                </ion-row>
+            </div>
+        </ion-accordion>
+    </ion-accordion-group>
 </ion-header>
 
 <ion-content>
@@ -21,6 +64,9 @@
                 <div class="message sent" [ngClass]="{recieved: message.email !== user.email}">
                     <p>{{message.message}}</p>
                 </div>
+                <p class="timestamp" [ngClass]="{left: message.email !== user.email}">
+                    {{message.timestamp | date:'HH:mm'}}
+                </p>
             </ion-list>
         </div>
         <div class="spinner-container" *ngIf="isLoading">

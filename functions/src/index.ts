@@ -111,7 +111,7 @@ export const newUser = functions.firestore
       // eslint-disable-next-line @typescript-eslint/naming-convention
       dynamic_template_data: {
         email: user.email,
-        password: id,
+        password: user.password,
       },
     };
 

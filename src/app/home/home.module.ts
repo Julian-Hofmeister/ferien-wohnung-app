@@ -12,6 +12,7 @@ import { ReservationModalComponent } from './reservation-modal/reservation-modal
 import { UserItemComponent } from './user-item/user-item.component';
 import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
 import { ActionCardSmallComponent } from './action-card-small/action-card-small.component';
+import { ApartmentInfoComponent } from './apartment-info/apartment-info.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
@@ -22,6 +23,7 @@ import { ActionCardSmallComponent } from './action-card-small/action-card-small.
     UserItemComponent,
     UserDetailModalComponent,
     ActionCardSmallComponent,
+    ApartmentInfoComponent,
   ],
 })
 export class HomePageModule {}

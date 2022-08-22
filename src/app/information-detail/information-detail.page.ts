@@ -34,7 +34,7 @@ export class InformationDetailPage implements OnInit, OnDestroy {
     role: localStorage.getItem('user-role'),
 
     houseId: localStorage.getItem('user-houseId'),
-    apartment: localStorage.getItem('user-apartment'),
+    apartmentId: localStorage.getItem('user-apartment'),
 
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),

@@ -8,10 +8,10 @@
     <ion-grid>
         <div class="container" *ngIf="!isLoading">
             <ion-list *ngFor="let user of unreadUsers">
-                <app-user-card [user]="user" (click)="onOpenChat(user.id)"></app-user-card>
+                <app-user-card [user]="user" (click)="onOpenChat(user)"></app-user-card>
             </ion-list>
             <ion-list *ngFor="let user of loadedUsers">
-                <app-user-card [user]="user" (click)="onOpenChat(user.id)"></app-user-card>
+                <app-user-card [user]="user" (click)="onOpenChat(user)"></app-user-card>
             </ion-list>
         </div>
         <div class="spinner-container" *ngIf="isLoading">

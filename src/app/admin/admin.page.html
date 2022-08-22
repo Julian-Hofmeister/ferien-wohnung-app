@@ -5,54 +5,74 @@
                 <div class="top-left" (click)="onBack()">
                     <span class="material-icons-outlined"> arrow_back </span>
                 </div>
-
-                <div class="top-right" (click)="onOpenDetailEditor()">
-                    <span class="material-icons-outlined"> edit </span>
-                </div>
             </ion-col>
         </ion-row>
 
         <div class="container">
             <ion-row class="content-row">
                 <ion-col size-md="12" size-lg="8" offset-lg="2">
-                    <h3>Admin Bereich</h3>
-                    <p>Neuen Account erstellen</p>
-
-                    <div class="input-field">
-                        <p>Gast E-mail:</p>
-                        <ion-input [(ngModel)]="email" type="email" (change)="onChangeEmail()"></ion-input>
-                    </div>
-
                     <ion-row class="center-horizontal">
-                        <div class="datetime-btn" (click)="arrivePicker.open()">
-                            <ion-row class="datetime-row">
-                                <ion-icon class="btn-icon" name="calendar-outline"></ion-icon>
-                                <ion-datetime #arrivePicker [(ngModel)]="arriveDate" displayFormat="MMMM DD" placeholder="Ankunft"></ion-datetime>
-                            </ion-row>
-                        </div>
-
-                        <div class="datetime-btn" (click)="leavePicker.open()">
-                            <ion-row class="datetime-row">
-                                <ion-icon class="btn-icon" name="calendar-outline"></ion-icon>
-                                <ion-datetime #leavePicker [(ngModel)]="leaveDate" displayFormat="MMMM DD" placeholder="Abreise"></ion-datetime>
-                            </ion-row>
-                        </div>
-
-                        <div class="room-picker">
-                            <ion-item>
-                                <ion-label>Zimmer</ion-label>
-                                <ion-select [(ngModel)]="apartment" value="apartment" interface="action-sheet" (ionChange)="onChangeApartment()">
-                                    <ion-select-option value="251">251</ion-select-option>
-                                    <ion-select-option value="252">252</ion-select-option>
-                                    <ion-select-option value="253">253</ion-select-option>
-                                    <ion-select-option value="403">403</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                        </div>
-                        <ion-button (click)="onCreateUser()" [disabled]="!arriveDate || !leaveDate || !apartment">
-                            Account erstellen
-                        </ion-button>
+                        <h3>Admin Bereich</h3>
+                        <p>Neuen Gast erstellen</p>
                     </ion-row>
+
+                    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                        <div class="input-field">
+                            <p>Gast E-mail:</p>
+                            <ion-input type="email" (change)="onChangeEmail()" formControlName="email"></ion-input>
+                        </div>
+
+                        <div class="input-field">
+                            <p>Haus:</p>
+                            <ion-list>
+                                <ion-item lines="none">
+                                    <ion-select [value]="houseId" placeholder="Auswählen" formControlName="houseId">
+                                        <ion-select-option [value]="house.id" *ngFor="let house of loadedHouses$ | async">{{house.title}}</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-list>
+                        </div>
+
+                        <div class="input-field">
+                            <p>Apartment:</p>
+                            <ion-list>
+                                <ion-item lines="none">
+                                    <ion-select [value]="apartmentId" [placeholder]="apartmentId ? apartmentId : 'Auswählen'" formControlName="apartmentId">
+                                        <ion-select-option [value]="apartment.id" *ngFor="let apartment of loadedApartments$ | async">{{ apartment.title }}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-list>
+                        </div>
+
+                        <ion-row class="space-between">
+                            <p>Ankunftsdatum:</p>
+                            <ion-datetime-button datetime="arrive"></ion-datetime-button>
+                            <ion-modal [keepContentsMounted]="true">
+                                <ng-template>
+                                    <ion-datetime [showDefaultButtons]="true" doneText="Fertig" cancelText="Abbrechen" presentation="date" id="arrive" formControlName="arriveDate"></ion-datetime>
+                                </ng-template>
+                            </ion-modal>
+                        </ion-row>
+
+                        <ion-row class="space-between">
+                            <p>Abreisedatum:</p>
+                            <ion-datetime-button datetime="leave"></ion-datetime-button>
+                            <ion-modal [keepContentsMounted]="true">
+                                <ng-template>
+                                    <ion-datetime [showDefaultButtons]="true" doneText="Fertig" cancelText="Abbrechen" presentation="date" id="leave" formControlName="leaveDate"></ion-datetime>
+                                </ng-template>
+                            </ion-modal>
+                        </ion-row>
+
+                        <ion-button (click)="editMode ? onUpdateUser() : onCreateUser()" [disabled]="false">
+                            {{ editMode ? 'Account aktualisieren' : 'Account erstellen'}}
+                        </ion-button>
+
+                        <ion-button color="danger" class="delete" *ngIf="editMode" (click)="presentActionSheet()" [disabled]="false">
+                            Account löschen
+                        </ion-button>
+                    </form>
                 </ion-col>
             </ion-row>
         </div>

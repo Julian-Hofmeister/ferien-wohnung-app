@@ -12,6 +12,8 @@ export class ActionCardComponent implements OnInit {
 
   @Input() subtitle: string;
 
+  @Input() btnText: string;
+
   @Input() image: string;
 
   //#endregion
@@ -32,7 +34,9 @@ export class ActionCardComponent implements OnInit {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.btnText = this.btnText ?? 'mehr Infos';
+  }
 
   //#endregion
 

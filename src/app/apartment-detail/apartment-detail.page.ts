@@ -33,7 +33,7 @@ export class ApartmentDetailPage implements OnInit, OnDestroy {
     role: localStorage.getItem('user-role'),
 
     houseId: localStorage.getItem('user-houseId'),
-    apartment: localStorage.getItem('user-apartment'),
+    apartmentId: localStorage.getItem('user-apartment'),
 
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
@@ -135,13 +135,13 @@ export class ApartmentDetailPage implements OnInit, OnDestroy {
           if (
             this.isAdmin ||
             !fetchedItem.apartment ||
-            fetchedItem.apartment === this.user.apartment
+            fetchedItem.apartment === this.user.apartmentId
           ) {
             this.loadedApartmentDetailItemList.push(fetchedItem);
             console.log(fetchedItem.id);
           }
 
-          console.log(this.user.apartment);
+          console.log(this.user.apartmentId);
 
           this.isLoading = false;
         }

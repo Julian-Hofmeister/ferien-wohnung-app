@@ -1,87 +1,93 @@
 <div class="user-editor">
     <h3>{{ user.email }}</h3>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="input-field" *ngIf="userForm.id">
+            <p id="hint-text">ID:</p>
+            <ion-input formControlName="id" [attr.disabled]="true"></ion-input>
+        </div>
 
-    <div class="input-field">
-        <p id="hint-text">ID:</p>
-        <ion-input [(ngModel)]="id" disabled></ion-input>
-    </div>
+        <hr />
+        <div class="input-field">
+            <p id="hint-text">E-mail:</p>
+            <ion-input type="text" formControlName="email"></ion-input>
+        </div>
 
-    <hr />
+        <div class="input-field">
+            <p id="hint-text">Passwort:</p>
+            <ion-input class="type-toggle" (click)="toggleShow()" [type]="showPassword ? 'text' : 'password'" formControlName="password">
+                <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+                <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+            </ion-input>
+        </div>
 
-    <div class="input-field">
-        <p id="hint-text">E-mail:</p>
-        <ion-input [(ngModel)]="email" type="text"></ion-input>
-    </div>
-
-    <div class="input-field">
-        <p id="hint-text">Passwort:</p>
-        <ion-input [(ngModel)]="password" class="type-toggle" (click)="toggleShow()" [type]="showPassword ? 'text' : 'password'">
-            <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
-            <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
-        </ion-input>
-    </div>
-
-    <br />
-
-    <div *ngIf="loadedClients">
-        <ion-list *ngFor="let client of loadedClients">
-            <p id="hint-text">Client:</p>
-            <ion-item lines="none">
-                <ion-select interface="popover" placeholder="Select Client" [(ngModel)]="selectedClient" (ionChange)="onSelectClient()">
-                    <ion-select-option [value]="client">{{ client.email }}
-                    </ion-select-option>
+        <ion-list>
+            <p id="hint-text ">Rolle:</p>
+            <ion-item lines="none ">
+                <ion-select interface="popover " placeholder="Select Role " formControlName="role">
+                    <ion-select-option value="guest">Gast</ion-select-option>
+                    <ion-select-option value="admin">Administrator</ion-select-option>
+                    <ion-select-option value="manager">Manager</ion-select-option>
                 </ion-select>
             </ion-item>
         </ion-list>
-    </div>
 
-    <ion-list *ngIf="selectedClient">
-        <p id="hint-text ">House:</p>
-        <ion-item lines="none ">
-            <ion-select interface="popover " placeholder="Select House " [(ngModel)]="selectedHouse" (ionChange)="onSelectHouse()">
-                <ion-select-option [value]="house" *ngFor="let house of loadedHouses">{{ house.pageTitle }}
-                </ion-select-option>
-            </ion-select>
-        </ion-item>
-    </ion-list>
+        <br />
 
-    <ion-list *ngIf="selectedHouse">
-        <p id="hint-text ">Apartment:</p>
-        <ion-item lines="none ">
-            <ion-select interface="popover " placeholder="Select Apartment " [(ngModel)]="selectedApartment">
-                <ion-select-option [value]="apartment" *ngFor="let apartment of loadedApartments">{{ apartment.title }}
-                </ion-select-option>
-            </ion-select>
-        </ion-item>
-    </ion-list>
+        <div *ngIf="userForm.get('role').value === 'guest'">
+            <div *ngIf="loadedClients$ | async">
+                <ion-list>
+                    <p id="hint-text">Client:</p>
+                    <ion-item lines="none">
+                        <ion-select placeholder="Select Client" formControlName="clientId">
+                            <ion-select-option [value]="client.id" *ngFor="let client of loadedClients$ | async">{{ client.email }}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+            </div>
 
-    <br />
+            <div *ngIf="userForm.get('clientId').value != ''">
+                <ion-list>
+                    <p id="hint-text ">House:</p>
+                    <ion-item lines="none ">
+                        <ion-select placeholder="Select House " formControlName="houseId" (ionChange)="onSelectHouse()">
+                            <ion-select-option [value]="house.id" *ngFor="let house of loadedHouses$ | async">{{ house.pageTitle }}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+            </div>
 
-    <ion-list>
-        <p id="hint-text ">Rolle:</p>
-        <ion-item lines="none ">
-            <ion-select interface="popover " placeholder="Select Role " [(ngModel)]="role">
-                <ion-select-option value="guest">Gast</ion-select-option>
-                <ion-select-option value="admin">Administrator</ion-select-option>
-                <ion-select-option value="manager">Manager</ion-select-option>
-            </ion-select>
-        </ion-item>
-    </ion-list>
+            <div *ngIf="userForm.get('houseId').value != ''">
+                <ion-list>
+                    <p id="hint-text">Apartment:</p>
+                    <ion-item lines="none">
+                        <ion-select placeholder="Select Apartment" formControlName="apartmentId">
+                            <ion-select-option [value]="apartment.id" *ngFor="let apartment of loadedApartments$ | async">{{ apartment.title }}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+            </div>
 
-    <ion-row>
-        <ion-col class="date-col" size="6 ">
-            <p class="hint-text">Ankunftsdatum:</p>
+            <br />
 
-            <ion-datetime presentation="date " [(ngModel)]="arriveDate">
-            </ion-datetime>
-        </ion-col>
-        <ion-col class="date-col" size="6 ">
-            <p class="hint-text">Abreisedatum:</p>
+            <ion-row>
+                <ion-col class="date-col" size="6 ">
+                    <p class="hint-text">Ankunftsdatum:</p>
 
-            <ion-datetime presentation="date " [(ngModel)]="leaveDate">
-            </ion-datetime>
-        </ion-col>
-    </ion-row>
+                    <ion-datetime presentation="date " formControlName="arriveDate">
+                    </ion-datetime>
+                </ion-col>
+                <ion-col class="date-col" size="6 ">
+                    <p class="hint-text">Abreisedatum:</p>
 
-    <ion-button (click)="onSave()"> Speichern </ion-button>
+                    <ion-datetime presentation="date " formControlName="leaveDate">
+                    </ion-datetime>
+                </ion-col>
+            </ion-row>
+        </div>
+
+        <ion-button (click)="onSave()"> Speichern </ion-button>
+    </form>
 </div>

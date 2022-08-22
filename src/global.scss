@@ -259,6 +259,32 @@ ion-button.outlined {
     }
 }
 
+// ----------------------------------------------------
+ion-accordion-group {
+    ion-accordion {
+        .ion-accordion-toggle-icon {
+            color: var(--ion-color-primary) !important;
+        }
+    }
+}
+
+ion-accordion-group.light {
+    ion-accordion {
+        .ion-accordion-toggle-icon {
+            color: var(--ion-color-light) !important;
+        }
+    }
+}
+
+ion-accordion-group {
+    ion-accordion.accordion-expanding,
+    ion-accordion.accordion-expanded {
+        .ion-accordion-toggle-icon {
+            color: var(--ion-color-light) !important;
+        }
+    }
+}
+
 // CLASSES
 // ----------------------------------------------------
 .spinner-container {

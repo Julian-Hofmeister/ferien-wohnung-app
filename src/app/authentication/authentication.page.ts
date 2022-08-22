@@ -25,9 +25,9 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   // BUG WITH SPACE
 
-  email: string = 'ju.hofmeister@web.de';
+  email: string;
 
-  password: number = 605966;
+  password: number;
 
   // ----------------------------------------------------------------------------------------------
 
@@ -117,7 +117,10 @@ export class AuthenticationPage implements OnInit, OnDestroy {
     this.falsePasswordFormat = false;
 
     for (const user of this.loadedUsers) {
-      if (user.id === this.password.toString() && user.email === this.email) {
+      if (
+        user.password === this.password.toString() &&
+        user.email === this.email
+      ) {
         console.log('LOGIN SUCCESS');
 
         this.router.navigate(['home']);
@@ -166,22 +169,11 @@ export class AuthenticationPage implements OnInit, OnDestroy {
         //   .ref(currentLoadedItem.imagePath)
         //   .getDownloadURL();
 
-        const fetchUser: User = {
-          id: currentUser.id,
-
-          email: currentUser.email,
-          password: currentUser.password,
-
-          role: currentUser.role,
-
-          houseId: currentUser.houseId,
-          apartment: currentUser.room,
-
-          arriveDate: currentUser.arriveDate,
-          leaveDate: currentUser.leaveDate,
+        const fetchedUser: User = {
+          ...currentUser,
         };
 
-        this.loadedUsers.push(fetchUser);
+        this.loadedUsers.push(fetchedUser);
         this.isLoading = false;
         console.log(this.loadedUsers);
       }
@@ -199,7 +191,7 @@ export class AuthenticationPage implements OnInit, OnDestroy {
     localStorage.setItem('user-role', user.role);
 
     localStorage.setItem('house-id', user.houseId);
-    localStorage.setItem('user-apartment', user.apartment);
+    localStorage.setItem('user-apartment', user.apartmentId);
 
     localStorage.setItem('user-arriveDate', user.arriveDate.toString());
     localStorage.setItem('user-leaveDate', user.leaveDate.toString());

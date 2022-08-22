@@ -6,12 +6,8 @@ import { AdminPage } from './admin.page';
 const routes: Routes = [
   {
     path: '',
-    component: AdminPage
+    component: AdminPage,
   },
-  {
-    path: 'detail-editor',
-    loadChildren: () => import('./detail-editor/detail-editor.module').then( m => m.DetailEditorPageModule)
-  }
 ];
 
 @NgModule({

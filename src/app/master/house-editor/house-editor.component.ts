@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Subject } from 'rxjs';
 import { House } from 'src/app/home/house.model';
-import { HouseService } from 'src/app/home/house.service';
+import { HouseService } from '../house.service';
 
 @Component({
   selector: 'app-house-editor',
@@ -47,6 +47,8 @@ export class HouseEditorComponent implements OnInit {
   selectedFiles: Array<File>;
 
   selectedImage: any;
+
+  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
@@ -118,8 +120,6 @@ export class HouseEditorComponent implements OnInit {
       bakerEmail: this.bakerEmail,
     };
 
-    console.log(house);
-
     if (this.id) {
       this.houseService.updateHouse(house);
     } else {
@@ -137,7 +137,7 @@ export class HouseEditorComponent implements OnInit {
     // let selectedFile = this.selectedFiles[0];
     // this.checkFileSize(selectedFile);
 
-    // Display Image on Select
+    // *Display Image on Select
     var reader = new FileReader();
     reader.readAsDataURL(this.selectedFiles[0]);
     reader.onload = (_event) => {
@@ -172,10 +172,7 @@ export class HouseEditorComponent implements OnInit {
 
     this.bakerEmail = this.house.bakerEmail;
 
-    // Get the downloadUrl for the src of img
-
-    console.log(this.house.backgroundImage);
-
+    // *Get the downloadUrl for the src of img
     this.backgroundImage = await this.storage
       .ref(this.house.backgroundImage)
       .getDownloadURL()

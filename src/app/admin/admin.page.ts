@@ -1,31 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
+import { Observable, pipe, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User } from '../authentication/user.model';
+import { Apartment } from '../home/apartment.model';
+import { House } from '../home/house.model';
+import { ApartmentsService } from '../master/apartments.service';
+import { HouseService } from '../master/house.service';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
 })
-export class AdminPage {
+export class AdminPage implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  email: string;
-  password: string;
+  editMode = false;
 
-  role: string;
+  isLoading = false;
 
-  house: string;
-  apartment: string;
+  // ----------------------------------------------------------------------------------------------
 
-  arriveDate: any;
-  leaveDate: any;
+  user: User;
+
+  admin: Partial<User> = {
+    id: localStorage.getItem('user-id'),
+    email: localStorage.getItem('user-email'),
+    role: localStorage.getItem('user-role'),
+    houseId: localStorage.getItem('house-id'),
+  };
+
+  userForm = new FormGroup({
+    id: new FormControl(),
+
+    email: new FormControl(),
+    password: new FormControl(),
+
+    role: new FormControl(),
+
+    clientId: new FormControl(),
+    houseId: new FormControl(),
+    apartmentId: new FormControl(),
+
+    arriveDate: new FormControl(),
+    leaveDate: new FormControl(),
+  });
+
+  // ----------------------------------------------------------------------------------------------
+
+  loadedHouses$: Observable<House[]>;
+
+  loadedApartments$: Observable<Apartment[]>;
+
+  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
@@ -40,12 +76,44 @@ export class AdminPage {
   constructor(
     private afs: AngularFirestore,
     private navCtrl: NavController,
-    private router: Router
-  ) {}
+    private router: Router,
+    private houseService: HouseService,
+    private apartmentsService: ApartmentsService,
+    private actionSheetController: ActionSheetController
+  ) {
+    if (router.getCurrentNavigation().extras.state) {
+      this.user = this.router.getCurrentNavigation().extras.state as User;
 
+      this.editMode = true;
+
+      this.userForm.setValue({
+        id: this.user.id ?? '',
+
+        email: this.user.email ?? '',
+        password: this.user.password ?? '',
+
+        role: 'guest',
+
+        clientId: this.admin.id,
+        houseId: this.user.houseId,
+        apartmentId: this.user.apartmentId,
+
+        arriveDate: new Date(this.user.arriveDate).toISOString(),
+        leaveDate: new Date(this.user.leaveDate).toISOString(),
+      });
+    }
+  }
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
+  ngOnInit() {
+    this.loadedHouses$ = this.houseService.loadHouses(this.admin.houseId);
+
+    this.loadedApartments$ = this.apartmentsService.loadApartments(
+      this.admin.houseId
+    );
+  }
 
   //#endregion
 
@@ -59,76 +127,106 @@ export class AdminPage {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onChangeEmail() {
-    console.log(this.email);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onChangeApartment() {
-    console.log(this.apartment);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   onBack() {
     this.navCtrl.back();
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenDetailEditor() {
-    this.router.navigate(['admin/detail-editor']);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   onCreateUser() {
-    this.password = Math.floor(100000 + Math.random() * 900000).toString();
-
-    const arriveTimestamp =
-      Math.round(new Date(this.arriveDate).getTime() / 10000000) * 10000000;
-
-    const leaveTimestamp =
-      Math.round(new Date(this.leaveDate).getTime() / 10000000) * 10000000;
-
     const user: User = {
-      email: this.email,
-      password: this.password,
+      ...this.userForm.value,
 
-      role: this.role,
+      password: this.generatePassword(),
 
-      //TODO: Real HouseID
-      houseId: 'cY5uJEjXWiA45P9QMCbk',
-      apartment: this.apartment,
+      arriveDate: this.roundTimestamp(this.userForm.get('arriveDate').value),
+      leaveDate: this.roundTimestamp(this.userForm.get('leaveDate').value),
 
-      arriveDate: arriveTimestamp,
-      leaveDate: leaveTimestamp,
+      clientId: this.admin.id,
+      apartmentId: this.userForm.get('apartmentId').value,
+      houseId: this.userForm.get('houseId').value,
+
+      role: 'guest',
     };
 
     this.path.add({
-      email: user.email,
-      password: user.password,
-
-      arriveDate: arriveTimestamp,
-      leaveDate: leaveTimestamp,
-
-      apartment: user.apartment,
-      houseId: user.houseId,
+      ...user,
     });
 
-    this.email = null;
-    this.apartment = null;
+    this.userForm.reset();
 
     this.onBack();
   }
 
   // ----------------------------------------------------------------------------------------------
 
+  onUpdateUser() {
+    const user: User = {
+      ...this.userForm.value,
+
+      arriveDate: this.roundTimestamp(this.userForm.get('arriveDate').value),
+      leaveDate: this.roundTimestamp(this.userForm.get('leaveDate').value),
+
+      apartmentId: this.userForm.get('apartmentId').value,
+      houseId: this.userForm.get('houseId').value,
+    };
+
+    this.path.doc(user.id).update({
+      ...user,
+    });
+
+    this.userForm.reset();
+
+    this.onBack();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Account löschen',
+      buttons: [
+        {
+          text: 'Löschen',
+          role: 'destructive',
+          id: 'delete-button',
+          data: {
+            type: 'delete',
+          },
+          handler: () => {
+            let user: User = this.userForm.value;
+
+            this.path.doc(user.id).delete();
+
+            this.onBack();
+          },
+        },
+
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+        },
+      ],
+    });
+    await actionSheet.present();
+
+    const { role, data } = await actionSheet.onDidDismiss();
+    console.log('onDidDismiss resolved with role and data', role, data);
+  }
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
+  private generatePassword(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private roundTimestamp(timestamp: number) {
+    return Math.round(new Date(timestamp).getTime() / 10000000) * 10000000;
+  }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -16,7 +16,13 @@ import { HousesComponent } from './houses/houses.component';
 import { HouseEditorComponent } from './house-editor/house-editor.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, MasterPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    MasterPageRoutingModule,
+    ReactiveFormsModule,
+  ],
   declarations: [
     MasterPage,
     CategoryComponent,

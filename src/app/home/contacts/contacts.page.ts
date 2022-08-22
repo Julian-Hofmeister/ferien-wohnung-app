@@ -75,9 +75,9 @@ export class ContactsPage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenChat(userId: any) {
+  onOpenChat(user: User) {
     //TODO UPDATE NAVIGATION
-    // this.navCtrl.navigateForward('/message', { state: userId });
+    this.navCtrl.navigateForward('/message', { state: { user } });
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ export class ContactsPage implements OnInit, OnDestroy {
           role: currentUser.role,
 
           houseId: currentUser.houseId,
-          apartment: currentUser.room,
+          apartmentId: currentUser.apartmentId,
 
           arriveDate: currentUser.arriveDate,
           leaveDate: currentUser.leaveDate,
@@ -117,7 +117,7 @@ export class ContactsPage implements OnInit, OnDestroy {
         //   this.loadedUsers.push(fetchedUser);
         // }
 
-        if (fetchedUser.email != 'admin') {
+        if (fetchedUser.role != 'admin') {
           if (fetchedUser.isRead == false) {
             this.unreadUsers.push(fetchedUser);
           } else {

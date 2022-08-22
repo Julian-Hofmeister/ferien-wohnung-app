@@ -28,7 +28,7 @@ export class BeforeArrivalPage implements OnInit {
     role: localStorage.getItem('user-role'),
 
     houseId: localStorage.getItem('user-houseId'),
-    apartment: localStorage.getItem('user-apartment'),
+    apartmentId: localStorage.getItem('user-apartment'),
 
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
@@ -83,7 +83,7 @@ export class BeforeArrivalPage implements OnInit {
   onSendStarterMessage() {
     this.afs.collection('bevore-arrival').add({
       email: this.user.email,
-      room: this.user.apartment,
+      room: this.user.apartmentId,
       arriveDate: new Date(Number(this.user.arriveDate)).toLocaleDateString(),
       leaveDate: new Date(Number(this.user.leaveDate)).toLocaleDateString(),
 

@@ -1,21 +1,16 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { User } from 'src/app/authentication/user.model';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Client } from '../category/client.model';
-import { ClientsService } from './clients.service';
+import { ClientEditorComponent } from '../client-editor/client-editor.component';
+import { ClientsService } from '../clients.service';
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
 })
-export class ClientsComponent implements OnInit, OnDestroy {
+export class ClientsComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   @Output() clientEmitter = new EventEmitter<Client>();
@@ -24,21 +19,13 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  loadedClients: Client[] = [];
+  loadedClients$: Observable<Client[]>;
 
-  loadedUsers: User[] = [];
-
-  isLoading: boolean;
-
-  selectedClient: Client;
-
-  selectedUser: User;
+  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  private clientSub: Subscription;
 
   //#endregion
 
@@ -51,15 +38,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.fetchClients();
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  ngOnDestroy() {
-    if (this.clientSub) {
-      this.clientSub.unsubscribe();
-    }
+    this.loadedClients$ = this.clientsService.loadClients();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -77,11 +56,25 @@ export class ClientsComponent implements OnInit, OnDestroy {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   onSelectClient(client: Client) {
-    this.selectedClient = client;
-
-    console.log(client);
-
     this.clientEmitter.emit(client);
+
+    this.clientsService.changeClient(client);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onCreateClient() {
+    const newClient: Client = {
+      id: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      houses: [],
+    };
+
+    this.clientEmitter.emit(newClient);
+    this.clientsService.changeClient(newClient);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -89,36 +82,6 @@ export class ClientsComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-
-  private fetchClients() {
-    this.isLoading = true;
-    this.clientSub = this.clientsService.getClients().subscribe((clients) => {
-      this.loadedClients = [];
-
-      // * DEFINE NEW ITEM
-      for (const currentClient of clients) {
-        // const imagePath = this.afStorage
-        //   .ref(currentLoadedItem.imagePath)
-        //   .getDownloadURL();
-
-        const fetchedClient: Client = {
-          id: currentClient.id,
-
-          email: currentClient.email,
-          password: currentClient.password,
-
-          firstName: currentClient.firstName,
-          lastName: currentClient.lastName,
-
-          houses: currentClient.houses,
-        };
-
-        this.loadedClients.push(fetchedClient);
-        this.isLoading = false;
-        console.log(this.loadedClients);
-      }
-    });
-  }
 
   // ----------------------------------------------------------------------------------------------
 

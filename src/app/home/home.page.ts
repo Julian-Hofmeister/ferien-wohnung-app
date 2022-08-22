@@ -1,19 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { AuthService } from '../authentication/auth.service';
-import { User } from '../authentication/user.model';
+
 import { LogoutModalComponent } from './logout-modal/logout-modal.component';
 import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+
 import { House } from './house.model';
-import { HouseService } from './house.service';
+import { User } from '../authentication/user.model';
+
+import { AuthService } from '../authentication/auth.service';
+
+import { Subscription } from 'rxjs/internal/Subscription';
+import { HouseService } from '../master/house.service';
+import { Observable } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 // ----------------------------------------------------------------------------------------------
-
-// import Data from '../../assets/json/ohrwumslar.json';
 
 @Component({
   selector: 'app-home',
@@ -31,15 +33,23 @@ export class HomePage implements OnInit, OnDestroy {
 
   isLoading = true;
 
-  loadedHouses: User[] = [];
+  // ----------------------------------------------------------------------------------------------
 
-  loadedHouse: House;
+  loadedUsers: User[] = [];
+
+  loadedHouses: House[] = [];
+
+  // loadedHouse: House;
 
   currentDate = Date.now();
 
   data = null;
 
+  // ----------------------------------------------------------------------------------------------
+
   house: House;
+
+  loadedHouse$: Observable<House>;
 
   // ----------------------------------------------------------------------------------------------
 
@@ -52,11 +62,15 @@ export class HomePage implements OnInit, OnDestroy {
     role: localStorage.getItem('user-role'),
 
     houseId: localStorage.getItem('house-id'),
-    apartment: localStorage.getItem('user-apartment'),
+    apartmentId: localStorage.getItem('user-apartment'),
 
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
   };
+
+  // ----------------------------------------------------------------------------------------------
+
+  validDevice: boolean;
 
   //#endregion
 
@@ -74,20 +88,37 @@ export class HomePage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private router: Router,
     private authService: AuthService,
-    private houseService: HouseService
-  ) {}
+    private houseService: HouseService,
+    private platform: Platform,
+    private storage: AngularFireStorage,
+    private navCtrl: NavController
+  ) {
+    platform.ready().then(() => {
+      console.log('Width: ' + platform.width());
+
+      this.validDevice = platform.width() <= 1000 ? true : false;
+    });
+  }
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    if (this.user.email === 'admin') {
-      this.isAdmin = true;
-      this.fetchUsers();
-    }
+    this.fetchUsers();
 
     this.fetchHouses();
+
+    this.loadedHouse$ = this.houseService.loadHouse(this.user.houseId);
+
+    console.log(this.user.houseId);
+
+    console.log(this.user.arriveDate);
+    console.log(this.user.leaveDate);
+
+    // this.isAdmin = true;
+
+    console.log(this.user.role);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -114,8 +145,18 @@ export class HomePage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onOpenAdminPage() {
-    this.router.navigate(['admin']);
+  onOpenAdminPage(user?: User) {
+    if (user) {
+      this.navCtrl.navigateForward('admin', { state: user });
+    } else {
+      this.router.navigate(['admin']);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onOpenPageCreator() {
+    this.router.navigate(['master']);
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -193,92 +234,59 @@ export class HomePage implements OnInit, OnDestroy {
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
-  private fetchUsers() {
+  private async fetchUsers() {
     this.isLoading = true;
 
-    this.userSub = this.authService.getUsers().subscribe((users) => {
-      this.loadedHouses = [];
+    this.userSub = this.authService
+      .getUsers(this.currentDate)
+      .subscribe((users) => {
+        // this.user = null;
+        this.loadedUsers = [];
 
-      // * DEFINE NEW ITEM
-      for (const currentUser of users) {
-        // const imagePath = this.afStorage
-        //   .ref(currentLoadedItem.imagePath)
-        //   .getDownloadURL();
+        for (const currentUser of users) {
+          const fetchedUser: User = {
+            ...currentUser,
+          };
 
-        const fetchedUser: User = {
-          id: currentUser.id,
+          console.log(fetchedUser);
 
-          email: currentUser.email,
-          password: currentUser.password,
+          if (
+            fetchedUser.leaveDate > this.currentDate &&
+            fetchedUser.role === 'guest'
+          ) {
+            this.loadedUsers.push(fetchedUser);
+          }
 
-          role: currentUser.role,
-
-          houseId: currentUser.houseId,
-          apartment: currentUser.room,
-
-          arriveDate: currentUser.arriveDate,
-          leaveDate: currentUser.leaveDate,
-        };
-
-        if (fetchedUser.leaveDate > this.currentDate) {
-          this.loadedHouses.push(fetchedUser);
+          this.isLoading = false;
         }
-
-        this.isLoading = false;
-      }
-    });
+      });
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  private fetchHouses() {
+  private async fetchHouses() {
     this.isLoading = true;
 
-    this.houseSub = this.houseService.getHouses().subscribe((houses) => {
-      this.loadedHouses = [];
+    this.houseSub = this.houseService
+      .getHouses(this.user.houseId)
+      .subscribe(async (houses) => {
+        this.loadedHouses = [];
 
-      // * DEFINE NEW ITEM
-      for (const currentHouse of houses) {
-        // const imagePath = this.afStorage
-        //   .ref(currentLoadedItem.imagePath)
-        //   .getDownloadURL();
-
-        const fetchedHouse: House = {
-          id: currentHouse.id,
-
-          pageTitle: currentHouse.pageTitle,
-          pageSubtitle: currentHouse.pageSubtitle,
-
-          backgroundImage: currentHouse.backgroundImage,
-
-          welcomeMessage: currentHouse.welcomeMessage,
-
-          periodOfStayWidget: currentHouse.periodOfStayWidget,
-
-          apartmentDetailService: currentHouse.apartmentDetailService,
-          breakfastService: currentHouse.breakfastService,
-          saunaService: currentHouse.saunaService,
-          feedbackService: currentHouse.feedbackService,
-
-          feedbackLink: currentHouse.feedbackLink,
-
-          bakerEmail: currentHouse.bakerEmail,
-          clientEmail: currentHouse.clientEmail,
-        };
-
-        console.log(fetchedHouse.id + this.user.houseId);
-
-        if (fetchedHouse.id == this.user.houseId) {
-          this.loadedHouse = fetchedHouse;
-
-          console.log(fetchedHouse);
+        for (const currentHouse of houses) {
+          const fetchedHouse: House = {
+            ...currentHouse,
+          };
 
           this.house = fetchedHouse;
-        }
 
-        this.isLoading = false;
-      }
-    });
+          this.house.backgroundImage = await this.storage
+            .ref(fetchedHouse.backgroundImage)
+            .getDownloadURL()
+            .toPromise();
+
+          this.isLoading = false;
+        }
+      });
   }
 
   // ----------------------------------------------------------------------------------------------

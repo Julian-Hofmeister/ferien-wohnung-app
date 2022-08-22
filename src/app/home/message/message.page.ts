@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonList, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { User } from 'src/app/authentication/user.model';
@@ -32,7 +32,7 @@ export class MessagePage implements OnInit, OnDestroy {
     role: localStorage.getItem('user-role'),
 
     houseId: localStorage.getItem('user-houseId'),
-    apartment: localStorage.getItem('user-apartment'),
+    apartmentId: localStorage.getItem('user-apartment'),
 
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
@@ -42,7 +42,7 @@ export class MessagePage implements OnInit, OnDestroy {
 
   loadedMessages = [];
 
-  selectedChat = '';
+  selectedUser: User;
 
   chatId = '';
 
@@ -60,14 +60,21 @@ export class MessagePage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private afs: AngularFirestore,
     private messageService: MessageService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
-    if (router.getCurrentNavigation().extras.state) {
-      const pageName = this.router.getCurrentNavigation().extras.state;
-      console.log(pageName);
+    // if (router.getCurrentNavigation().extras.state) {
+    //   const selectedUser: User =
+    //     this.router.getCurrentNavigation().extras.state;
+    //   console.log(selectedUser);
 
-      this.selectedChat = pageName.split();
-    }
+    //   this.selectedUser = selectedUser;
+    // }
+
+    this.route.queryParams.subscribe((_p) => {
+      const navParams = this.router.getCurrentNavigation().extras.state;
+      if (navParams) this.selectedUser = navParams.user;
+    });
   }
 
   //#endregion
@@ -76,7 +83,7 @@ export class MessagePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.chatId =
-      this.user.email == 'admin' ? this.selectedChat.toString() : this.user.id;
+      this.user.role == 'admin' ? this.selectedUser.id : this.user.id;
 
     this.fetchMessages();
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
-import { UsersService } from './users.service';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-users',
@@ -19,11 +19,11 @@ export class UsersComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  loadedUsers: User[] = [];
+  loadedUsers$: Observable<User[]>;
 
-  isLoading: boolean;
+  // ----------------------------------------------------------------------------------------------
 
-  selectedUser: User;
+  isLoading = false;
 
   //#endregion
 
@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.fetchUsers();
+    this.loadedUsers$ = this.userService.loadUsers();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -68,47 +68,37 @@ export class UsersComponent implements OnInit {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   onSelectUser(user: User) {
-    this.selectedUser = user;
-
-    console.log(user.id);
-
     this.userEmitter.emit(user);
+
+    this.userService.changeUser(user);
   }
 
   // ----------------------------------------------------------------------------------------------
 
+  onCreateUser() {
+    const newUser: User = {
+      id: '',
+
+      email: '',
+      password: '',
+
+      role: '',
+
+      clientId: '',
+      houseId: '',
+      apartmentId: '',
+
+      arriveDate: Date.now(),
+      leaveDate: Date.now(),
+    };
+
+    this.userEmitter.emit(newUser);
+    this.userService.changeUser(newUser);
+  }
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-
-  private fetchUsers() {
-    this.isLoading = true;
-    this.userSub = this.userService.getUsers().subscribe((clients) => {
-      this.loadedUsers = [];
-
-      // * DEFINE NEW ITEM
-      for (const currentUser of clients) {
-        const fetchedUser: User = {
-          id: currentUser.id,
-
-          email: currentUser.email,
-          password: currentUser.password,
-
-          role: currentUser.role,
-
-          arriveDate: currentUser.arriveDate,
-          leaveDate: currentUser.leaveDate,
-
-          houseId: currentUser.houseId,
-          apartment: currentUser.apartment,
-        };
-
-        this.loadedUsers.push(fetchedUser);
-        this.isLoading = false;
-        console.log(this.loadedUsers);
-      }
-    });
-  }
 
   // ----------------------------------------------------------------------------------------------
 

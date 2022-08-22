@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Apartment } from './apartment.model';
-import { House } from './house.model';
 
+import firebase from 'firebase/app';
+import { House } from '../home/house.model';
+import { Apartment } from '../home/apartment.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,9 +18,9 @@ export class HouseService {
 
   houses: Observable<any[]>;
 
-  apartments: Observable<any[]>;
+  house: Observable<House>;
 
-  path = this.afs.collection('houses');
+  // path: AngularFirestoreCollection<unknown>;
 
   //#endregion
 
@@ -28,13 +32,21 @@ export class HouseService {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  getHouses(): Observable<any[]> {
-    this.houses = this.path.snapshotChanges().pipe(
+  getHouses(houseId?: string): Observable<any[]> {
+    // * DEFINE PATH
+    const path = houseId
+      ? this.afs.collection('houses', (ref) =>
+          ref.where(firebase.firestore.FieldPath.documentId(), '==', houseId)
+        )
+      : this.afs.collection('houses');
+
+    this.houses = path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {
           const data = item.payload.doc.data() as House;
           data.id = item.payload.doc.id;
-          console.log('data', data);
+
+          console.log(data);
 
           return data;
         })
@@ -45,23 +57,51 @@ export class HouseService {
 
   // ----------------------------------------------------------------------------------------------
 
-  getApartment(houseId: string): Observable<any[]> {
-    this.apartments = this.path
-      .doc(houseId)
-      .collection('apartments')
-      .snapshotChanges()
-      .pipe(
-        map((changes) =>
-          changes.map((item) => {
-            const data = item.payload.doc.data() as Apartment;
-            data.id = item.payload.doc.id;
-            console.log('data', data);
-
-            return data;
-          })
+  loadHouses(houseId?: string): Observable<any[]> {
+    // * DEFINE PATH
+    const path = houseId
+      ? this.afs.collection('houses', (ref) =>
+          ref.where(firebase.firestore.FieldPath.documentId(), '==', houseId)
         )
-      );
-    return this.apartments;
+      : this.afs.collection('houses');
+
+    this.houses = path.snapshotChanges().pipe(
+      map((changes) =>
+        changes.map((item) => {
+          const data = item.payload.doc.data() as House;
+          data.id = item.payload.doc.id;
+
+          return data;
+        })
+      )
+    );
+    return this.houses;
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  loadHouse(houseId: string): Observable<House> {
+    // const path = this.afs.collection('houses', (ref) =>
+    //   ref.where(firebase.firestore.FieldPath.documentId(), '==', houseId)
+    // );
+
+    const path = this.afs.collection('houses', (ref) =>
+      ref.where(firebase.firestore.FieldPath.documentId(), '==', houseId)
+    );
+
+    this.houses = path.snapshotChanges().pipe(
+      map((changes) =>
+        changes.map((item) => {
+          const data = item.payload.doc.data() as House;
+          data.id = item.payload.doc.id;
+
+          console.log(data);
+
+          return data;
+        })
+      )
+    );
+    return this.houses[0];
   }
 
   // ----------------------------------------------------------------------------------------------

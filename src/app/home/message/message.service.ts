@@ -23,13 +23,15 @@ export class MessageService {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   getMessages(userId: string): Observable<any[]> {
+    console.log(userId);
+
     let path = this.afs.collection('users/' + userId + '/messages');
 
     this.messages = path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {
           const data = item.payload.doc.data() as Message;
-          console.log(data);
+          console.log(data.message);
 
           return data;
         })

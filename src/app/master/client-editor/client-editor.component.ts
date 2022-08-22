@@ -1,19 +1,33 @@
-import { Component, ContentChild, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { IonInput } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { House } from 'src/app/home/house.model';
-import { HouseService } from 'src/app/home/house.service';
 import { Client } from '../category/client.model';
+
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { HouseService } from '../house.service';
+import { ClientsService } from '../clients.service';
 
 @Component({
   selector: 'app-client-editor',
   templateUrl: './client-editor.component.html',
   styleUrls: ['./client-editor.component.scss'],
 })
-export class ClientEditorComponent implements OnInit {
+export class ClientEditorComponent implements OnInit, OnDestroy {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Input() client: Client;
+  // @Input() client: Client;
 
   // @ContentChild(IonInput) input: IonInput;
 
@@ -21,56 +35,71 @@ export class ClientEditorComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  id = '';
+  client: Client;
 
-  firstName = '';
-  lastName = '';
+  clientForm = new FormGroup({
+    id: new FormControl(),
 
-  email = '';
-  password = '';
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+
+    email: new FormControl(),
+    password: new FormControl(),
+  });
+
+  // ----------------------------------------------------------------------------------------------
 
   showPassword = false;
 
-  loadedHouses: House[] = [];
+  loadedHouses$: Observable<House[]>;
+
   selectedHouses: string[] = [];
+
   showHouses = false;
 
-  isLoading = false;
+  // ----------------------------------------------------------------------------------------------
+
+  message: string;
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
-  private houseSub: Subscription;
+  private clientSub: Subscription;
 
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private houseService: HouseService) {}
+  constructor(
+    private houseService: HouseService,
+    private clientsService: ClientsService
+  ) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.id = this.client.id;
+    this.loadedHouses$ = this.houseService.getHouses();
 
-    this.firstName = this.client.firstName;
-    this.lastName = this.client.lastName;
+    this.clientSub = this.clientsService.currentClient.subscribe((client) => {
+      this.client = client;
 
-    this.email = this.client.email;
-    this.password = this.client.password;
-
-    this.fetchHouseData();
+      this.clientForm.setValue({
+        id: client.id,
+        firstName: client.firstName,
+        lastName: client.lastName,
+        email: client.email,
+        password: client.password,
+      });
+    });
   }
 
   // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
-    if (this.houseSub) {
-      this.houseSub.unsubscribe();
-    }
+    this.clientSub.unsubscribe();
   }
 
   //#endregion
@@ -87,7 +116,6 @@ export class ClientEditorComponent implements OnInit {
 
   toggleShow() {
     this.showPassword = !this.showPassword;
-    // this.password = this.showPassword ? 'text' : 'password';
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -117,61 +145,15 @@ export class ClientEditorComponent implements OnInit {
     console.log('Create new House');
   }
 
+  // ----------------------------------------------------------------------------------------------
+
+  onSubmit() {
+    console.log(this.clientForm.value);
+  }
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-
-  private fetchHouseData() {
-    this.isLoading = true;
-
-    this.houseSub = this.houseService.getHouses().subscribe((houses) => {
-      this.loadedHouses = [];
-
-      // * DEFINE NEW ITEM
-      for (const currentHouse of houses) {
-        // const imagePath = this.afStorage
-        //   .ref(currentLoadedItem.imagePath)
-        //   .getDownloadURL();
-
-        const fetchedHouse: House = {
-          id: currentHouse.id,
-          clientId: currentHouse.clientId,
-
-          pageTitle: currentHouse.pageTitle,
-          pageSubtitle: currentHouse.pageSubtitle,
-
-          backgroundImage: currentHouse.backgroundImage,
-
-          welcomeMessage: currentHouse.welcomeMessage,
-
-          periodOfStayWidget: currentHouse.periodOfStayWidget,
-
-          apartmentDetailService: currentHouse.apartmentDetailService,
-          breakfastService: currentHouse.breakfastService,
-          saunaService: currentHouse.saunaService,
-          feedbackService: currentHouse.feedbackService,
-
-          feedbackLink: currentHouse.feedbackLink,
-
-          bakerEmail: currentHouse.bakerEmail,
-          clientEmail: currentHouse.clientEmail,
-        };
-
-        if (
-          fetchedHouse.clientId == this.client.id ||
-          fetchedHouse.clientId == 'unset'
-        ) {
-          this.loadedHouses.push(fetchedHouse);
-
-          console.log(fetchedHouse);
-
-          // this.house = fetchedHouse;
-        }
-
-        this.isLoading = false;
-      }
-    });
-  }
 
   // ----------------------------------------------------------------------------------------------
 

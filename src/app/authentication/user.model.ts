@@ -9,7 +9,7 @@ export interface User {
   clientId?: string;
   houseId: string;
   apartmentId?: string;
-  apartment: string;
+  apartmentName?: string;
 
   arriveDate: number;
   leaveDate: number;

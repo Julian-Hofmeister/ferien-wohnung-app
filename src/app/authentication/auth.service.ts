@@ -25,12 +25,13 @@ export class AuthService {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  getUsers(): Observable<any[]> {
+  getUsers(currentDate?: number): Observable<any[]> {
     this.users = this.path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {
           const data = item.payload.doc.data() as User;
           data.id = item.payload.doc.id;
+
           return data;
         })
       )
@@ -54,8 +55,8 @@ export class AuthService {
     } else {
       console.log('NO SUCCESS');
 
-      this.router.navigate(['master']);
-      return this.router.createUrlTree(['/master']);
+      this.router.navigate(['authentication']);
+      return this.router.createUrlTree(['/authentication']);
     }
   }
 

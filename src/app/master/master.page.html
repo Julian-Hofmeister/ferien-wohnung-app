@@ -16,8 +16,8 @@
                 <app-houses *ngIf="selection === 'houses'" (houseEmitter)="onSelectHouse($event)"></app-houses>
             </ion-col>
             <ion-col size="6">
-                <app-client-editor *ngIf="selectedClient" [client]="selectedClient"></app-client-editor>
-                <app-user-editor *ngIf="selectedUser" [user]="selectedUser" [changing]="changingUser"></app-user-editor>
+                <app-client-editor *ngIf="selectedClient"></app-client-editor>
+                <app-user-editor *ngIf="selectedUser"></app-user-editor>
                 <app-house-editor *ngIf="selectedHouse" [house]="selectedHouse" [changing]="changingHouse"></app-house-editor>
             </ion-col>
         </ion-row>
