@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ClientsService } from 'src/app/shared/services/clients.service';
 import { Client } from '../category/client.model';
-import { ClientEditorComponent } from '../client-editor/client-editor.component';
-import { ClientsService } from '../clients.service';
 
 @Component({
   selector: 'app-clients',

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Subject } from 'rxjs';
 import { House } from 'src/app/home/house.model';
-import { HouseService } from '../house.service';
+import { HouseService } from 'src/app/shared/services/house.service';
 
 @Component({
   selector: 'app-house-editor',

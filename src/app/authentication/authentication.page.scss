@@ -10,9 +10,8 @@
     color: var(--ion-color-light);
 }
 
-.aligned {
-    left: 50%;
-    transform: translate(-50%, -97.5%);
+.centered-vertical {
+    width: 100%;
 }
 
 // ----------------------------------------------------------------
@@ -66,4 +65,8 @@ img {
         margin-bottom: 2rem;
         width: 60%;
     }
+}
+
+h1 {
+    font-size: 2rem;
 }

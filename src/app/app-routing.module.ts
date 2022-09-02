@@ -25,7 +25,7 @@ const routes: Routes = [
   {
     path: 'send-message',
     loadChildren: () =>
-      import('./home/send-message/send-message-routing.module').then(
+      import('./unused/send-message/send-message-routing.module').then(
         (m) => m.SendMessagePageRoutingModule
       ),
   },
@@ -71,13 +71,13 @@ const routes: Routes = [
         (m) => m.InformationDetailPageModule
       ),
   },
-  {
-    path: 'offer-detail/:id/:title',
-    loadChildren: () =>
-      import('./offers-detail/offers-detail.module').then(
-        (m) => m.OffersDetailPageModule
-      ),
-  },
+  // {
+  //   path: 'offer-detail/:id/:title',
+  //   loadChildren: () =>
+  //     import('./offers-detail/offers-detail.module').then(
+  //       (m) => m.OffersDetailPageModule
+  //     ),
+  // },
   {
     path: 'admin',
     loadChildren: () =>
@@ -86,17 +86,21 @@ const routes: Routes = [
   {
     path: 'apartment-detail',
     loadChildren: () =>
-      import('./apartment-detail/apartment-detail.module').then(
+      import('./unused/apartment-detail/apartment-detail.module').then(
         (m) => m.ApartmentDetailPageModule
       ),
   },
-  {
-    path: 'page-creator',
-    loadChildren: () => import('./page-creator/page-creator.module').then( m => m.PageCreatorPageModule)
-  },
+  // {
+  //   path: 'page-creator',
+  //   loadChildren: () =>
+  //     import('./page-creator/page-creator.module').then(
+  //       (m) => m.PageCreatorPageModule
+  //     ),
+  // },
   {
     path: 'master',
-    loadChildren: () => import('./master/master.module').then( m => m.MasterPageModule)
+    loadChildren: () =>
+      import('./master/master.module').then((m) => m.MasterPageModule),
   },
 ];
 @NgModule({

@@ -101,7 +101,7 @@ export const newUser = functions.firestore
   .onCreate(async (change, context) => {
     // Raw Data
     const user = change.data();
-    const id = change.id;
+    // const id = change.id;
 
     // Email
     const msg = {

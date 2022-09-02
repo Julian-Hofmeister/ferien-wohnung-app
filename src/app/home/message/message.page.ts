@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonContent, IonList, NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { createAnimation, IonContent, NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
 import { Message } from './message.model';
 import { MessageService } from './message.service';
@@ -12,7 +12,7 @@ import { MessageService } from './message.service';
   templateUrl: './message.page.html',
   styleUrls: ['./message.page.scss'],
 })
-export class MessagePage implements OnInit, OnDestroy {
+export class MessagePage implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   @ViewChild(IonContent) content: IonContent;
@@ -20,8 +20,6 @@ export class MessagePage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-
-  message: string;
 
   user: User = {
     id: localStorage.getItem('user-id'),
@@ -38,19 +36,23 @@ export class MessagePage implements OnInit, OnDestroy {
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
   };
 
-  isLoading = false;
+  // ----------------------------------------------------------------------------------------------
 
-  loadedMessages = [];
+  chatId: string;
 
   selectedUser: User;
 
-  chatId = '';
+  // ----------------------------------------------------------------------------------------------
+
+  message: string;
+
+  loadedMessages$: Observable<Message[]>;
+
+  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  private messageSub: Subscription;
 
   //#endregion
 
@@ -63,14 +65,6 @@ export class MessagePage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    // if (router.getCurrentNavigation().extras.state) {
-    //   const selectedUser: User =
-    //     this.router.getCurrentNavigation().extras.state;
-    //   console.log(selectedUser);
-
-    //   this.selectedUser = selectedUser;
-    // }
-
     this.route.queryParams.subscribe((_p) => {
       const navParams = this.router.getCurrentNavigation().extras.state;
       if (navParams) this.selectedUser = navParams.user;
@@ -85,17 +79,19 @@ export class MessagePage implements OnInit, OnDestroy {
     this.chatId =
       this.user.role == 'admin' ? this.selectedUser.id : this.user.id;
 
-    this.fetchMessages();
+    this.loadedMessages$ = this.messageService.getMessages(this.chatId);
 
     this.readMessage();
-
-    this.isLoading = false;
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  ngOnDestroy() {
-    this.messageSub.unsubscribe();
+  ionViewDidEnter() {
+    this.loadedMessages$.subscribe((messages) => {
+      for (const currentMessage of messages) {
+        this.onScrollDown();
+      }
+    });
   }
 
   //#endregion
@@ -110,6 +106,12 @@ export class MessagePage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
+  onScrollDown() {
+    this.content.scrollToBottom(600);
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
   onBack() {
     this.navCtrl.back();
   }
@@ -118,7 +120,7 @@ export class MessagePage implements OnInit, OnDestroy {
 
   onSendMessage() {
     if (this.message) {
-      let timestamp = Date.now().toString();
+      const timestamp = Date.now().toString();
 
       this.afs
         .collection('users')
@@ -146,32 +148,6 @@ export class MessagePage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-
-  private fetchMessages() {
-    this.isLoading = true;
-    this.messageSub = this.messageService
-      .getMessages(this.chatId)
-      .subscribe((messages) => {
-        this.loadedMessages = [];
-
-        // * DEFINE NEW ITEM
-        for (const currentMessage of messages) {
-          const message = currentMessage.message.replaceAll('\\n', '\n');
-
-          const fetchMessage: Message = {
-            timestamp: currentMessage.timestamp,
-            email: currentMessage.email,
-            message: message,
-          };
-
-          this.loadedMessages.push(fetchMessage);
-
-          this.content.scrollToBottom(600);
-        }
-      });
-  }
-
-  // ----------------------------------------------------------------------------------------------
 
   private readMessage() {
     if (this.user.email == 'admin') {

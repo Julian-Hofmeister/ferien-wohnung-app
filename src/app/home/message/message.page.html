@@ -55,14 +55,14 @@
 <ion-content>
     <ion-grid>
         <div class="centered-text">
-            <p [ngStyle]="{opacity: 1 - loadedMessages.length*0.2}">
+            <p [ngStyle]="{opacity: 1 - loadedMessages$.length*0.2 | async}">
                 Bei Fragen, Wünschen oder Problemen, können Sie uns hier ganz einfach eine Nachricht schreiben
             </p>
         </div>
         <div *ngIf="!isLoading">
-            <ion-list *ngFor="let message of loadedMessages">
+            <ion-list *ngFor="let message of loadedMessages$ | async">
                 <div class="message sent" [ngClass]="{recieved: message.email !== user.email}">
-                    <p>{{message.message}}</p>
+                    <p>{{message.message.replaceAll('\\n', '\n')}}</p>
                 </div>
                 <p class="timestamp" [ngClass]="{left: message.email !== user.email}">
                     {{message.timestamp | date:'HH:mm'}}

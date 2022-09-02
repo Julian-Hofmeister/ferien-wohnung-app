@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { AngularFireStorage } from '@angular/fire/storage';
-import { House } from '../home/house.model';
+import { House } from 'src/app/home/house.model';
+// import { House } from '../home/house.model';
 
 @Component({
   selector: 'app-page-creator',

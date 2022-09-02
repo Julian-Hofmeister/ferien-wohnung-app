@@ -12,21 +12,29 @@
             <ion-row class="content-row">
                 <ion-col size-md="12" size-lg="8" offset-lg="2">
                     <ion-row class="center-horizontal">
-                        <h3>Admin Bereich</h3>
-                        <p>Neuen Gast erstellen</p>
+                        <h3 (click)="onSet()">Admin Bereich</h3>
+                        <p>
+                            {{editMode ? "Bestehenden Gast bearbeiten" : "Neuen Gast erstellen"}}
+                        </p>
+                        <br />
                     </ion-row>
 
-                    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="userForm">
                         <div class="input-field">
                             <p>Gast E-mail:</p>
-                            <ion-input type="email" (change)="onChangeEmail()" formControlName="email"></ion-input>
+                            <ion-input id="email-trigger" type="email" formControlName="email" [readonly]="editMode"></ion-input>
+                            <ion-popover *ngIf="editMode" trigger="email-trigger" triggerAction="click" mode="ios" alignment="left">
+                                <ng-template>
+                                    <ion-content class="ion-padding">Die E-mail Adresse kann nicht geändert werden</ion-content>
+                                </ng-template>
+                            </ion-popover>
                         </div>
 
                         <div class="input-field">
                             <p>Haus:</p>
                             <ion-list>
                                 <ion-item lines="none">
-                                    <ion-select [value]="houseId" placeholder="Auswählen" formControlName="houseId">
+                                    <ion-select [placeholder]="'Auswählen'" formControlName="houseId" [value]="houseId">
                                         <ion-select-option [value]="house.id" *ngFor="let house of loadedHouses$ | async">{{house.title}}</ion-select-option>
                                     </ion-select>
                                 </ion-item>
@@ -65,7 +73,7 @@
                             </ion-modal>
                         </ion-row>
 
-                        <ion-button (click)="editMode ? onUpdateUser() : onCreateUser()" [disabled]="false">
+                        <ion-button type="submit" (click)="editMode ? onUpdateUser() : onCreateUser()" [disabled]="!userForm.valid">
                             {{ editMode ? 'Account aktualisieren' : 'Account erstellen'}}
                         </ion-button>
 

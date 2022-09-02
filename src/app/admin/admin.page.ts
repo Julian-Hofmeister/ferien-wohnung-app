@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
 import { Observable, pipe, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../authentication/user.model';
 import { Apartment } from '../home/apartment.model';
 import { House } from '../home/house.model';
-import { ApartmentsService } from '../master/apartments.service';
-import { HouseService } from '../master/house.service';
+import { ApartmentsService } from '../shared/services/apartments.service';
+import { HouseService } from '../shared/services/house.service';
 
 @Component({
   selector: 'app-admin',
@@ -28,6 +32,8 @@ export class AdminPage implements OnInit {
 
   isLoading = false;
 
+  displaySelect = false;
+
   // ----------------------------------------------------------------------------------------------
 
   user: User;
@@ -42,17 +48,17 @@ export class AdminPage implements OnInit {
   userForm = new FormGroup({
     id: new FormControl(),
 
-    email: new FormControl(),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl(),
 
     role: new FormControl(),
 
     clientId: new FormControl(),
-    houseId: new FormControl(),
-    apartmentId: new FormControl(),
+    houseId: new FormControl('', [Validators.required]),
+    apartmentId: new FormControl('', [Validators.required]),
 
-    arriveDate: new FormControl(),
-    leaveDate: new FormControl(),
+    arriveDate: new FormControl('', [Validators.required]),
+    leaveDate: new FormControl('', [Validators.required]),
   });
 
   // ----------------------------------------------------------------------------------------------
@@ -79,7 +85,8 @@ export class AdminPage implements OnInit {
     private router: Router,
     private houseService: HouseService,
     private apartmentsService: ApartmentsService,
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private toastController: ToastController
   ) {
     if (router.getCurrentNavigation().extras.state) {
       this.user = this.router.getCurrentNavigation().extras.state as User;
@@ -95,7 +102,7 @@ export class AdminPage implements OnInit {
         role: 'guest',
 
         clientId: this.admin.id,
-        houseId: this.user.houseId,
+        houseId: this.admin.houseId,
         apartmentId: this.user.apartmentId,
 
         arriveDate: new Date(this.user.arriveDate).toISOString(),
@@ -113,6 +120,8 @@ export class AdminPage implements OnInit {
     this.loadedApartments$ = this.apartmentsService.loadApartments(
       this.admin.houseId
     );
+
+    console.log(this.editMode);
   }
 
   //#endregion
@@ -129,6 +138,10 @@ export class AdminPage implements OnInit {
 
   onBack() {
     this.navCtrl.back();
+  }
+
+  onSet() {
+    // this.userForm.controls.apartmentId.setValue();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -148,6 +161,11 @@ export class AdminPage implements OnInit {
 
       role: 'guest',
     };
+
+    if (user.arriveDate > user.leaveDate) {
+      this.presentDateErrorToast();
+      return;
+    }
 
     this.path.add({
       ...user,
@@ -170,6 +188,11 @@ export class AdminPage implements OnInit {
       apartmentId: this.userForm.get('apartmentId').value,
       houseId: this.userForm.get('houseId').value,
     };
+
+    if (user.arriveDate > user.leaveDate) {
+      this.presentDateErrorToast();
+      return;
+    }
 
     this.path.doc(user.id).update({
       ...user,
@@ -214,6 +237,15 @@ export class AdminPage implements OnInit {
     console.log('onDidDismiss resolved with role and data', role, data);
   }
 
+  // ----------------------------------------------------------------------------------------------
+
+  showReadOnly() {
+    if (this.editMode) {
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
@@ -228,6 +260,14 @@ export class AdminPage implements OnInit {
     return Math.round(new Date(timestamp).getTime() / 10000000) * 10000000;
   }
   // ----------------------------------------------------------------------------------------------
+
+  private async presentDateErrorToast() {
+    const toast = await this.toastController.create({
+      message: 'Achtung! Das Ankunftsdatum ist größer als das Abreisedatum.',
+      duration: 2000,
+    });
+    toast.present();
+  }
 
   //#endregion
 }

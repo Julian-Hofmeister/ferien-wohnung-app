@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { HouseService } from 'src/app/shared/services/house.service';
+import { Card } from './card.model';
 
 @Component({
   selector: 'app-action-card',
@@ -8,13 +10,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ActionCardComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Input() title: string;
+  // @Input() title: string;
 
-  @Input() subtitle: string;
+  // @Input() subtitle: string;
 
-  @Input() btnText: string;
+  // @Input() btnText: string;
 
-  @Input() image: string;
+  // @Input() image: string;
+
+  @Input() card: Card;
 
   //#endregion
 
@@ -28,14 +32,14 @@ export class ActionCardComponent implements OnInit {
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor() {}
+  constructor(private houseService: HouseService) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.btnText = this.btnText ?? 'mehr Infos';
+    this.card.btnText = this.card.btnText ?? 'mehr Infos';
   }
 
   //#endregion
@@ -50,6 +54,15 @@ export class ActionCardComponent implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
+  openLink() {
+    if (this.card.link) {
+      window.location.href = this.card.link;
+    }
+  }
+
+  updateCardVisibility() {
+    this.houseService.updateCardVisibility(this.card.title);
+  }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

@@ -8,7 +8,7 @@ import { InformationPageRoutingModule } from './information-routing.module';
 
 import { InformationPage } from './information.page';
 import { InformationCardComponent } from './information-card/information-card.component';
-import { InformationDetailCard } from '../shared/information-detail-card/information-detail-card.module';
+import { InformationDetailCard } from '../information-detail/information-detail-card/information-detail-card.module';
 
 @NgModule({
   imports: [

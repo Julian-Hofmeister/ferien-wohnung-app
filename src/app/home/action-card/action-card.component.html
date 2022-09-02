@@ -1,19 +1,20 @@
-<div class="card">
+<!-- <ion-toggle class="toggle"></ion-toggle> -->
+<div class="card" [routerLink]="card.route ?? ''" (click)="openLink()">
     <ion-row>
         <ion-col>
-            <img [src]="image" />
+            <img [src]="card.image" />
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col>
-            <h4>{{ title }}</h4>
-            <p>{{ subtitle }}</p>
+            <h4>{{ card.title }}</h4>
+            <p>{{ card.subtitle }}</p>
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col class="btn-col">
             <ion-button>
-                {{ btnText }}
+                {{ card.btnText }}
                 <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
             </ion-button>
         </ion-col>

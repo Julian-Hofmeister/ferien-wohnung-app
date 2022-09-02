@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import firebase from 'firebase';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Apartment } from '../home/apartment.model';
+import { Apartment } from 'src/app/home/apartment.model';
 
 @Injectable({
   providedIn: 'root',

@@ -1,16 +1,16 @@
 <ion-content>
-    <ion-grid *ngIf="!isLoading">
+    <ion-grid *ngIf="!isLoading && backgroundImage">
         <ion-row>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <div class="container">
-                    <img class="background-img" [src]="house.backgroundImage" />
+                    <img id="bgImage" class="background-img" [src]="backgroundImage" />
 
                     <div class="top-right" (click)="onLogout()">
                         <span class="material-icons-outlined"> logout </span>
                     </div>
 
                     <div class="centered">
-                        <h1 (click)="onOpenPageCreator()">{{house.pageTitle}}</h1>
+                        <h1 (click)="onOpenMaster()">{{house.pageTitle}}</h1>
 
                         <hr />
 
@@ -56,12 +56,12 @@
                         Gast hinzufügen
                     </ion-button>
                 </div>
-                <div *ngIf="!loadedUsers.length && !isLoading" class="guest-list">
+                <div *ngIf="!loadedUsers$" class="guest-list">
                     <p class="no-guests">momentan keine aktiven Gäste</p>
                 </div>
-                <div *ngIf="loadedUsers.length && !isLoading " class="guest-list">
+                <div *ngIf="loadedUsers$" class="guest-list">
                     <p class="guest-title">Aktive/Zukünftige Gäste</p>
-                    <ion-list *ngFor="let user of loadedUsers ">
+                    <ion-list *ngFor="let user of loadedUsers$ | async ">
                         <app-user-item [user]="user" (click)="onOpenAdminPage(user)"></app-user-item>
                     </ion-list>
                 </div>
@@ -75,20 +75,19 @@
         </ion-row>
 
         <ion-row class="content-row">
-            <ion-col size-md="12" size-lg="8" offset-lg="2">
+            <ion-col class="content-col" size-md="12" size-lg="8" offset-lg="2">
                 <!-- FUNCTIONS BIG -->
                 <p class="title">Funktionen</p>
-                <app-action-card *ngIf="user.arriveDate > currentDate && !isAdmin" title="Bevor Sie Ankommen" subtitle="Teilen Sie uns einfach mit wie Sie ankommen möchten. Wir kümmern uns darum!" btnText="Nachricht" image="/assets/images/mountain-person.jpg" (click)="onOpenBeforeArrival()">
+                <app-action-card *ngIf="user.arriveDate > currentDate || user.role == 'admin'" [card]="beforeArrival">
                 </app-action-card>
 
-                <app-action-card *ngIf="house.breakfastService" title="Frühstücks Service" subtitle="Schreiben Sie uns einfach am Vortag eine Liste mit Brötchen, wir bringen Sie am nächsten Morgen vorbei!" btnText="Bestellen" icon="bakery_dining" image="/assets/images/bread2.jpg"
-                    (click)="onOpenBreadOrderPage()">
+                <app-action-card *ngIf="house.breakfastService" [card]="breakfastService">
                 </app-action-card>
 
-                <app-action-card *ngIf="house.saunaService" title="Sauna Reservieren" subtitle="Reservieren Sie ganz einfach unsere hauseigene Sauna während Ihres Aufenthaltes!" btnText="Reservieren" icon="hot_tub" image="/assets/images/sauna3.jpg" (click)="onOpenReservationPage()">
+                <app-action-card *ngIf="house.saunaService" [card]="saunaService">
                 </app-action-card>
 
-                <app-action-card *ngIf="house.feedbackService" title="Bewerten Sie uns" subtitle="Teilen Sie doch Ihre Erfahrungen mit anderen und bewerten Sie uns auf Google." btnText="Bewerten" icon="grade" image="/assets/images/feedback-img.jpg" (click)="onOpenFeedbackLink()">
+                <app-action-card *ngIf="house.feedbackService" [card]="feedbackService">
                 </app-action-card>
 
                 <!-- FUNCTIONS SQUARE FORM -->

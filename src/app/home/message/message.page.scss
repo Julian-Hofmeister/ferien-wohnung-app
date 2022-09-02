@@ -88,6 +88,8 @@ ion-footer {
             --background: var(--ion-color-light-shade);
             margin: 1rem;
             max-height: 10rem;
+            overflow-y: scroll;
+            resize: none;
         }
     }
 }
@@ -96,6 +98,7 @@ ion-header {
     // background: none !important;
     .back-icon {
         margin-right: .5rem;
+        color: var(--ion-color-light);
     }
     padding: .8rem;
     ion-avatar {

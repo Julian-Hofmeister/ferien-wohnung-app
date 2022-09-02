@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/authentication/user.model';
-import { Client } from './category/client.model';
+import { Client } from 'src/app/master/category/client.model';
 
 @Injectable({
   providedIn: 'root',

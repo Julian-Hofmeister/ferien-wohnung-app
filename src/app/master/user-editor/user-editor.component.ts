@@ -6,11 +6,11 @@ import { Apartment } from 'src/app/home/apartment.model';
 import { House } from 'src/app/home/house.model';
 import { Client } from '../category/client.model';
 
-import { FormControl, FormGroup } from '@angular/forms';
-import { ClientsService } from '../clients.service';
-import { UsersService } from '../users.service';
-import { HouseService } from '../house.service';
-import { ApartmentsService } from '../apartments.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UsersService } from '../../shared/services/users.service';
+import { ClientsService } from 'src/app/shared/services/clients.service';
+import { HouseService } from 'src/app/shared/services/house.service';
+import { ApartmentsService } from 'src/app/shared/services/apartments.service';
 
 @Component({
   selector: 'app-user-editor',
@@ -33,7 +33,7 @@ export class UserEditorComponent implements OnInit, OnDestroy {
   userForm = new FormGroup({
     id: new FormControl(),
 
-    email: new FormControl(),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl(),
 
     role: new FormControl(),

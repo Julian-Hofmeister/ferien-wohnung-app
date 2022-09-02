@@ -2,8 +2,8 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/authentication/auth.service';
 import { User } from 'src/app/authentication/user.model';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-contacts',
@@ -36,7 +36,7 @@ export class ContactsPage implements OnInit, OnDestroy {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private navCtrl: NavController
   ) {}
@@ -89,7 +89,7 @@ export class ContactsPage implements OnInit, OnDestroy {
   private fetchUsers() {
     this.isLoading = true;
 
-    this.userSub = this.authService.getUsers().subscribe((users) => {
+    this.userSub = this.userService.getUsers().subscribe((users) => {
       this.loadedUsers = [];
       this.unreadUsers = [];
 

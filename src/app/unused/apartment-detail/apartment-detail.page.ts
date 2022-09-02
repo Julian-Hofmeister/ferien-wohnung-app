@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { ApartmentDetailService } from './apartment-detail.service';
-import { InfoDetailItem } from '../information-detail/information-detail.model';
-import { User } from '../authentication/user.model';
+import { InfoDetailItem } from '../../information-detail/information-detail.model';
+import { User } from '../../authentication/user.model';
 
 @Component({
   selector: 'app-apartment-detail',

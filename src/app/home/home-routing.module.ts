@@ -18,13 +18,13 @@ const routes: Routes = [
   {
     path: 'send-message',
     loadChildren: () =>
-      import('./send-message/send-message.module').then(
+      import('../unused/send-message/send-message.module').then(
         (m) => m.SendMessagePageModule
       ),
   },
 
   {
-    path: 'bread-order-page',
+    path: 'bread-order',
     loadChildren: () =>
       import('./bread-order-page/bread-order-page.module').then(
         (m) => m.BreadOrderPagePageModule
@@ -44,7 +44,8 @@ const routes: Routes = [
   },
   {
     path: 'contacts',
-    loadChildren: () => import('./contacts/contacts.module').then( m => m.ContactsPageModule)
+    loadChildren: () =>
+      import('./contacts/contacts.module').then((m) => m.ContactsPageModule),
   },
 ];
 

@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
-import { Reservation } from '../reservation-modal/reservation.model';
-import { ReservationService } from '../reservation-modal/reservation.service';
+import { Reservation } from './reservation.model';
+import { ReservationService } from './reservation.service';
 import { BookingItem } from './booking-item.model';
 
 @Component({

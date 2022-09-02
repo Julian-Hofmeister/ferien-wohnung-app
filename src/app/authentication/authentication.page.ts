@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
-import { AuthService } from './auth.service';
+import { Observable, Subscription } from 'rxjs';
+import { UserService } from '../shared/services/user.service';
 import { User } from './user.model';
 
 @Component({
@@ -21,13 +21,26 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   isLoading = false;
 
+  loadedUsers$: Observable<User[]>;
+
   // ----------------------------------------------------------------------------------------------
 
-  // BUG WITH SPACE
+  loginForm = new FormGroup({
+    email: new FormControl('', [
+      <any>Validators.required,
+      <any>Validators.minLength(5),
+      Validators.email,
+    ]),
+    password: new FormControl('', [
+      <any>Validators.required,
+      <any>Validators.minLength(6),
+      <any>Validators.maxLength(6),
+    ]),
+  });
 
-  email: string;
+  // email: string;
 
-  password: number;
+  // password: number;
 
   // ----------------------------------------------------------------------------------------------
 
@@ -51,7 +64,7 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   //#endregion
 
@@ -63,8 +76,6 @@ export class AuthenticationPage implements OnInit, OnDestroy {
     this.emailNotFound = false;
 
     this.passwordIncorrect = false;
-
-    this.falsePasswordFormat = false;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -104,9 +115,7 @@ export class AuthenticationPage implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onHelp() {
-    this.showHelpText = this.showHelpText
-      ? (this.showHelpText = false)
-      : (this.showHelpText = true);
+    this.showHelpText = !this.showHelpText;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -116,23 +125,21 @@ export class AuthenticationPage implements OnInit, OnDestroy {
     this.passwordIncorrect = false;
     this.falsePasswordFormat = false;
 
+    const loginData = this.loginForm.value;
+
     for (const user of this.loadedUsers) {
       if (
-        user.password === this.password.toString() &&
-        user.email === this.email
+        user.password === loginData.password.toString() &&
+        user.email === loginData.email
       ) {
-        console.log('LOGIN SUCCESS');
-
         this.router.navigate(['home']);
 
         this.setUserToLocalStorage(user);
-      } else if (user.email === this.email) {
+      } else if (user.email === loginData.email) {
         this.emailNotFound = false;
 
-        if (this.password.toString().length === 6) {
+        if (loginData.password.toString().length === 6) {
           this.passwordIncorrect = true;
-        } else {
-          this.falsePasswordFormat = true;
         }
       }
     }
@@ -160,22 +167,17 @@ export class AuthenticationPage implements OnInit, OnDestroy {
 
   private fetchUsers() {
     this.isLoading = true;
-    this.userSub = this.authService.getUsers().subscribe((users) => {
+    this.userSub = this.userService.getUsers().subscribe((users) => {
       this.loadedUsers = [];
 
-      // * DEFINE NEW ITEM
       for (const currentUser of users) {
-        // const imagePath = this.afStorage
-        //   .ref(currentLoadedItem.imagePath)
-        //   .getDownloadURL();
-
         const fetchedUser: User = {
           ...currentUser,
         };
 
         this.loadedUsers.push(fetchedUser);
+
         this.isLoading = false;
-        console.log(this.loadedUsers);
       }
     });
   }

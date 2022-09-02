@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
 import { House } from 'src/app/home/house.model';
-import { HouseService } from '../house.service';
+import { HouseService } from 'src/app/shared/services/house.service';
 
 @Component({
   selector: 'app-houses',

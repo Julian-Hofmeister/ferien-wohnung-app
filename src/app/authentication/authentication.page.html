@@ -5,9 +5,9 @@
                 <div class="container">
                     <img class="background-img" src="/assets/images/mountain-1.jpg" />
 
-                    <div class="centered">
-                        <h1 (click)="onOpenPageCreator()">Ohrwumslar</h1>
-                        <h5>Ihre Ferienwohnung</h5>
+                    <div class="centered-vertical">
+                        <h1 (click)="onOpenPageCreator()">Holiday Butler</h1>
+                        <h5>Dein persönlicher Begleiter</h5>
                     </div>
                 </div>
             </ion-col>
@@ -34,51 +34,44 @@
           <br />Ihnen wird schnellstmöglich ein neuer Account erstellt.
         </p>
 
-        <div class="input-field">
-          <p id="hint-text">E-mail:</p>
+        <form [formGroup]="loginForm" (ngSubmit)="onLoginUser()">
+          <div class="input-field">
+            <p id="hint-text">E-mail:</p>
 
-          <ion-input
-            [(ngModel)]="email"
-            (change)="onChange()"
-            type="email"
-            autofocus
-            id="email-input"
-            (ionFocus)="focusInput('email-input')"
-            (ionBlur)="unFocusInput('email-input')"
-          ></ion-input>
-        </div>
+            <ion-input
+              formControlName="email"
+              (change)="onChange()"
+              type="email"
+              autofocus
+              id="email-input"
+              (ionFocus)="focusInput('email-input')"
+              (ionBlur)="unFocusInput('email-input')"
+            ></ion-input>
+          </div>
 
-        <p *ngIf="emailNotFound" class="error-text">
-          Diese E-mail Adresse ist nicht vergeben
-        </p>
+          <p *ngIf="emailNotFound" class="error-text">
+            Diese E-mail Adresse ist nicht vergeben
+          </p>
 
-        <div class="input-field">
-          <p id="hint-text">Passwort:</p>
-          <ion-input
-            #theInput
-            [(ngModel)]="password"
-            (change)="onChange()"
-            id="password-input"
-            (ionFocus)="focusInput('password-input')"
-            (ionBlur)="unFocusInput('password-input')"
-          ></ion-input>
-        </div>
+          <div class="input-field">
+            <p id="hint-text">Passwort:</p>
+            <ion-input
+              formControlName="password"
+              (change)="onChange()"
+              id="password-input"
+              (ionFocus)="focusInput('password-input')"
+              (ionBlur)="unFocusInput('password-input')"
+            ></ion-input>
+          </div>
 
-        <p *ngIf="falsePasswordFormat" class="error-text">
-          Das Passwort enthält keine 6 Ziffern
-        </p>
+          <p *ngIf="passwordIncorrect" class="error-text">
+            Das Passwort stimmt nicht mit der E-mail Adresse überein
+          </p>
 
-        <p *ngIf="passwordIncorrect" class="error-text">
-          Das Passwort stimmt nicht mit der E-mail Adresse überein
-        </p>
-
-        <ion-button
-          class=""
-          (click)="onLoginUser()"
-          [disabled]="!email || !password"
-        >
-          Anmelden
-        </ion-button>
+          <ion-button type="submit" [disabled]="loginForm.invalid">
+            Anmelden
+          </ion-button>
+        </form>
       </ion-col>
     </ion-row>
   </ion-grid>

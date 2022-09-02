@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import firebase from 'firebase/app';
-import { House } from '../home/house.model';
-import { Apartment } from '../home/apartment.model';
+import { House } from 'src/app/home/house.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -80,32 +79,6 @@ export class HouseService {
 
   // ----------------------------------------------------------------------------------------------
 
-  loadHouse(houseId: string): Observable<House> {
-    // const path = this.afs.collection('houses', (ref) =>
-    //   ref.where(firebase.firestore.FieldPath.documentId(), '==', houseId)
-    // );
-
-    const path = this.afs.collection('houses', (ref) =>
-      ref.where(firebase.firestore.FieldPath.documentId(), '==', houseId)
-    );
-
-    this.houses = path.snapshotChanges().pipe(
-      map((changes) =>
-        changes.map((item) => {
-          const data = item.payload.doc.data() as House;
-          data.id = item.payload.doc.id;
-
-          console.log(data);
-
-          return data;
-        })
-      )
-    );
-    return this.houses[0];
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   updateHouse(house: House) {
     this.afs.collection('houses').doc(house.id).update({
       id: house.id,
@@ -162,6 +135,12 @@ export class HouseService {
 
       bakerEmail: house.bakerEmail,
     });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  updateCardVisibility(title: string) {
+    // this.house.
   }
 
   //#endregion

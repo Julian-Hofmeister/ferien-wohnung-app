@@ -8,9 +8,8 @@ import { InformationDetailPageRoutingModule } from './information-detail-routing
 
 import { InformationDetailPage } from './information-detail.page';
 
-import { InformationDetailCard } from '../shared/information-detail-card/information-detail-card.module';
-
-import { ItemEditor } from '../shared/item-editor/item-editor.module';
+import { ItemEditor } from './item-editor/item-editor.module';
+import { InformationDetailCard } from './information-detail-card/information-detail-card.module';
 
 @NgModule({
   imports: [

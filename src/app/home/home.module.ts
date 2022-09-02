@@ -8,10 +8,10 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 import { ActionCardComponent } from './action-card/action-card.component';
-import { ReservationModalComponent } from './reservation-modal/reservation-modal.component';
+import { ReservationModalComponent } from '../unused/reservation-modal/reservation-modal.component';
 import { UserItemComponent } from './user-item/user-item.component';
-import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
-import { ActionCardSmallComponent } from './action-card-small/action-card-small.component';
+import { UserDetailModalComponent } from '../unused/user-detail-modal/user-detail-modal.component';
+import { ActionCardSmallComponent } from '../unused/action-card-small/action-card-small.component';
 import { ApartmentInfoComponent } from './apartment-info/apartment-info.component';
 
 @NgModule({

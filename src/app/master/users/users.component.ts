@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
-import { UsersService } from '../users.service';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-users',

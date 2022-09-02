@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
-import { Reservation } from './reservation.model';
-import { ReservationService } from './reservation.service';
+import { Reservation } from '../../home/sauna-reservation/reservation.model';
+import { ReservationService } from '../../home/sauna-reservation/reservation.service';
 
 @Component({
   selector: 'app-reservation-modal',

@@ -1,19 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-
 import { LogoutModalComponent } from './logout-modal/logout-modal.component';
-import { UserDetailModalComponent } from './user-detail-modal/user-detail-modal.component';
-
 import { House } from './house.model';
 import { User } from '../authentication/user.model';
-
-import { AuthService } from '../authentication/auth.service';
-
 import { Subscription } from 'rxjs/internal/Subscription';
-import { HouseService } from '../master/house.service';
 import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { HouseService } from '../shared/services/house.service';
+import { UserService } from '../shared/services/user.service';
+import { Card } from './action-card/card.model';
 
 // ----------------------------------------------------------------------------------------------
 
@@ -33,23 +29,17 @@ export class HomePage implements OnInit, OnDestroy {
 
   isLoading = true;
 
-  // ----------------------------------------------------------------------------------------------
-
-  loadedUsers: User[] = [];
-
-  loadedHouses: House[] = [];
-
-  // loadedHouse: House;
+  validDevice = true;
 
   currentDate = Date.now();
-
-  data = null;
 
   // ----------------------------------------------------------------------------------------------
 
   house: House;
 
-  loadedHouse$: Observable<House>;
+  loadedUsers$: Observable<User[]>;
+
+  backgroundImage: string;
 
   // ----------------------------------------------------------------------------------------------
 
@@ -70,13 +60,45 @@ export class HomePage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  validDevice: boolean;
+  beforeArrival: Card = {
+    title: 'Bevor Sie Ankommen',
+    subtitle:
+      'Teilen Sie uns einfach mit wie Sie ankommen möchten. Wir kümmern uns darum!',
+    btnText: 'Nachricht',
+    image: '/assets/images/mountain-person.jpg',
+    route: 'before-arrival',
+  };
+
+  breakfastService: Card = {
+    title: 'Frühstücks Service',
+    subtitle:
+      'Schreiben Sie uns einfach am Vortag eine Liste mit Brötchen, wir bringen Sie am nächsten Morgen vorbei!',
+    btnText: 'Bestellen',
+    image: '/assets/images/bread2.jpg',
+    route: 'bread-order',
+  };
+
+  saunaService: Card = {
+    title: 'Sauna Reservieren',
+    subtitle:
+      'Reservieren Sie ganz einfach unsere hauseigene Sauna während Ihres Aufenthaltes!',
+    btnText: 'Reservieren',
+    image: '/assets/images/sauna3.jpg',
+    route: 'sauna-reservation',
+  };
+
+  feedbackService: Card = {
+    title: 'Bewerten Sie uns',
+    subtitle:
+      'Teilen Sie doch Ihre Erfahrungen mit anderen und bewerten Sie uns auf Google.',
+    btnText: 'Bewerten',
+    image: '/assets/images/feedback-img.jpg',
+    link: 'https://g.page/r/CcgiqX68TxgkEAg/review',
+  };
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  private userSub: Subscription;
 
   private houseSub: Subscription;
 
@@ -87,11 +109,11 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(
     private modalCtrl: ModalController,
     private router: Router,
-    private authService: AuthService,
     private houseService: HouseService,
     private platform: Platform,
     private storage: AngularFireStorage,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private userService: UserService
   ) {
     platform.ready().then(() => {
       console.log('Width: ' + platform.width());
@@ -105,20 +127,9 @@ export class HomePage implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.fetchUsers();
+    this.loadedUsers$ = this.userService.getActiveUsers();
 
-    this.fetchHouses();
-
-    this.loadedHouse$ = this.houseService.loadHouse(this.user.houseId);
-
-    console.log(this.user.houseId);
-
-    console.log(this.user.arriveDate);
-    console.log(this.user.leaveDate);
-
-    // this.isAdmin = true;
-
-    console.log(this.user.role);
+    this.fetchHouse();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -126,10 +137,6 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.houseSub) {
       this.houseSub.unsubscribe();
-    }
-
-    if (this.userSub) {
-      this.userSub.unsubscribe();
     }
   }
 
@@ -145,17 +152,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onOpenAdminPage(user?: User) {
-    if (user) {
-      this.navCtrl.navigateForward('admin', { state: user });
-    } else {
-      this.router.navigate(['admin']);
-    }
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onOpenPageCreator() {
+  onOpenMaster() {
     this.router.navigate(['master']);
   }
 
@@ -179,42 +176,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenApartmentDetailPage() {
-    this.router.navigate(['apartment-detail']);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onOpenMessagePage() {
-    this.router.navigate(['/message']);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onOpenContactsPage() {
-    this.router.navigate(['/contacts']);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   onOpenFeedbackLink() {
     window.location.href = 'https://g.page/r/CcgiqX68TxgkEAg/review';
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  onOpenUserDetailModal(user: User) {
-    this.modalCtrl
-      .create({
-        component: UserDetailModalComponent,
-        cssClass: 'user-detail-modal-css',
-        componentProps: {
-          user,
-        },
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -230,48 +193,30 @@ export class HomePage implements OnInit, OnDestroy {
       });
   }
 
-  //#endregion
+  // ----------------------------------------------------------------------------------------------
 
-  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-
-  private async fetchUsers() {
-    this.isLoading = true;
-
-    this.userSub = this.authService
-      .getUsers(this.currentDate)
-      .subscribe((users) => {
-        // this.user = null;
-        this.loadedUsers = [];
-
-        for (const currentUser of users) {
-          const fetchedUser: User = {
-            ...currentUser,
-          };
-
-          console.log(fetchedUser);
-
-          if (
-            fetchedUser.leaveDate > this.currentDate &&
-            fetchedUser.role === 'guest'
-          ) {
-            this.loadedUsers.push(fetchedUser);
-          }
-
-          this.isLoading = false;
-        }
-      });
+  onOpenAdminPage(user?: User) {
+    if (user) {
+      this.navCtrl.navigateForward('admin', { state: user });
+    } else {
+      this.router.navigate(['admin']);
+    }
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  private async fetchHouses() {
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private async fetchHouse() {
     this.isLoading = true;
+
+    let img = document.querySelector('img');
 
     this.houseSub = this.houseService
       .getHouses(this.user.houseId)
       .subscribe(async (houses) => {
-        this.loadedHouses = [];
-
         for (const currentHouse of houses) {
           const fetchedHouse: House = {
             ...currentHouse,
@@ -279,13 +224,15 @@ export class HomePage implements OnInit, OnDestroy {
 
           this.house = fetchedHouse;
 
-          this.house.backgroundImage = await this.storage
+          this.backgroundImage = await this.storage
             .ref(fetchedHouse.backgroundImage)
             .getDownloadURL()
             .toPromise();
 
-          this.isLoading = false;
+          console.log(this.house.backgroundImage);
         }
+
+        this.isLoading = false;
       });
   }
 

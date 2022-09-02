@@ -43,7 +43,8 @@ export class InformationPage implements OnInit, OnDestroy {
     private informationService: InformationService,
     private navCtrl: NavController,
     private firestore: AngularFirestore,
-    private http: HttpClient
+    private http: HttpClient,
+    private nav: NavController
   ) {}
 
   //#endregion

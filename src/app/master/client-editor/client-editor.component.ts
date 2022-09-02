@@ -16,8 +16,8 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { HouseService } from '../house.service';
-import { ClientsService } from '../clients.service';
+import { HouseService } from 'src/app/shared/services/house.service';
+import { ClientsService } from 'src/app/shared/services/clients.service';
 
 @Component({
   selector: 'app-client-editor',
