@@ -29,8 +29,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   isLoading = true;
 
-  validDevice = true;
-
   currentDate = Date.now();
 
   // ----------------------------------------------------------------------------------------------
@@ -117,8 +115,6 @@ export class HomePage implements OnInit, OnDestroy {
   ) {
     platform.ready().then(() => {
       console.log('Width: ' + platform.width());
-
-      this.validDevice = platform.width() <= 1000 ? true : false;
     });
   }
 
@@ -212,24 +208,18 @@ export class HomePage implements OnInit, OnDestroy {
   private async fetchHouse() {
     this.isLoading = true;
 
-    let img = document.querySelector('img');
-
     this.houseSub = this.houseService
       .getHouses(this.user.houseId)
       .subscribe(async (houses) => {
         for (const currentHouse of houses) {
-          const fetchedHouse: House = {
+          this.house = {
             ...currentHouse,
           };
 
-          this.house = fetchedHouse;
-
           this.backgroundImage = await this.storage
-            .ref(fetchedHouse.backgroundImage)
+            .ref(this.house.backgroundImage)
             .getDownloadURL()
             .toPromise();
-
-          console.log(this.house.backgroundImage);
         }
 
         this.isLoading = false;
