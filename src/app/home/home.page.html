@@ -5,9 +5,25 @@
                 <div class="header-container">
                     <img id="bgImage" class="bg-img" [src]="backgroundImage" />
 
-                    <div class="top-right" (click)="onLogout()">
+                    <div id="open-logout-modal" class="top-right">
                         <span class="material-icons-outlined"> logout </span>
                     </div>
+                    <ion-modal trigger="open-logout-modal" id="logout-modal">
+                        <ng-template>
+                            <div class="container">
+                                <ion-row>
+                                    <ion-col>
+                                        <h3>Abmelden</h3>
+                                        <p>Sind Sie sicher, dass Sie sich abmelden möchten?</p>
+                                        <ion-button (click)="onLogout()"> Abmelden </ion-button>
+                                        <ion-button class="outlined" (click)="onDismissLogoutModal()">
+                                            Zurück
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                            </div>
+                        </ng-template>
+                    </ion-modal>
 
                     <div class="centered">
                         <h1 (click)="onOpenMaster()">{{house.pageTitle}}</h1>

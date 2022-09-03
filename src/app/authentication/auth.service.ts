@@ -48,6 +48,11 @@ export class AuthService {
 
   // ----------------------------------------------------------------------------------------------
 
+  logout() {
+    localStorage.clear();
+
+    this.router.navigate(['authentication']);
+  }
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////

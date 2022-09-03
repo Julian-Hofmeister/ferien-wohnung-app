@@ -1,7 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ModalController, NavController, Platform } from '@ionic/angular';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  IonModal,
+  ModalController,
+  NavController,
+  Platform,
+} from '@ionic/angular';
 import { Router } from '@angular/router';
-import { LogoutModalComponent } from './logout-modal/logout-modal.component';
+import { LogoutModalComponent } from '../unused/logout-modal/logout-modal.component';
 import { House } from './house.model';
 import { User } from '../authentication/user.model';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -10,6 +15,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { HouseService } from '../shared/services/house.service';
 import { UserService } from '../shared/services/user.service';
 import { Card } from './action-card/card.model';
+import { AuthService } from '../authentication/auth.service';
 
 // ----------------------------------------------------------------------------------------------
 
@@ -20,6 +26,8 @@ import { Card } from './action-card/card.model';
 })
 export class HomePage implements OnInit, OnDestroy {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  @ViewChild(IonModal) logoutModal: IonModal;
 
   //#endregion
 
@@ -111,12 +119,9 @@ export class HomePage implements OnInit, OnDestroy {
     private platform: Platform,
     private storage: AngularFireStorage,
     private navCtrl: NavController,
-    private userService: UserService
-  ) {
-    platform.ready().then(() => {
-      console.log('Width: ' + platform.width());
-    });
-  }
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   //#endregion
 
@@ -179,14 +184,15 @@ export class HomePage implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onLogout() {
-    this.modalCtrl
-      .create({
-        component: LogoutModalComponent,
-        cssClass: 'logout-modal-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
+    this.authService.logout();
+
+    this.onDismissLogoutModal();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onDismissLogoutModal() {
+    this.logoutModal.dismiss();
   }
 
   // ----------------------------------------------------------------------------------------------
