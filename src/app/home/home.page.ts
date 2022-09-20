@@ -1,20 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  IonModal,
-  ModalController,
-  NavController,
-  Platform,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
-import { LogoutModalComponent } from '../unused/logout-modal/logout-modal.component';
-import { House } from './house.model';
-import { User } from '../authentication/user.model';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { Observable } from 'rxjs';
+import { IonModal, NavController } from '@ionic/angular';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { House } from './house.model';
+import { Card } from './action-card/card.model';
+import { User } from '../authentication/user.model';
 import { HouseService } from '../shared/services/house.service';
 import { UserService } from '../shared/services/user.service';
-import { Card } from './action-card/card.model';
 import { AuthService } from '../authentication/auth.service';
 
 // ----------------------------------------------------------------------------------------------
@@ -113,12 +107,12 @@ export class HomePage implements OnInit, OnDestroy {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    private router: Router,
-    private houseService: HouseService,
     private storage: AngularFireStorage,
-    private navCtrl: NavController,
+    private houseService: HouseService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private navCtrl: NavController,
+    private router: Router
   ) {}
 
   //#endregion
@@ -126,7 +120,9 @@ export class HomePage implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.loadedUsers$ = this.userService.getActiveUsers();
+    if (this.user.role == 'admin') {
+      this.loadedUsers$ = this.userService.getActiveUsers();
+    }
 
     this.fetchHouse();
   }
@@ -195,9 +191,9 @@ export class HomePage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  onOpenAdminPage(user?: User) {
-    if (user) {
-      this.navCtrl.navigateForward('admin', { state: user });
+  onOpenAdminPage(userToEdit?: User) {
+    if (userToEdit) {
+      this.navCtrl.navigateForward('admin', { state: userToEdit });
     } else {
       this.router.navigate(['admin']);
     }
