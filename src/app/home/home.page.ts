@@ -113,10 +113,8 @@ export class HomePage implements OnInit, OnDestroy {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    private modalCtrl: ModalController,
     private router: Router,
     private houseService: HouseService,
-    private platform: Platform,
     private storage: AngularFireStorage,
     private navCtrl: NavController,
     private userService: UserService,

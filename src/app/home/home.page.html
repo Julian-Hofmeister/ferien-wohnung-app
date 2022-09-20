@@ -25,12 +25,16 @@
                         </ng-template>
                     </ion-modal>
 
-                    <div class="centered">
-                        <h1 (click)="onOpenMaster()">{{house.pageTitle}}</h1>
+                    <div class="centered-vertical">
+                        <ion-row class="centered-horizontal">
+                            <ion-col>
+                                <h1 (click)="onOpenMaster()">{{house.pageTitle}}</h1>
 
-                        <hr />
+                                <hr />
 
-                        <h5>{{house.pageSubtitle}}</h5>
+                                <h5>{{house.pageSubtitle}}</h5>
+                            </ion-col>
+                        </ion-row>
                     </div>
                 </div>
             </ion-col>
