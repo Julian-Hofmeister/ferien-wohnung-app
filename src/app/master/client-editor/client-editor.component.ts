@@ -60,6 +60,8 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   selectedImage: any;
 
+  avatarImg: any;
+
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -80,7 +82,7 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loadedHouses$ = this.houseService.getHouses();
 
     this.clientSub = this.clientsService.currentClient.subscribe((client) => {
@@ -96,6 +98,13 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
         houseId: client.houses ?? '',
       });
     });
+
+    this.avatarImg = await this.storage
+      .ref(this.client.avatarUrl)
+      .getDownloadURL()
+      .toPromise();
+
+    console.log(this.client);
   }
 
   // ----------------------------------------------------------------------------------------------
