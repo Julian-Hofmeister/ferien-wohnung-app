@@ -73,7 +73,7 @@ export class ClientsService {
   // ----------------------------------------------------------------------------------------------
 
   createClient(client: Client) {
-    this.path.doc(client.id).update({ ...client });
+    this.path.add({ ...client });
   }
 
   //#endregion

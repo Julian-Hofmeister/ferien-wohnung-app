@@ -135,7 +135,11 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
   onSubmit() {
     const client: Client = this.clientForm.value;
 
-    this.clientsService.updateClient(client);
+    if (client.id) {
+      this.clientsService.updateClient(client);
+    } else {
+      this.clientsService.createClient(client);
+    }
   }
 
   //#endregion
