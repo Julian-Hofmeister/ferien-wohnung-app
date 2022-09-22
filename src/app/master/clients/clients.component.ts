@@ -67,8 +67,9 @@ export class ClientsComponent implements OnInit {
       id: '',
       firstName: '',
       lastName: '',
-      email: '',
       password: '',
+      email: '',
+      phoneNumber: '',
       houses: [],
     };
 

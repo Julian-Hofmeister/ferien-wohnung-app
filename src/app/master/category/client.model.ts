@@ -4,8 +4,9 @@ export interface Client {
   firstName: string;
   lastName: string;
 
-  email: string;
   password: string;
+  email: string;
+  phoneNumber?: string;
 
   houses: string[];
 }

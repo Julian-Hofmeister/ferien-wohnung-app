@@ -23,6 +23,7 @@ export class ClientsService {
 
     email: '',
     password: '',
+    phoneNumber: '',
 
     houses: [],
   };
