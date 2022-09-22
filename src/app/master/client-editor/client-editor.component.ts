@@ -31,15 +31,12 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
     lastName: new FormControl('', [Validators.required]),
 
     email: new FormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]*$'),
-    ]),
+    phoneNumber: new FormControl('', [Validators.required]),
     password: new FormControl('', [
       Validators.minLength(6),
       Validators.maxLength(6),
     ]),
-    houseId: new FormControl(''),
+    houseId: new FormControl(),
   });
 
   // ----------------------------------------------------------------------------------------------
@@ -146,7 +143,12 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log(this.clientForm.value);
-    console.log('here');
+
+    const client: Client = this.clientForm.value;
+
+    console.log(client);
+
+    this.clientsService.updateClient(client);
   }
 
   //#endregion

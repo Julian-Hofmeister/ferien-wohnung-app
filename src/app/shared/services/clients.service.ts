@@ -66,6 +66,16 @@ export class ClientsService {
 
   // ----------------------------------------------------------------------------------------------
 
+  updateClient(client: Client) {
+    this.path.doc(client.id).update({ ...client });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  createClient(client: Client) {
+    this.path.doc(client.id).update({ ...client });
+  }
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
