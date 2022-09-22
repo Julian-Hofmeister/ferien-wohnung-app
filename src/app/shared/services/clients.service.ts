@@ -24,6 +24,7 @@ export class ClientsService {
     email: '',
     password: '',
     phoneNumber: '',
+    avatarUrl: '',
 
     houses: [],
   };

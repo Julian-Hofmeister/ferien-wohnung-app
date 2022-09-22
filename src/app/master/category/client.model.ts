@@ -6,7 +6,8 @@ export interface Client {
 
   password: string;
   email: string;
-  phoneNumber?: string;
+  phoneNumber: string;
+  avatarUrl: string;
 
   houses: string[];
 }

@@ -70,6 +70,7 @@ export class ClientsComponent implements OnInit {
       password: '',
       email: '',
       phoneNumber: '',
+      avatarUrl: '',
       houses: [],
     };
 
