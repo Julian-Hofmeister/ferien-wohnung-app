@@ -36,9 +36,6 @@ ion-button {
     font-weight: 600;
     --background: var(--ion-color-primary);
     --border-radius: 5px;
-    ion-icon {
-        // color: var(--ion-color-primary);
-    }
 }
 
 .house-card {
@@ -60,5 +57,13 @@ ion-button {
         ion-icon {
             padding: .8rem;
         }
+    }
+}
+
+ion-list {
+    margin: 1rem;
+    ion-item {
+        --background: var(--ion-color-light-shade);
+        --border-radius: 5px;
     }
 }

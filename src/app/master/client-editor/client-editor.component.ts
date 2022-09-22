@@ -39,6 +39,7 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
       Validators.minLength(6),
       Validators.maxLength(6),
     ]),
+    houseId: new FormControl(''),
   });
 
   // ----------------------------------------------------------------------------------------------
@@ -87,6 +88,7 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
         email: client.email ?? '',
         phoneNumber: client.phoneNumber ?? '',
         password: client.password ?? '',
+        houseId: client.houses ?? '',
       });
     });
   }
