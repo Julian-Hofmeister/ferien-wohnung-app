@@ -1,21 +1,8 @@
-import {
-  Component,
-  ContentChild,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { IonInput } from '@ionic/angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { House } from 'src/app/home/house.model';
 import { Client } from '../category/client.model';
-
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HouseService } from 'src/app/shared/services/house.service';
 import { ClientsService } from 'src/app/shared/services/clients.service';
 
@@ -40,11 +27,18 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
   clientForm = new FormGroup({
     id: new FormControl(),
 
-    firstName: new FormControl(),
-    lastName: new FormControl(),
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
 
-    email: new FormControl(),
-    password: new FormControl(),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phoneNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$'),
+    ]),
+    password: new FormControl('', [
+      Validators.minLength(6),
+      Validators.maxLength(6),
+    ]),
   });
 
   // ----------------------------------------------------------------------------------------------
@@ -87,11 +81,12 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
       this.client = client;
 
       this.clientForm.setValue({
-        id: client.id,
-        firstName: client.firstName,
-        lastName: client.lastName,
-        email: client.email,
-        password: client.password,
+        id: client.id ?? '',
+        firstName: client.firstName ?? '',
+        lastName: client.lastName ?? '',
+        email: client.email ?? '',
+        phoneNumber: client.phoneNumber ?? '',
+        password: client.password ?? '',
       });
     });
   }
@@ -149,6 +144,7 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log(this.clientForm.value);
+    console.log('here');
   }
 
   //#endregion
