@@ -47,8 +47,6 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   selectedHouses: string[] = [];
 
-  showHouses = false;
-
   // ----------------------------------------------------------------------------------------------
 
   message: string;
@@ -120,13 +118,6 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  onDisplayHouseSelection() {
-    this.showHouses = !this.showHouses;
-    console.log(this.showHouses);
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   onDetachHouse(house: House) {
     house.clientId = 'unset';
 
@@ -142,11 +133,7 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onSubmit() {
-    console.log(this.clientForm.value);
-
     const client: Client = this.clientForm.value;
-
-    console.log(client);
 
     this.clientsService.updateClient(client);
   }

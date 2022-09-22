@@ -42,21 +42,6 @@
 
         <br />
 
-        <!-- <ion-button (click)="onDisplayHouseSelection()">
-            Ferienhäuser
-            <ion-icon name="caret-down-outline" [hidden]="showHouses"></ion-icon>
-            <ion-icon name="caret-up-outline" [hidden]="!showHouses"></ion-icon>
-        </ion-button>
-
-        <ion-list *ngFor="let house of loadedHouses$ | async" [hidden]="!showHouses">
-            <div class="house-card">
-                <ion-row>
-                    <p>{{ house.pageTitle }}</p>
-                    <ion-icon name="trash-outline" [hidden]="!showHouses" (click)="onDetachHouse(house)"></ion-icon>
-                </ion-row>
-            </div>
-        </ion-list> -->
-
         <div *ngIf="loadedHouses$ | async">
             <ion-list>
                 <p id="hint-text">Ferienhaus:</p>
@@ -69,10 +54,6 @@
             </ion-list>
         </div>
 
-        <ion-button (click)="onCreateHouse()" [hidden]="!showHouses" color="light-shade">
-            Neues Haus erstellen
-            <ion-icon name="add-outline"></ion-icon>
-        </ion-button>
         <ion-button (click)="onSubmit()" [disabled]="!clientForm.valid">
             Speichern
         </ion-button>
