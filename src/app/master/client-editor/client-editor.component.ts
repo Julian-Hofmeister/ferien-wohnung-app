@@ -5,6 +5,7 @@ import { Client } from '../category/client.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HouseService } from 'src/app/shared/services/house.service';
 import { ClientsService } from 'src/app/shared/services/clients.service';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-client-editor',
@@ -51,6 +52,14 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   message: string;
 
+  // ----------------------------------------------------------------------------------------------
+
+  currentImageUrl: string;
+
+  selectedFiles: Array<File>;
+
+  selectedImage: any;
+
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -63,7 +72,8 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   constructor(
     private houseService: HouseService,
-    private clientsService: ClientsService
+    private clientsService: ClientsService,
+    private storage: AngularFireStorage
   ) {}
 
   //#endregion
@@ -132,8 +142,19 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  onSubmit() {
+  async onSubmit() {
     const client: Client = this.clientForm.value;
+
+    if (this.selectedFiles) {
+      const file = this.selectedFiles[0];
+
+      // Get the fullPath in Storage after upload
+      const fullPathInStorage = await this.uploadImage(file);
+
+      client.avatarUrl = fullPathInStorage;
+    }
+
+    console.log(client);
 
     if (client.id) {
       this.clientsService.updateClient(client);
@@ -142,9 +163,61 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  // ----------------------------------------------------------------------------------------------
+
+  onFileChosen(event: any) {
+    this.selectedFiles = event.target.files;
+
+    this.checkFileType();
+
+    // let selectedFile = this.selectedFiles[0];
+    // this.checkFileSize(selectedFile);
+
+    // *Display Image on Select
+    var reader = new FileReader();
+    reader.readAsDataURL(this.selectedFiles[0]);
+    reader.onload = (_event) => {
+      this.selectedImage = reader.result;
+    };
+  }
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  private checkFileType() {
+    var mimeType = this.selectedFiles[0].type;
+
+    if (mimeType.match(/image\/*/) == null) {
+      window.confirm(
+        'Die Datei kann nicht als Bild erkannt werden. Bitte verwenden sie nur gängige Dateiformate'
+      );
+
+      this.selectedFiles = [];
+      this.selectedImage = '';
+
+      return;
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private async uploadImage(file): Promise<string> {
+    /**
+     * You can add random number in file.name to avoid overwrites,
+     * or replace the file.name to a static string if you intend to overwrite
+     */
+    const fileRef = this.storage.ref('test').child(file.name);
+
+    // Upload file in reference
+    if (!!file) {
+      const result = await fileRef.put(file);
+
+      return result.ref.fullPath;
+    }
+  }
 
   // ----------------------------------------------------------------------------------------------
 

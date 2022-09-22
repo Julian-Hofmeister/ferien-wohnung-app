@@ -40,6 +40,12 @@
             </ion-input>
         </div>
 
+        <div class="input-field">
+            <p id="hint-text">Avatar Bild:</p>
+            <ion-input type="file" (change)="onFileChosen($event)"></ion-input>
+            <img [src]="selectedImage ? selectedImage : backgroundImage" id="output" />
+        </div>
+
         <br />
 
         <div *ngIf="loadedHouses$ | async">

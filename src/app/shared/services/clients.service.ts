@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from 'src/app/authentication/user.model';
 import { Client } from 'src/app/master/category/client.model';
 
 @Injectable({
@@ -68,6 +67,8 @@ export class ClientsService {
 
   updateClient(client: Client) {
     this.path.doc(client.id).update({ ...client });
+
+    console.log('succes');
   }
 
   // ----------------------------------------------------------------------------------------------
