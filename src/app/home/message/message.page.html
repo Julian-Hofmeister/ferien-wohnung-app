@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" *ngIf="client">
     <!-- <ion-row>
         <span class="material-icons-outlined" (click)="onBack()"> arrow_back </span>
         <img src="/assets/images/mountain-1.jpg" alt="" />
@@ -12,16 +12,16 @@
                 <ion-avatar>
                     <img src="/assets/images/avatar2.png" alt="" />
                 </ion-avatar>
-                <ion-label class="name">Ohrwumslar</ion-label>
+                <ion-label class="name">{{client.firstName + ' ' + client.lastName}}</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
                 <ion-row class="space-between">
                     <ion-icon name="call-outline"></ion-icon>
-                    <p>08322 7172</p>
+                    <p>{{client.phoneNumber}}</p>
                 </ion-row>
                 <ion-row class="space-between">
                     <ion-icon name="mail-outline"></ion-icon>
-                    <p>info@ohrwumslar.de</p>
+                    <p>{{client.email}}</p>
                 </ion-row>
             </div>
         </ion-accordion>

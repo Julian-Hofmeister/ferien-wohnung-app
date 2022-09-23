@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import firebase from 'firebase';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Client } from 'src/app/master/category/client.model';
@@ -42,8 +43,14 @@ export class ClientsService {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  loadClients(): Observable<Client[]> {
-    this.clients = this.path.snapshotChanges().pipe(
+  loadClients(clientId?): Observable<Client[]> {
+    const path = clientId
+      ? this.afs.collection('clients', (ref) =>
+          ref.where(firebase.firestore.FieldPath.documentId(), '==', clientId)
+        )
+      : this.afs.collection('clients');
+
+    this.clients = path.snapshotChanges().pipe(
       map((changes) =>
         changes.map((item) => {
           const data = item.payload.doc.data() as Client;
@@ -77,6 +84,11 @@ export class ClientsService {
     this.path.add({ ...client });
   }
 
+  // ----------------------------------------------------------------------------------------------
+
+  getClientById(clientId: string) {
+    this.path.doc(clientId).get();
+  }
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////

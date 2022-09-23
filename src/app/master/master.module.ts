@@ -14,6 +14,7 @@ import { UsersComponent } from './users/users.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
 import { HousesComponent } from './houses/houses.component';
 import { HouseEditorComponent } from './house-editor/house-editor.component';
+import { InfoCardComponent } from './house-editor/info-card/info-card.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { HouseEditorComponent } from './house-editor/house-editor.component';
     UserEditorComponent,
     HousesComponent,
     HouseEditorComponent,
+    InfoCardComponent,
   ],
 })
 export class MasterPageModule {}

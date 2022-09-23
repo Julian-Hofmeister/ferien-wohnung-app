@@ -1,9 +1,12 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { ActivatedRoute, Router } from '@angular/router';
 import { createAnimation, IonContent, NavController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/authentication/user.model';
+import { Client } from 'src/app/master/category/client.model';
+import { ClientsService } from 'src/app/shared/services/clients.service';
 import { Message } from './message.model';
 import { MessageService } from './message.service';
 
@@ -48,12 +51,19 @@ export class MessagePage implements OnInit {
 
   loadedMessages$: Observable<Message[]>;
 
+  // loadedClients$: Observable<Client[]>;
+
+  client: Client;
+
+  profileImg: any;
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
+  clientSub = new Subscription();
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -63,7 +73,9 @@ export class MessagePage implements OnInit {
     private afs: AngularFirestore,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private clientsService: ClientsService,
+    private storage: AngularFireStorage
   ) {
     this.route.queryParams.subscribe((_p) => {
       const navParams = this.router.getCurrentNavigation().extras.state;
@@ -80,6 +92,8 @@ export class MessagePage implements OnInit {
       this.user.role == 'admin' ? this.selectedUser.id : this.user.id;
 
     this.loadedMessages$ = this.messageService.getMessages(this.chatId);
+
+    this.loadClient();
 
     this.readMessage();
   }
@@ -158,6 +172,25 @@ export class MessagePage implements OnInit {
   }
 
   // ----------------------------------------------------------------------------------------------
+
+  private loadClient() {
+    this.clientSub = this.clientsService
+      .loadClients(this.user.clientId)
+      .subscribe(async (clients) => {
+        for (const currentClient of clients) {
+          this.client = {
+            ...currentClient,
+          };
+
+          this.profileImg = await this.storage
+            .ref(this.client.avatarUrl)
+            .getDownloadURL()
+            .toPromise();
+        }
+
+        // this.isLoading = false;
+      });
+  }
 
   //#endregion
 }

@@ -99,12 +99,9 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.avatarImg = await this.storage
-      .ref(this.client.avatarUrl)
-      .getDownloadURL()
-      .toPromise();
-
     console.log(this.client);
+
+    this.setImg();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -230,5 +227,13 @@ export class ClientEditorComponent implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
+  private async setImg() {
+    console.log(this.client.avatarUrl);
+
+    this.avatarImg = await this.storage
+      .ref(this.client.avatarUrl)
+      .getDownloadURL()
+      .toPromise();
+  }
   //#endregion
 }

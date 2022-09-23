@@ -28,8 +28,13 @@
     <div class="input-field">
         <p id="hint-text">imagePath:*</p>
         <ion-input type="file" (change)="onFileChosen($event)"></ion-input>
-        <img [src]="selectedImage ? selectedImage : avatarImg" id="output" />
+        <img [src]="selectedImage ? selectedImage : backgroundImage" id="output" />
     </div>
+
+    <h3>Auf einen Blick</h3>
+    <ion-button>Info hinzufügen</ion-button>
+
+    <app-info-card></app-info-card>
 
     <h3>Features</h3>
 
