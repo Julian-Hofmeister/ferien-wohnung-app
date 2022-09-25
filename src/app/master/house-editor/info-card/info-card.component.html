@@ -14,9 +14,9 @@
         <p id="hint-text">Name:</p>
         <p id="hint-text">Inhalt:</p>
     </ion-row>
-    <div class="column" *ngIf="columns">
-        <ion-list *ngFor="let info of infos">
-            <ion-row class="space-between">
+    <div class="column" *ngIf="infoCard.columns">
+        <ion-list *ngFor="let info of infoCard.infos">
+            <ion-row class="space-between center-vertical">
                 <div class="input-field">
                     <ion-input [(ngModel)]="info.title" type="text"></ion-input>
                 </div>
@@ -25,10 +25,11 @@
                 <div class="input-field">
                     <ion-input [(ngModel)]="info.content" type="text"></ion-input>
                 </div>
+                <ion-icon name="trash-outline" (click)="deleteInfoRow(info)"></ion-icon>
             </ion-row>
         </ion-list>
     </div>
-    <div class="free-text" *ngIf="!columns">
+    <div class="free-text" *ngIf="!infoCard.columns">
         <div class="input-field">
             <p id="hint-text">Inhalt:</p>
             <ion-textarea auto-grow="true" id="textbar" lines="none" type="text" rows="1" [(ngModel)]="freeText"></ion-textarea>
@@ -36,7 +37,7 @@
     </div>
     <br />
     <ion-row class="space-between">
-        <ion-button class="no-bg" (click)="addInfoRow()">Reihe Hinzufügen</ion-button>
+        <ion-button class="no-bg" (click)="addInfoRow()" *ngIf="infoCard.columns">Reihe Hinzufügen</ion-button>
         <ion-button>Speichern</ion-button>
     </ion-row>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { InfoCard } from './info-card.model';
 import { Info } from './info.model';
 
 @Component({
@@ -13,20 +14,24 @@ export class InfoCardComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  infos: Info[] = [
-    {
-      title: 'Wlan',
-      content: 'Netzwerk123',
-    },
-    {
-      title: 'Wlan',
-      content: 'Netzwerk123',
-    },
-  ];
+  infoCard: InfoCard = {
+    title: '',
 
-  columns = true;
+    columns: true,
 
-  freeText = '';
+    infos: [
+      {
+        title: 'Wlan',
+        content: 'Netzwerk123',
+      },
+      {
+        title: 'Wlan',
+        content: 'Netzwerk123',
+      },
+    ],
+
+    freeText: '',
+  };
 
   //#endregion
 
@@ -57,9 +62,9 @@ export class InfoCardComponent implements OnInit {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   changeColumns() {
-    this.columns = !this.columns;
+    this.infoCard.columns = !this.infoCard.columns;
 
-    console.log(this.columns);
+    console.log(this.infoCard.columns);
   }
   // ----------------------------------------------------------------------------------------------
 
@@ -69,8 +74,21 @@ export class InfoCardComponent implements OnInit {
       content: '',
     };
 
-    this.infos.push(newInfo);
+    this.infoCard.infos.push(newInfo);
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  deleteInfoRow(info: Info) {
+    this.infoCard.infos.forEach((item, index) => {
+      if (item === info) this.infoCard.infos.splice(index, 1);
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  saveInfoCard() {}
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////

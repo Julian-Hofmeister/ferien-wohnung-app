@@ -36,6 +36,9 @@ ion-textarea {
     margin: 1rem;
     padding: 1rem;
     border: 1px solid #000;
+    ion-icon {
+        color: var(--ion-color-primary);
+    }
     // margin: 0 1rem;
     .space {
         width: 1rem;
@@ -46,5 +49,8 @@ ion-textarea {
     .no-bg {
         color: var(--ion-color-primary);
         --background: transparent;
+    }
+    .center-vertical {
+        align-items: center;
     }
 }
