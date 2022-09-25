@@ -1,32 +1,42 @@
 <div class="info-card">
-    <ion-row>
+    <ion-row class="space-between">
         <div class="input-field">
             <p id="hint-text">Info Titel:</p>
             <ion-input [(ngModel)]="infoTitle" type="text"></ion-input>
         </div>
+        <div class="space"></div>
         <div class="input-field">
-            <p id="hint-text">Spalte:</p>
-            <ion-toggle [(ngModel)]="periodOfStayWidget"></ion-toggle>
+            <p id="hint-text">Freitext:</p>
+            <ion-toggle [(ngModel)]="cloumns"></ion-toggle>
         </div>
     </ion-row>
-    <ion-row>
-        <div class="input-field">
-            <p id="hint-text">Name:</p>
-            <ion-input [(ngModel)]="infoTitle" type="text"></ion-input>
-        </div>
-        <div class="input-field">
-            <p id="hint-text">Inhalt:</p>
-            <ion-input [(ngModel)]="infoTitle" type="text"></ion-input>
-        </div>
+    <ion-row class="space-between">
+        <p id="hint-text">Name:</p>
+        <p id="hint-text">Inhalt:</p>
     </ion-row>
-    <ion-row>
+    <div class="column" *ngIf="columns">
+        <ion-list *ngFor="let info of infos">
+            <ion-row class="space-between">
+                <div class="input-field">
+                    <ion-input [(ngModel)]="info.title" type="text"></ion-input>
+                </div>
+                <div class="space"></div>
+
+                <div class="input-field">
+                    <ion-input [(ngModel)]="info.content" type="text"></ion-input>
+                </div>
+            </ion-row>
+        </ion-list>
+    </div>
+    <div class="free-text" *ngIf="!columns">
         <div class="input-field">
-            <p id="hint-text">Name:</p>
-            <ion-input [(ngModel)]="infoTitle" type="text"></ion-input>
+            <p id="hint-text">welcomeMessage:</p>
+            <ion-textarea auto-grow="true" id="textbar" lines="none" type="text" rows="1" [(ngModel)]="welcomeMessage"></ion-textarea>
         </div>
-        <div class="input-field">
-            <p id="hint-text">Inhalt:</p>
-            <ion-input [(ngModel)]="infoTitle" type="text"></ion-input>
-        </div>
+    </div>
+    <br />
+    <ion-row class="space-between">
+        <ion-button class="no-bg">Reihe Hinzufügen</ion-button>
+        <ion-button>Speichern</ion-button>
     </ion-row>
 </div>
