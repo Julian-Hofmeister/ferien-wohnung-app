@@ -7,7 +7,7 @@
         <div class="space"></div>
         <div class="input-field">
             <p id="hint-text">Freitext:</p>
-            <ion-toggle [(ngModel)]="cloumns"></ion-toggle>
+            <ion-toggle [(ngModel)]="cloumns" (ionChange)="changeColumns()"></ion-toggle>
         </div>
     </ion-row>
     <ion-row class="space-between">
@@ -30,13 +30,13 @@
     </div>
     <div class="free-text" *ngIf="!columns">
         <div class="input-field">
-            <p id="hint-text">welcomeMessage:</p>
-            <ion-textarea auto-grow="true" id="textbar" lines="none" type="text" rows="1" [(ngModel)]="welcomeMessage"></ion-textarea>
+            <p id="hint-text">Inhalt:</p>
+            <ion-textarea auto-grow="true" id="textbar" lines="none" type="text" rows="1" [(ngModel)]="freeText"></ion-textarea>
         </div>
     </div>
     <br />
     <ion-row class="space-between">
-        <ion-button class="no-bg">Reihe Hinzufügen</ion-button>
+        <ion-button class="no-bg" (click)="addInfoRow()">Reihe Hinzufügen</ion-button>
         <ion-button>Speichern</ion-button>
     </ion-row>
 </div>

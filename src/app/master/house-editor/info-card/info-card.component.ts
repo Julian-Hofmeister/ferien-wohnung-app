@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Info } from './info.model';
 
 @Component({
   selector: 'app-info-card',
@@ -12,7 +13,7 @@ export class InfoCardComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  infos = [
+  infos: Info[] = [
     {
       title: 'Wlan',
       content: 'Netzwerk123',
@@ -24,6 +25,8 @@ export class InfoCardComponent implements OnInit {
   ];
 
   columns = true;
+
+  freeText = '';
 
   //#endregion
 
@@ -53,8 +56,21 @@ export class InfoCardComponent implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
+  changeColumns() {
+    this.columns = !this.columns;
+
+    console.log(this.columns);
+  }
   // ----------------------------------------------------------------------------------------------
 
+  addInfoRow() {
+    const newInfo: Info = {
+      title: '',
+      content: '',
+    };
+
+    this.infos.push(newInfo);
+  }
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
