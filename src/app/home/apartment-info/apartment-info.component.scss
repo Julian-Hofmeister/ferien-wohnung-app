@@ -29,3 +29,8 @@ ion-accordion.accordion-expanded {
 ion-accordion ion-item[slot="header"] {
     font-weight: 500;
 }
+
+ion-list {
+    margin: 0;
+    padding: 0;
+}
