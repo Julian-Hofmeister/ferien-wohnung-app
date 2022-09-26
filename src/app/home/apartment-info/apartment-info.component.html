@@ -1,20 +1,22 @@
 <p class="title">Auf einen Blick</p>
 <ion-accordion-group expand="inset">
-    <ion-accordion value="first">
-        <ion-item slot="header">
-            <ion-label>Wlan</ion-label>
-        </ion-item>
-        <div class="ion-padding" slot="content">
-            <ion-row class="space-between">
-                <p>Wlan:</p>
-                <p>Netzwerk</p>
-            </ion-row>
-            <ion-row class="space-between">
-                <p>Passwort:</p>
-                <p>netzwerk123</p>
-            </ion-row>
-        </div>
-    </ion-accordion>
+    <ion-list *ngFor="let info of apartment.information">
+        <ion-accordion>
+            <ion-item slot="header">
+                <ion-label>Wlan</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+                <ion-row class="space-between">
+                    <p>Wlan:</p>
+                    <p>Netzwerk</p>
+                </ion-row>
+                <ion-row class="space-between">
+                    <p>Passwort:</p>
+                    <p>netzwerk123</p>
+                </ion-row>
+            </div>
+        </ion-accordion>
+    </ion-list>
 
     <ion-accordion value="second">
         <ion-item slot="header">

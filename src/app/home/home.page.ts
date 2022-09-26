@@ -10,6 +10,8 @@ import { User } from '../authentication/user.model';
 import { HouseService } from '../shared/services/house.service';
 import { UserService } from '../shared/services/user.service';
 import { AuthService } from '../authentication/auth.service';
+import { ApartmentsService } from '../shared/services/apartments.service';
+import { Apartment } from './apartment.model';
 
 // ----------------------------------------------------------------------------------------------
 
@@ -37,7 +39,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   house: House;
 
+  apartment: Apartment;
+
   loadedUsers$: Observable<User[]>;
+  loadedApartment$: Observable<Apartment>;
 
   backgroundImage: string;
 
@@ -111,6 +116,7 @@ export class HomePage implements OnInit, OnDestroy {
     private houseService: HouseService,
     private userService: UserService,
     private authService: AuthService,
+    private apartmentService: ApartmentsService,
     private navCtrl: NavController,
     private router: Router
   ) {}
@@ -214,15 +220,20 @@ export class HomePage implements OnInit, OnDestroy {
             ...currentHouse,
           };
 
-          this.backgroundImage = await this.storage
-            .ref(this.house.backgroundImage)
-            .getDownloadURL()
-            .toPromise();
+          // this.backgroundImage = await this.storage
+          //   .ref(currentHouse.backgroundImage)
+          //   .getDownloadURL()
+          //   .toPromise();
+
+          this.backgroundImage = '/assets/images/mountain-1.jpg';
         }
 
+        console.log(this.backgroundImage);
         this.isLoading = false;
       });
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   //#endregion
 }

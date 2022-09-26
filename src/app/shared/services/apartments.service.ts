@@ -64,6 +64,35 @@ export class ApartmentsService {
     );
     return this.apartments;
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  loadSingleApartment(
+    houseId: string,
+    apartmentId: string
+  ): Observable<Apartment> {
+    const path = this.afs
+      .collection('houses')
+      .doc(houseId)
+      .collection('apartments', (ref) =>
+        ref.where(firebase.firestore.FieldPath.documentId(), '==', apartmentId)
+      );
+
+    console.log(path);
+
+    this.apartments = path.snapshotChanges().pipe(
+      map((changes) =>
+        changes.map((item) => {
+          const data = item.payload.doc.data() as Apartment;
+          data.id = item.payload.doc.id;
+          console.log(data);
+
+          return data;
+        })
+      )
+    );
+    return this.apartments[0];
+  }
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
