@@ -5,14 +5,12 @@
             <ion-label>{{ info.title }}</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content">
-            <ion-row class="space-between">
-                <p>Wlan:</p>
-                <p>Netzwerk</p>
-            </ion-row>
-            <ion-row class="space-between">
-                <p>Passwort:</p>
-                <p>netzwerk123</p>
-            </ion-row>
+            <ion-list *ngFor="let row of info.infoRows">
+                <ion-row class="space-between">
+                    <p>{{ row.name }}:</p>
+                    <p>{{ row.content }}</p>
+                </ion-row>
+            </ion-list>
         </div>
     </ion-accordion>
 </ion-accordion-group>
