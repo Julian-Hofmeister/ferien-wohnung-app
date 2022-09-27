@@ -5,12 +5,17 @@
             <ion-label>{{ info.title }}</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content">
+            <div class="columns" *ngIf="info.infoRows"></div>
             <ion-list *ngFor="let row of info.infoRows">
                 <ion-row class="space-between">
                     <p>{{ row.name }}:</p>
                     <p>{{ row.content }}</p>
                 </ion-row>
             </ion-list>
+            <br *ngIf="info.infoRows && info.freeText" />
+            <div class="freeText" *ngIf="info.freeText">
+                <p>{{ info.freeText }}</p>
+            </div>
         </div>
     </ion-accordion>
 </ion-accordion-group>
