@@ -1,25 +1,23 @@
 <p class="title">Auf einen Blick</p>
 <ion-accordion-group expand="inset">
-    <ion-accordion>
-        <ion-list *ngFor="let info of apartment.information">
-            <ion-item slot="header">
-                <ion-label>{{ info.title }}</ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-                <ion-row class="space-between">
-                    <p>Wlan:</p>
-                    <p>Netzwerk</p>
-                </ion-row>
-                <ion-row class="space-between">
-                    <p>Passwort:</p>
-                    <p>netzwerk123</p>
-                </ion-row>
-            </div>
-        </ion-list>
+    <ion-accordion *ngFor="let info of apartment.information">
+        <ion-item slot="header">
+            <ion-label>{{ info.title }}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+            <ion-row class="space-between">
+                <p>Wlan:</p>
+                <p>Netzwerk</p>
+            </ion-row>
+            <ion-row class="space-between">
+                <p>Passwort:</p>
+                <p>netzwerk123</p>
+            </ion-row>
+        </div>
     </ion-accordion>
 </ion-accordion-group>
 
-<ion-accordion-group expand="inset">
+<!-- <ion-accordion-group expand="inset">
     <ion-accordion value="second">
         <ion-item slot="header">
             <ion-label>Ankunft/Abreise</ion-label>
@@ -62,4 +60,4 @@
             </ion-row>
         </div>
     </ion-accordion>
-</ion-accordion-group>
+</ion-accordion-group> -->
