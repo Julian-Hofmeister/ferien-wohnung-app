@@ -98,16 +98,16 @@
             <ion-col class="content-col" size-md="12" size-lg="8" offset-lg="2">
                 <!-- FUNCTIONS BIG -->
                 <p class="title">Funktionen</p>
-                <app-action-card *ngIf="user.arriveDate > currentDate || user.role == 'admin'" [card]="housebeforeArrival">
+                <app-action-card *ngIf="(user.arriveDate > currentDate || user.role == 'admin') && house.beforeArrival && house.beforeArrival.isVisible" [card]="house.beforeArrival">
                 </app-action-card>
 
-                <app-action-card *ngIf="house.breakfastService.isVisible" [card]="house.breakfastService">
+                <app-action-card *ngIf="house.breakfastService && house.breakfastService.isVisible" [card]="house.breakfastService">
                 </app-action-card>
 
-                <app-action-card *ngIf="house.saunaService.isVisible" [card]="house.saunaService">
+                <app-action-card *ngIf="house.saunaService && house.saunaService.isVisible" [card]="house.saunaService">
                 </app-action-card>
 
-                <app-action-card *ngIf="house.feedbackService.isVisible" [card]="house.feedbackService">
+                <app-action-card *ngIf="house.feedbackService && house.feedbackService.isVisible" [card]="house.feedbackService">
                 </app-action-card>
 
                 <!-- FUNCTIONS SQUARE FORM -->

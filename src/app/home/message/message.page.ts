@@ -182,6 +182,8 @@ export class MessagePage implements OnInit {
             ...currentClient,
           };
 
+          console.log(this.client);
+
           this.profileImg = await this.storage
             .ref(this.client.avatarUrl)
             .getDownloadURL()
