@@ -195,6 +195,8 @@ export class AuthenticationPage implements OnInit, OnDestroy {
     localStorage.setItem('house-id', user.houseId);
     localStorage.setItem('user-apartment', user.apartmentId);
 
+    localStorage.setItem('user-clientId', user.clientId);
+
     localStorage.setItem('user-arriveDate', user.arriveDate.toString());
     localStorage.setItem('user-leaveDate', user.leaveDate.toString());
   }

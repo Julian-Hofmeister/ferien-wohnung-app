@@ -37,6 +37,8 @@ export class MessagePage implements OnInit {
 
     arriveDate: Number(localStorage.getItem('user-arriveDate')),
     leaveDate: Number(localStorage.getItem('user-leaveDate')),
+
+    clientId: localStorage.getItem('user-clientId'),
   };
 
   // ----------------------------------------------------------------------------------------------
@@ -174,6 +176,8 @@ export class MessagePage implements OnInit {
   // ----------------------------------------------------------------------------------------------
 
   private loadClient() {
+    console.log(this.user.clientId);
+
     this.clientSub = this.clientsService
       .loadClients(this.user.clientId)
       .subscribe(async (clients) => {
