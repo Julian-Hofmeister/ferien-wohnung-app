@@ -110,10 +110,10 @@ export class HouseEditorComponent implements OnInit {
 
       periodOfStayWidget: this.periodOfStayWidget,
 
-      apartmentDetailService: this.apartmentDetailService,
-      breakfastService: this.breakfastService,
-      saunaService: this.saunaService,
-      feedbackService: this.feedbackService,
+      // apartmentDetailService: this.apartmentDetailService,
+      // breakfastService: this.breakfastService,
+      // saunaService: this.saunaService,
+      // feedbackService: this.feedbackService,
 
       feedbackLink: this.feedbackLink,
 
@@ -163,10 +163,10 @@ export class HouseEditorComponent implements OnInit {
 
     this.periodOfStayWidget = this.house.periodOfStayWidget;
 
-    this.apartmentDetailService = this.house.apartmentDetailService;
-    this.breakfastService = this.house.breakfastService;
-    this.saunaService = this.house.saunaService;
-    this.feedbackService = this.house.feedbackService;
+    // this.apartmentDetailService = this.house.apartmentDetailService;
+    // this.breakfastService = this.house.breakfastService;
+    // this.saunaService = this.house.saunaService;
+    // this.feedbackService = this.house.feedbackService;
 
     this.feedbackLink = this.house.feedbackLink;
 

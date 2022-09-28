@@ -65,42 +65,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  beforeArrival: Card = {
-    title: 'Bevor Sie Ankommen',
-    subtitle:
-      'Teilen Sie uns einfach mit wie Sie ankommen möchten. Wir kümmern uns darum!',
-    btnText: 'Nachricht',
-    image: '/assets/images/mountain-person.jpg',
-    route: 'before-arrival',
-  };
-
-  breakfastService: Card = {
-    title: 'Frühstücks Service',
-    subtitle:
-      'Schreiben Sie uns einfach am Vortag eine Liste mit Brötchen, wir bringen Sie am nächsten Morgen vorbei!',
-    btnText: 'Bestellen',
-    image: '/assets/images/bread2.jpg',
-    route: 'bread-order',
-  };
-
-  saunaService: Card = {
-    title: 'Sauna Reservieren',
-    subtitle:
-      'Reservieren Sie ganz einfach unsere hauseigene Sauna während Ihres Aufenthaltes!',
-    btnText: 'Reservieren',
-    image: '/assets/images/sauna3.jpg',
-    route: 'sauna-reservation',
-  };
-
-  feedbackService: Card = {
-    title: 'Bewerten Sie uns',
-    subtitle:
-      'Teilen Sie doch Ihre Erfahrungen mit anderen und bewerten Sie uns auf Google.',
-    btnText: 'Bewerten',
-    image: '/assets/images/feedback-img.jpg',
-    link: 'https://g.page/r/CcgiqX68TxgkEAg/review',
-  };
-
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -220,12 +184,12 @@ export class HomePage implements OnInit, OnDestroy {
             ...currentHouse,
           };
 
-          // this.backgroundImage = await this.storage
-          //   .ref(currentHouse.backgroundImage)
-          //   .getDownloadURL()
-          //   .toPromise();
+          this.backgroundImage = await this.storage
+            .ref(currentHouse.backgroundImage)
+            .getDownloadURL()
+            .toPromise();
 
-          this.backgroundImage = '/assets/images/mountain-1.jpg';
+          // this.backgroundImage = '/assets/images/mountain-1.jpg';
         }
 
         console.log(this.backgroundImage);

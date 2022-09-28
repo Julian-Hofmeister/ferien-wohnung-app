@@ -13,12 +13,23 @@ export interface House {
 
   periodOfStayWidget: boolean;
 
-  apartmentDetailService: boolean;
-  breakfastService: boolean;
-  saunaService: boolean;
-  feedbackService: boolean;
+  apartmentDetailService?: boolean;
+
+  breakfastService?: HouseService;
+  saunaService?: HouseService;
+  feedbackService?: HouseService;
 
   feedbackLink: string;
 
   bakerEmail?: string;
+}
+
+export interface HouseService {
+  title: string;
+  subtitle: string;
+  btnText: string;
+  image: string;
+  route: string;
+  link: string;
+  isVisible: boolean;
 }
