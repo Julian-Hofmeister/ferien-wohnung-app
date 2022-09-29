@@ -8,9 +8,6 @@
                 </ion-row>
 
                 <div *ngIf="!searchTerm">
-                    <!-- <ion-list *ngFor="let item of data.information">
-                        <app-information-card [title]="item.title" (click)="onOpenInformationDetailPage(item, data.information.indexOf(item))"></app-information-card>
-                    </ion-list> -->
                     <ion-list *ngFor="let item of loadedInformationItemList">
                         <app-information-card [title]="item.title" (click)="onOpenInformationDetailPage(item)"></app-information-card>
                     </ion-list>

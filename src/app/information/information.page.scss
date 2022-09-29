@@ -6,37 +6,31 @@
 ion-content {
     --background: var(--ion-color-light-shade);
     --background: url('/assets/images/mountain-bg.jpg') no-repeat 100% 100%;
-}
-
-h2 {
-    margin-top: 5rem;
-}
-
-ion-list {
-    background-color: #00000000 !important;
-}
-
-#search-row {
-    margin: 0 3%;
-}
-
-.space {
-    margin-top: 3rem;
-}
-
-ion-searchbar {
-    margin: 10px 0;
-    border: 0 !important;
-    --box-shadow: none !important;
-    --border-radius: 5rem;
-}
-
-.ios ion-searchbar {
-    margin: 0;
-    border: 0 !important;
-    --box-shadow: none !important;
-    --border-radius: 100px;
-    --background: rgba(255, 255, 255, 0.308) !important;
+    h2 {
+        margin-top: 5rem;
+    }
+    ion-list {
+        background-color: #00000000 !important;
+    }
+    #search-row {
+        margin: 0 3%;
+        ion-searchbar {
+            margin: 10px 0;
+            border: 0 !important;
+            --box-shadow: none !important;
+            --border-radius: 5rem;
+        }
+        .ios ion-searchbar {
+            margin: 0;
+            border: 0 !important;
+            --box-shadow: none !important;
+            --border-radius: 100px;
+            --background: rgba(255, 255, 255, 0.308) !important;
+        }
+    }
+    .space {
+        margin-top: 3rem;
+    }
 }
 
 @media screen and (min-width: 570px) {
