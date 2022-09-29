@@ -22,12 +22,14 @@ export class InformationPage implements OnInit, OnDestroy {
 
   isLoading = false;
 
+  searchTerm: string;
+
   loadedInformationItemList: InformationItem[];
 
   detailItemList: InfoDetailItem[];
   detailItemListBackup: InfoDetailItem[];
 
-  searchTerm: string;
+  loadedInfoCategories$: Observable<InformationItem[]>;
 
   //#endregion
 
@@ -42,9 +44,7 @@ export class InformationPage implements OnInit, OnDestroy {
   constructor(
     private informationService: InformationService,
     private navCtrl: NavController,
-    private firestore: AngularFirestore,
-    private http: HttpClient,
-    private nav: NavController
+    private firestore: AngularFirestore
   ) {}
 
   //#endregion
@@ -52,11 +52,11 @@ export class InformationPage implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   async ngOnInit() {
-    this.fetchInformationItemsFromFirestore();
-
     this.detailItemList = await this.initializeItems();
 
     console.log(this.isLoading);
+
+    this.loadedInfoCategories$ = this.informationService.getInformationItems();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -126,30 +126,6 @@ export class InformationPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-
-  private fetchInformationItemsFromFirestore() {
-    this.isLoading = true;
-
-    this.itemSub = this.informationService
-      .getInformationItems()
-      .subscribe((informationItems) => {
-        this.loadedInformationItemList = [];
-
-        for (const currentLoadedItem of informationItems) {
-          const fetchedItem: InformationItem = {
-            title: currentLoadedItem.title,
-            id: currentLoadedItem.id,
-          };
-
-          this.loadedInformationItemList.push(fetchedItem);
-          console.log(this.loadedInformationItemList);
-
-          this.isLoading = false;
-        }
-      });
-  }
-
-  // ----------------------------------------------------------------------------------------------
 
   // ----------------------------------------------------------------------------------------------
 
