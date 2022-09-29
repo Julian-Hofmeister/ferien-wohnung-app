@@ -26,11 +26,9 @@ export class InformationPage implements OnInit, OnDestroy {
   searchTerm: string;
 
   detailItemList: InfoDetailItem[] = [];
-  detailItemListBackup: InfoDetailItem[] = [];
+  detailItemFilteredList: InfoDetailItem[];
 
   loadedInfoCategories$: Observable<InformationItem[]>;
-
-  loadedInfoDetailItems$: Observable<InfoDetailItem[]>;
 
   //#endregion
 
@@ -45,15 +43,14 @@ export class InformationPage implements OnInit, OnDestroy {
   constructor(
     private informationService: InformationService,
     private informationDetailService: InformationDetailService,
-    private navCtrl: NavController,
-    private firestore: AngularFirestore
+    private navCtrl: NavController
   ) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  async ngOnInit() {
+  ngOnInit() {
     this.loadedInfoCategories$ = this.informationService.getInformationItems();
 
     this.loadInfoDetailItems();
@@ -85,29 +82,14 @@ export class InformationPage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  async initializeItems(): Promise<any> {
-    const detailItemList = await this.firestore
-      .collection('information-detail')
-      .valueChanges()
-      .pipe(first())
-      .toPromise();
-
-    this.detailItemListBackup = detailItemList as InfoDetailItem[];
-
-    return detailItemList;
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   async filterList(evt: any) {
-    this.detailItemList = this.detailItemListBackup;
     this.searchTerm = evt.srcElement.value;
 
     if (!this.searchTerm) {
       return;
     }
 
-    this.detailItemList = this.detailItemList.filter((currentItem) => {
+    this.detailItemFilteredList = this.detailItemList.filter((currentItem) => {
       if (currentItem.title && this.searchTerm) {
         return (
           currentItem.title
@@ -136,7 +118,6 @@ export class InformationPage implements OnInit, OnDestroy {
             ...currentItem,
           };
           this.detailItemList.push(infoDetailItem);
-          this.detailItemListBackup.push(infoDetailItem);
         }
       });
   }
