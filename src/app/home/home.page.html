@@ -109,30 +109,6 @@
 
                 <app-action-card *ngIf="house.feedbackService && house.feedbackService.isVisible" [card]="house.feedbackService">
                 </app-action-card>
-
-                <!-- FUNCTIONS SQUARE FORM -->
-                <!-- <div class="action-field">
-                    <ion-row class="centered-horizontal">
-                        <app-action-card-small *ngIf="house.apartmentDetailService" title="Ihre Wohnung" icon="bed" image="/assets/images/apartment.jpeg" (click)="onOpenApartmentDetailPage()">
-                        </app-action-card-small>
-
-                        <app-action-card-small *ngIf="house.breakfastService" title="Frühstücks Service" subtitle="Schreiben Sie uns einfach am Vortag eine Liste mit Brötchen, wir bringen Sie am nächsten Morgen vorbei!" icon="bakery_dining" image="/assets/images/bread.jpg" (click)="onOpenBreadOrderPage()">
-                        </app-action-card-small>
-
-                        <app-action-card-small *ngIf="house.saunaService" title="Sauna Reservieren" subtitle="Reservieren Sie ganz einfach unsere hauseigene Sauna während Ihres Aufenthaltes!" icon="hot_tub" image="/assets/images/sauna.jpeg" (click)="onOpenReservationPage()">
-                        </app-action-card-small>
-
-                        <app-action-card-small *ngIf="house.feedbackService" title="Bewerten Sie uns" icon="grade" image="/assets/images/feedback.jpg" (click)="onOpenFeedbackLink()">
-                        </app-action-card-small>
-
-                        < <hr />
-
-                        <ion-button (click)="user.email === 'admin' ? onOpenContactsPage() : onOpenMessagePage()">
-                            Nachricht Schreiben
-                            <ion-icon name="chatbubbles"></ion-icon>
-                        </ion-button>
-                    </ion-row>
-                </div> -->
             </ion-col>
         </ion-row>
         <ion-row class="space"></ion-row>
