@@ -25,8 +25,8 @@ export class InformationPage implements OnInit, OnDestroy {
 
   searchTerm: string;
 
-  detailItemList: InfoDetailItem[];
-  detailItemListBackup: InfoDetailItem[];
+  detailItemList: InfoDetailItem[] = [];
+  detailItemListBackup: InfoDetailItem[] = [];
 
   loadedInfoCategories$: Observable<InformationItem[]>;
 
@@ -36,7 +36,7 @@ export class InformationPage implements OnInit, OnDestroy {
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
-  private itemSub: Subscription;
+  private infoDetailItemSub: Subscription;
 
   //#endregion
 
@@ -54,18 +54,15 @@ export class InformationPage implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   async ngOnInit() {
-    this.detailItemList = await this.initializeItems();
-
     this.loadedInfoCategories$ = this.informationService.getInformationItems();
 
-    this.loadedInfoDetailItems$ =
-      this.informationDetailService.getInfoDetailItems();
+    this.loadInfoDetailItems();
   }
 
   // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
-    this.itemSub.unsubscribe();
+    this.infoDetailItemSub.unsubscribe();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -129,6 +126,20 @@ export class InformationPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private loadInfoDetailItems() {
+    this.infoDetailItemSub = this.informationDetailService
+      .getInfoDetailItems()
+      .subscribe(async (items) => {
+        for (const currentItem of items) {
+          const infoDetailItem: InfoDetailItem = {
+            ...currentItem,
+          };
+          this.detailItemList.push(infoDetailItem);
+          this.detailItemListBackup.push(infoDetailItem);
+        }
+      });
+  }
 
   // ----------------------------------------------------------------------------------------------
 

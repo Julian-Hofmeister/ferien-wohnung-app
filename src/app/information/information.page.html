@@ -14,7 +14,7 @@
                 </div>
 
                 <div *ngIf="searchTerm">
-                    <ion-list *ngFor="let item of loadedInfoDetailItems$ | async">
+                    <ion-list *ngFor="let item of detailItemList">
                         <app-information-detail-card [detailItem]="item"></app-information-detail-card>
                     </ion-list>
                 </div>
