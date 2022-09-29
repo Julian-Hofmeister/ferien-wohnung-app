@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 import { InfoDetailItem } from '../information-detail/information-detail.model';
 import { HttpClient } from '@angular/common/http';
+import { InformationDetailService } from '../information-detail/information-detail.service';
 
 @Component({
   selector: 'app-information',
@@ -24,12 +25,12 @@ export class InformationPage implements OnInit, OnDestroy {
 
   searchTerm: string;
 
-  loadedInformationItemList: InformationItem[];
-
   detailItemList: InfoDetailItem[];
   detailItemListBackup: InfoDetailItem[];
 
   loadedInfoCategories$: Observable<InformationItem[]>;
+
+  loadedInfoDetailItems$: Observable<InfoDetailItem[]>;
 
   //#endregion
 
@@ -43,6 +44,7 @@ export class InformationPage implements OnInit, OnDestroy {
 
   constructor(
     private informationService: InformationService,
+    private informationDetailService: InformationDetailService,
     private navCtrl: NavController,
     private firestore: AngularFirestore
   ) {}
@@ -54,9 +56,10 @@ export class InformationPage implements OnInit, OnDestroy {
   async ngOnInit() {
     this.detailItemList = await this.initializeItems();
 
-    console.log(this.isLoading);
-
     this.loadedInfoCategories$ = this.informationService.getInformationItems();
+
+    this.loadedInfoDetailItems$ =
+      this.informationDetailService.getInfoDetailItems();
   }
 
   // ----------------------------------------------------------------------------------------------
