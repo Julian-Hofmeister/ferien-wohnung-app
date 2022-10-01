@@ -26,7 +26,9 @@ export class InformationPage implements OnInit, OnDestroy {
   searchTerm: string;
 
   detailItemList: InfoDetailItem[] = [];
-  detailItemFilteredList: InfoDetailItem[];
+
+  itemFilteredTitleList: InfoDetailItem[];
+  itemFilteredDescList: InfoDetailItem[];
 
   loadedInfoCategories$: Observable<InformationItem[]>;
 
@@ -89,12 +91,19 @@ export class InformationPage implements OnInit, OnDestroy {
       return;
     }
 
-    this.detailItemFilteredList = this.detailItemList.filter((currentItem) => {
+    this.itemFilteredTitleList = this.detailItemList.filter((currentItem) => {
       if (currentItem.title && this.searchTerm) {
         return (
           currentItem.title
             .toLowerCase()
-            .indexOf(this.searchTerm.toLowerCase()) > -1 ||
+            .indexOf(this.searchTerm.toLowerCase()) > -1
+        );
+      }
+    });
+
+    this.itemFilteredDescList = this.detailItemList.filter((currentItem) => {
+      if (currentItem.title && this.searchTerm) {
+        return (
           currentItem.description
             .toLowerCase()
             .indexOf(this.searchTerm.toLowerCase()) > -1

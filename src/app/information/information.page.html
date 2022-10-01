@@ -14,7 +14,10 @@
                 </div>
 
                 <div *ngIf="searchTerm">
-                    <ion-list *ngFor="let item of detailItemFilteredList">
+                    <ion-list *ngFor="let item of itemFilteredTitleList">
+                        <app-information-detail-card [detailItem]="item"></app-information-detail-card>
+                    </ion-list>
+                    <ion-list *ngFor="let item of itemFilteredDescList">
                         <app-information-detail-card [detailItem]="item"></app-information-detail-card>
                     </ion-list>
                 </div>
