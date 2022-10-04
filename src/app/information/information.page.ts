@@ -102,12 +102,14 @@ export class InformationPage implements OnInit, OnDestroy {
     });
 
     this.filteredItemDescList = this.detailItemList.filter((currentItem) => {
-      if (currentItem.title && this.searchTerm) {
-        return (
-          currentItem.description
-            .toLowerCase()
-            .indexOf(this.searchTerm.toLowerCase()) > -1
-        );
+      if (!this.filteredItemTitleList.includes(currentItem)) {
+        if (currentItem.title && this.searchTerm) {
+          return (
+            currentItem.description
+              .toLowerCase()
+              .indexOf(this.searchTerm.toLowerCase()) > -1
+          );
+        }
       }
     });
   }
