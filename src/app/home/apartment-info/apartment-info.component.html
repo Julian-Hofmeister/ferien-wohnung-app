@@ -1,5 +1,5 @@
-<p class="title" *ngIf="apartment.information">Auf einen Blick</p>
-<ion-accordion-group expand="inset">
+<p class="title" *ngIf="apartment">Auf einen Blick</p>
+<ion-accordion-group expand="inset" *ngIf="apartment">
     <ion-accordion *ngFor="let info of apartment.information">
         <ion-item slot="header">
             <ion-label>{{ info.title }}</ion-label>
