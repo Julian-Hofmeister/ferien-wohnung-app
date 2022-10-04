@@ -88,7 +88,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row *ngIf="!user.role == 'admin'" y>
             <ion-col size-md="12" size-lg="8" offset-lg="2">
                 <app-apartment-info> </app-apartment-info>
             </ion-col>
