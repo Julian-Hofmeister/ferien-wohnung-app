@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { InfoDetailItem } from '../information-detail/information-detail.model';
+import { InfoDetailItem } from 'src/app/information-detail/information-detail.model';
 
 @Injectable({
   providedIn: 'root',

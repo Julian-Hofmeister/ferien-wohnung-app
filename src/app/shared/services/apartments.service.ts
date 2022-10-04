@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Apartment } from 'src/app/home/apartment.model';

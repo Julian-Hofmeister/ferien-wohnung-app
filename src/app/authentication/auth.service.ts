@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root',

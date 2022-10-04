@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { House } from './house.model';
-import { Card } from './action-card/card.model';
 import { User } from '../authentication/user.model';
 import { HouseService } from '../shared/services/house.service';
 import { UserService } from '../shared/services/user.service';
