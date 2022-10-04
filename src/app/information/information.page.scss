@@ -5,7 +5,7 @@
 
 ion-content {
     --background: var(--ion-color-light-shade);
-    --background: url('/assets/images/mountain-bg.jpg') no-repeat 100% 100%;
+    // --background: url('/assets/images/mountain-bg.jpg') no-repeat 100% 100%;
     h2 {
         margin-top: 5rem;
     }
@@ -37,7 +37,7 @@ ion-content {
 @media screen and (min-width: 570px) {
     ion-content {
         --background: var(--ion-color-light-shade);
-        --background: url('/assets/images/mountain-bg.jpg') 0/100% 200%;
+        // --background: url('/assets/images/mountain-bg.jpg') 0/100% 200%;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         background-size: cover;
@@ -45,7 +45,7 @@ ion-content {
 }
 
 ion-accordion {
-    box-shadow: rgba(56, 60, 65, 0.2) 0px 8px 24px;
+    box-shadow: rgba(56, 60, 65, 0.2) 0px 4px 12px;
 }
 
 ion-accordion.accordion-expanding ion-item[slot="header"],
