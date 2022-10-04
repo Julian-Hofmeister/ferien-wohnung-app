@@ -10,7 +10,7 @@
         <ion-accordion value="first">
             <ion-item slot="header">
                 <ion-avatar>
-                    <img src="/assets/images/avatar2.png" alt="" />
+                    <img [src]="profileImg" alt="" />
                 </ion-avatar>
                 <ion-label class="name">{{client.firstName + ' ' + client.lastName}}</ion-label>
             </ion-item>
