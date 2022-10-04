@@ -122,6 +122,8 @@ export class InformationPage implements OnInit, OnDestroy {
     this.infoDetailItemSub = this.informationDetailService
       .getInfoDetailItems()
       .subscribe(async (items) => {
+        this.detailItemList = [];
+
         for (const currentItem of items) {
           const infoDetailItem: InfoDetailItem = {
             ...currentItem,
