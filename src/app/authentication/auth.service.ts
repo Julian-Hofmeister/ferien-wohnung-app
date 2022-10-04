@@ -31,9 +31,6 @@ export class AuthService {
 
     if (userEmail && userId) {
       this.router.navigate(['tabs/home']);
-      // this.router.navigate(['before-arrival']);
-
-      console.log('LOGIN SUCCESS');
 
       return true;
     } else {
