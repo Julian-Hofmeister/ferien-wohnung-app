@@ -156,6 +156,7 @@ export class AdminPage implements OnInit {
       leaveDate: this.roundTimestamp(this.userForm.get('leaveDate').value),
 
       clientId: this.admin.id,
+      clientEmail: this.admin.email,
       apartmentId: this.userForm.get('apartmentId').value,
       houseId: this.userForm.get('houseId').value,
 
