@@ -1,99 +1,99 @@
-* {
-    margin: 0;
-    padding: 0;
-}
+    * {
+        margin: 0;
+        padding: 0;
+    }
 
-ion-content {
-    --background: var(--ion-color-light);
-    --background: url('/assets/images/info-bg.jpg') no-repeat center;
-    h2 {
-        margin-top: 5rem;
-    }
-    ion-list {
-        background-color: #00000000 !important;
-    }
-    #search-row {
-        margin: 0 3%;
-        margin-bottom: .5rem;
-        ion-searchbar {
-            margin: 10px 0;
-            border: 0 !important;
-            --box-shadow: none !important;
-            --border-radius: 5rem;
-        }
-        .ios ion-searchbar {
-            margin: 0;
-            border: 0 !important;
-            --box-shadow: none !important;
-            --border-radius: 100px;
-            --background: rgba(255, 255, 255, 0.308) !important;
-        }
-    }
-    .space {
-        margin-top: 3rem;
-    }
-}
-
-@media screen and (min-width: 570px) {
     ion-content {
-        // --background: var(--ion-color-light-shade);
-        // --background: url('/assets/images/info-bg.jpg') 0/100% 100%;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
+        --background: var(--ion-color-light);
+        --background: url('/assets/images/info-bg.jpg') no-repeat center;
+        h2 {
+            margin-top: 5rem;
+        }
+        ion-list {
+            background-color: #00000000 !important;
+        }
+        #search-row {
+            margin: 0 3%;
+            margin-bottom: .5rem;
+            ion-searchbar {
+                margin: 10px 0;
+                border: 0 !important;
+                --box-shadow: none !important;
+                --border-radius: 5rem;
+            }
+            .ios ion-searchbar {
+                margin: 0;
+                border: 0 !important;
+                --box-shadow: none !important;
+                --border-radius: 100px;
+                --background: rgba(255, 255, 255, 0.308) !important;
+            }
+        }
+        .space {
+            margin-top: 3rem;
+        }
     }
-}
 
-ion-accordion {
-    // box-shadow: rgba(56, 60, 65, 0.15) 0px 3px 12px;
-}
+    @media screen and (min-width: 570px) {
+        ion-content {
+            // --background: var(--ion-color-light-shade);
+            // --background: url('/assets/images/info-bg.jpg') 0/100% 100%;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+        }
+    }
 
-ion-accordion.accordion-expanding ion-item[slot="header"],
-ion-accordion.accordion-expanded ion-item[slot="header"] {
-    --background: var(--ion-color-primary);
-    --color: var(--ion-color-light);
-    font-weight: 600;
-}
+    ion-accordion {
+        box-shadow: rgba(56, 60, 65, 0.15) 0px 3px 12px;
+    }
 
-ion-accordion.accordion-expanding,
-ion-accordion.accordion-expanded {
-    box-shadow: rgba(123, 129, 136, 0.2) 0px 8px 24px;
-}
+    ion-accordion.accordion-expanding ion-item[slot="header"],
+    ion-accordion.accordion-expanded ion-item[slot="header"] {
+        --background: var(--ion-color-primary);
+        --color: var(--ion-color-light);
+        font-weight: 600;
+    }
 
-.space-between {
-    justify-content: space-between;
-}
+    ion-accordion.accordion-expanding,
+    ion-accordion.accordion-expanded {
+        box-shadow: rgba(56, 60, 65, 0.15) 0px 3px 12px;
+    }
 
-p {
-    margin: 5px 0;
-    margin: 1rem;
-}
+    .space-between {
+        justify-content: space-between;
+    }
 
-.title {
-    margin-left: 1rem;
-    margin-bottom: -.5rem
-}
-
-ion-accordion ion-item[slot="header"] {
-    font-weight: 500;
-}
-
-ion-accordion ion-item[slot="content"] {
-    padding: 1rem;
     p {
+        margin: 5px 0;
         margin: 1rem;
     }
-}
 
-ion-list {
-    margin: 0;
-    padding: 0;
-}
+    .title {
+        margin-left: 1rem;
+        margin-bottom: -.5rem
+    }
 
-ion-accordion-group {
-    margin: .7rem 1rem;
-}
+    ion-accordion ion-item[slot="header"] {
+        font-weight: 500;
+    }
 
-ion-padding {
-    margin: 1rem;
-}
+    ion-accordion ion-item[slot="content"] {
+        padding: 1rem;
+        p {
+            margin: 1rem;
+        }
+    }
+
+    ion-list {
+        margin: 0;
+        padding: 0;
+    }
+
+    ion-accordion-group {
+        margin: .7rem 1rem;
+    }
+
+    ion-padding {
+        margin: 1rem;
+    }
