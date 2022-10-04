@@ -7,9 +7,26 @@
                     <ion-searchbar (ionInput)="filterList($event)" placeholder="Suchen"></ion-searchbar>
                 </ion-row>
 
-                <div *ngIf="!searchTerm">
+                <!-- <div *ngIf="!searchTerm">
                     <ion-list *ngFor="let item of loadedInfoCategories$ | async">
                         <app-information-card [title]="item.title" (click)="onOpenInformationDetailPage(item)"></app-information-card>
+                    </ion-list>
+                </div> -->
+
+                <div *ngIf="!searchTerm">
+                    <ion-list *ngFor="let item of detailItemList">
+                        <div class="folding-detail-card">
+                            <ion-accordion-group expand="inset">
+                                <ion-accordion>
+                                    <ion-item slot="header">
+                                        <ion-label>{{ item.title }}</ion-label>
+                                    </ion-item>
+                                    <div class="ion-padding" slot="content">
+                                        <p>{{ item.description }}</p>
+                                    </div>
+                                </ion-accordion>
+                            </ion-accordion-group>
+                        </div>
                     </ion-list>
                 </div>
 
