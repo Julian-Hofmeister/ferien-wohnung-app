@@ -41,8 +41,6 @@ export class HouseService {
           const data = item.payload.doc.data() as House;
           data.id = item.payload.doc.id;
 
-          console.log(data);
-
           return data;
         })
       )

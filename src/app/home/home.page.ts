@@ -187,11 +187,8 @@ export class HomePage implements OnInit, OnDestroy {
             .ref(currentHouse.backgroundImage)
             .getDownloadURL()
             .toPromise();
-
-          // this.backgroundImage = '/assets/images/mountain-1.jpg';
         }
 
-        console.log(this.backgroundImage);
         this.isLoading = false;
       });
   }

@@ -51,8 +51,6 @@ export class UserService {
           const data = item.payload.doc.data() as User;
           data.id = item.payload.doc.id;
 
-          console.log(data);
-
           return data;
         })
       )
