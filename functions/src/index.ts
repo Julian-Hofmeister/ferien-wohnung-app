@@ -106,7 +106,7 @@ export const newUser = functions.firestore
     // Email
     const msg = {
       to: user.email,
-      from: 'info@oberstdorf-ohrwumslar.de',
+      from: user.clientEmail,
       templateId: 'd-ec2e8042147747668947312633bbdd46',
       // eslint-disable-next-line @typescript-eslint/naming-convention
       dynamic_template_data: {
