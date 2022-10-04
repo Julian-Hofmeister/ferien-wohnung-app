@@ -24,55 +24,34 @@
                 </ion-row>
 
                 <p *ngIf="showHelpText" id="help-text">
-                    Sie haben eine E-mail mit Anmeldeinformationen erhalten. Melden Sie sich mit Hilfe dieser E-mail und dem zugesendeten Passwort an. Die Nachricht kann auch in Ihrem Spamordner gelandet sein.
-                    <br /><br /> Falls Sie dennoch keine E-mail erhalten haben, schreiben Sie eine Nachricht an: <br />
-                    <strong><a href="mailto:info@oberstdorf-ohrwumslar.de"
-              >info@oberstdorf-ohrwumslar.de</a
-            ></strong
-          >
-          <br />
-          <br />Ihnen wird schnellstmöglich ein neuer Account erstellt.
-        </p>
+                    Sie haben eine E-mail mit Anmeldedaten erhalten. Melden Sie sich mit Hilfe dieser E-mail und dem zugesendeten Passwort an. Die Nachricht kann sichp auch in Ihrem Spamordner befinden.
+                </p>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onLoginUser()">
-          <div class="input-field">
-            <p id="hint-text">E-mail:</p>
+                <form [formGroup]="loginForm" (ngSubmit)="onLoginUser()">
+                    <div class="input-field">
+                        <p id="hint-text">E-mail:</p>
 
-            <ion-input
-              formControlName="email"
-              (change)="onChange()"
-              type="email"
-              autofocus
-              id="email-input"
-              (ionFocus)="focusInput('email-input')"
-              (ionBlur)="unFocusInput('email-input')"
-            ></ion-input>
-          </div>
+                        <ion-input formControlName="email" (change)="onChange()" type="email" autofocus id="email-input" (ionFocus)="focusInput('email-input')" (ionBlur)="unFocusInput('email-input')"></ion-input>
+                    </div>
 
-          <p *ngIf="emailNotFound" class="error-text">
-            Diese E-mail Adresse ist nicht vergeben
-          </p>
+                    <p *ngIf="emailNotFound" class="error-text">
+                        Diese E-mail Adresse ist nicht vergeben
+                    </p>
 
-          <div class="input-field">
-            <p id="hint-text">Passwort:</p>
-            <ion-input
-              formControlName="password"
-              (change)="onChange()"
-              id="password-input"
-              (ionFocus)="focusInput('password-input')"
-              (ionBlur)="unFocusInput('password-input')"
-            ></ion-input>
-          </div>
+                    <div class="input-field">
+                        <p id="hint-text">Passwort:</p>
+                        <ion-input formControlName="password" (change)="onChange()" id="password-input" (ionFocus)="focusInput('password-input')" (ionBlur)="unFocusInput('password-input')"></ion-input>
+                    </div>
 
-          <p *ngIf="passwordIncorrect" class="error-text">
-            Das Passwort stimmt nicht mit der E-mail Adresse überein
-          </p>
+                    <p *ngIf="passwordIncorrect" class="error-text">
+                        Das Passwort stimmt nicht mit der E-mail Adresse überein
+                    </p>
 
-          <ion-button type="submit" [disabled]="loginForm.invalid">
-            Anmelden
-          </ion-button>
-        </form>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+                    <ion-button type="submit" [disabled]="loginForm.invalid">
+                        Anmelden
+                    </ion-button>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
