@@ -36,8 +36,6 @@
 
     @media screen and (min-width: 570px) {
         ion-content {
-            // --background: var(--ion-color-light-shade);
-            // --background: url('/assets/images/info-bg.jpg') 0/100% 100%;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             background-size: cover;
@@ -55,18 +53,12 @@
         font-weight: 600;
     }
 
-    ion-accordion.accordion-expanding,
-    ion-accordion.accordion-expanded {
-        box-shadow: rgba(56, 60, 65, 0.15) 0px 3px 12px;
-    }
-
     .space-between {
         justify-content: space-between;
     }
 
     p {
-        margin: 5px 0;
-        margin: 1rem;
+        padding: 1rem;
     }
 
     .title {
@@ -78,13 +70,6 @@
         font-weight: 500;
     }
 
-    ion-accordion ion-item[slot="content"] {
-        padding: 1rem;
-        p {
-            margin: 1rem;
-        }
-    }
-
     ion-list {
         margin: 0;
         padding: 0;
@@ -92,8 +77,4 @@
 
     ion-accordion-group {
         margin: .7rem 1rem;
-    }
-
-    ion-padding {
-        margin: 1rem;
     }
