@@ -34,14 +34,6 @@
         }
     }
 
-    @media screen and (min-width: 570px) {
-        ion-content {
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-        }
-    }
-
     ion-accordion {
         box-shadow: rgba(56, 60, 65, 0.15) 0px 3px 12px;
     }
@@ -77,4 +69,12 @@
 
     ion-accordion-group {
         margin: .7rem 1rem;
+    }
+
+    @media screen and (min-width: 570px) {
+        ion-content {
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+        }
     }

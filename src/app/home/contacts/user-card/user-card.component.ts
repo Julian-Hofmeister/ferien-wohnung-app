@@ -32,8 +32,6 @@ export class UserCardComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    console.log(this.user);
-
     this.profileLetter = Array.from(this.user.email)[0];
   }
 

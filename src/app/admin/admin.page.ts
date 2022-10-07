@@ -120,8 +120,6 @@ export class AdminPage implements OnInit {
     this.loadedApartments$ = this.apartmentsService.loadApartments(
       this.admin.houseId
     );
-
-    console.log(this.editMode);
   }
 
   //#endregion
