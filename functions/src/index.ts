@@ -21,7 +21,7 @@ export const newMessage = functions.firestore
 
     // Email
     const msg = {
-      to: 'info@oberstdorf-ohrwumslar.de',
+      to: 'ju.hofmeister@web.de',
       from: message.email,
       templateId: 'd-64616893a5644e6aa4c79a9737be4987',
       // eslint-disable-next-line @typescript-eslint/naming-convention
