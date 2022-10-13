@@ -9,17 +9,19 @@
         align-items: center;
         .profile-card {
             margin: 1rem;
-            width: 4rem;
-            height: 4rem;
-            line-height: 4rem;
+            width: 3rem;
+            height: 3rem;
+            line-height: 3rem;
             text-align: center;
             background-color: var(--ion-color-primary);
-            border-radius: 15px;
+            border-radius: 5rem;
             h1 {
                 display: inline-block;
                 vertical-align: middle;
                 line-height: normal;
                 color: var(--ion-color-light);
+                text-align: center;
+                margin-left: 2px;
             }
         }
         ion-col {
