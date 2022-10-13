@@ -96,28 +96,17 @@ export class ContactsPage implements OnInit, OnDestroy {
       // * DEFINE NEW ITEM
       for (const currentUser of users) {
         const fetchedUser: User = {
-          id: currentUser.id,
-
-          email: currentUser.email,
-          password: currentUser.password,
-
-          role: currentUser.role,
-
-          houseId: currentUser.houseId,
-          apartmentId: currentUser.apartmentId,
-
-          arriveDate: currentUser.arriveDate,
-          leaveDate: currentUser.leaveDate,
-
-          latestMessage: currentUser.latestMessage,
-          isRead: currentUser.isRead,
+          ...currentUser,
         };
 
         // if (fetchedUser.leaveDate > this.currentDate) {
         //   this.loadedUsers.push(fetchedUser);
         // }
 
-        if (fetchedUser.role != 'admin') {
+        if (
+          fetchedUser.role != 'admin' &&
+          fetchedUser.clientId === localStorage.getItem('user-id')
+        ) {
           if (fetchedUser.isRead == false) {
             this.unreadUsers.push(fetchedUser);
           } else {
