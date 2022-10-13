@@ -11,3 +11,16 @@ span {
 ion-list {
     margin: .8rem;
 }
+
+.header {
+    justify-content: start;
+    align-items: center;
+    margin: .8rem 0;
+}
+
+h4 {
+    margin-left: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ion-color-primary);
+}
