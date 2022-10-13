@@ -166,7 +166,7 @@ export class MessagePage implements OnInit {
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
   private readMessage() {
-    if (this.user.email == 'admin') {
+    if (this.user.role == 'admin') {
       this.afs.collection('users').doc(this.chatId).update({
         isRead: true,
       });

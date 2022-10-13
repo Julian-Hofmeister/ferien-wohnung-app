@@ -105,7 +105,7 @@ export class ContactsPage implements OnInit, OnDestroy {
 
         if (
           fetchedUser.role != 'admin' &&
-          fetchedUser.clientId === localStorage.getItem('user-id')
+          fetchedUser.clientId === localStorage.getItem('user-clientId')
         ) {
           if (fetchedUser.isRead == false) {
             this.unreadUsers.push(fetchedUser);
