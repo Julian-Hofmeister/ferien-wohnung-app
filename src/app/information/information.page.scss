@@ -2,10 +2,10 @@
         margin: 0;
         padding: 0;
     }
-
+    
     ion-content {
         --background: var(--ion-color-light);
-        --background: url('/assets/images/info-bg.jpg') no-repeat center;
+        --background: url('/assets/images/mountain-bg.jpg') no-repeat center;
         h2 {
             margin-top: 5rem;
         }
@@ -33,44 +33,44 @@
             margin-top: 3rem;
         }
     }
-
+    
     ion-accordion {
         box-shadow: rgba(56, 60, 65, 0.15) 0px 3px 12px;
     }
-
+    
     ion-accordion.accordion-expanding ion-item[slot="header"],
     ion-accordion.accordion-expanded ion-item[slot="header"] {
         --background: var(--ion-color-primary);
         --color: var(--ion-color-light);
         font-weight: 600;
     }
-
+    
     .space-between {
         justify-content: space-between;
     }
-
+    
     p {
         padding: 1rem;
     }
-
+    
     .title {
         margin-left: 1rem;
         margin-bottom: -.5rem
     }
-
+    
     ion-accordion ion-item[slot="header"] {
         font-weight: 500;
     }
-
+    
     ion-list {
         margin: 0;
         padding: 0;
     }
-
+    
     ion-accordion-group {
         margin: .7rem 1rem;
     }
-
+    
     @media screen and (min-width: 570px) {
         ion-content {
             -webkit-background-size: cover;
